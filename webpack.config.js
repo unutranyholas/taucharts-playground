@@ -1,11 +1,11 @@
 module.exports = {
   context: __dirname + "/app",
   entry: {
-    javascript: "./app.js",
+    javascript: "./index.js",
     html: "./index.html",
   },
   output: {
-    filename: "app.js",
+    filename: "index.js",
     path: __dirname + "/dist"
   },
   module: {
