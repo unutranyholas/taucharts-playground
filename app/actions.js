@@ -15,6 +15,6 @@ export function togglePlugin(plugin) {
     return {type: TOGGLE_PLUGIN, plugin}
 }
 
-export function switchDataset(datasetName) {
-    return {type: SWITCH_DATASET, datasetName}
+export function switchDataset(name) {
+    return {type: SWITCH_DATASET, name}
 }
