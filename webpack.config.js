@@ -1,8 +1,8 @@
 var autoprefixer = require('autoprefixer');
-var cssnext = require('cssnext');
 var csswring = require('csswring');
 var nested = require('postcss-nested');
 var precss = require('precss');
+var color = require('postcss-color-function');
 
 module.exports = {
   context: __dirname + "/app",
@@ -33,6 +33,6 @@ module.exports = {
   },
   postcss:
     function () {
-      return [autoprefixer, precss];
+      return [autoprefixer, precss, color];
     }
 };

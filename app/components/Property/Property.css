@@ -1,0 +1,9 @@
+@import "../variables.css";
+
+.disabled {
+  opacity: 0.2
+}
+
+.selected {
+  font-weight: bold
+}

@@ -1,0 +1,60 @@
+@import "../variables.css";
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+pre {
+    font: normal 15px $code-font-family;
+    margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.playground {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.playground {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+
+  & div:nth-child(1) {
+    order: 0;
+    flex: 0 1 $code-width;
+    min-width: $code-min-width;
+    align-self: auto;
+    height: 100%;
+  }
+
+  & div:nth-child(2) {
+    order: 0;
+    flex: 1 1 auto;
+    align-self: auto;
+    height: 100%;
+
+    background-color: $chart-bg-color;
+  }
+}

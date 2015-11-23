@@ -1,0 +1,16 @@
+@import "../variables.css";
+
+.code {
+  background-color: $code-bg-color;
+  color: $code-text;
+  padding: 30px 20px;
+  overflow-x: hidden;
+
+  pre {
+    margin: 0 0 10px;
+  }
+
+  a {
+    color: $code-active;
+  }
+}
