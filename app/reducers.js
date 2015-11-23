@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import update from 'react-addons-update'
-import { _ } from 'underscore'
+import _ from 'lodash'
 import { ADD_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_MENU } from './actions'
 
 const initState = {

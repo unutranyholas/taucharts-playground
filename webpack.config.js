@@ -1,3 +1,9 @@
+var autoprefixer = require('autoprefixer');
+var cssnext = require('cssnext');
+var csswring = require('csswring');
+var nested = require('postcss-nested');
+var precss = require('precss');
+
 module.exports = {
   context: __dirname + "/app",
   entry: {
@@ -19,6 +25,14 @@ module.exports = {
         test: /\.html$/,
         loader: "file?name=[name].[ext]",
       },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader!postcss-loader'
+      },
     ]
-  }
+  },
+  postcss:
+    function () {
+      return [autoprefixer, precss];
+    }
 };
