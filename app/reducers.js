@@ -24,7 +24,7 @@ var toggleArray = (prev, value) => {
 };
 
 var saveCurrentConfig = (datasets, config) => {
-  if (Object.keys(datasets).length === 0) {
+  if (_.keys(datasets).length === 0) {
     return {}
   }
   var data = config.data;
