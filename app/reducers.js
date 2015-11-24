@@ -5,7 +5,7 @@ import { ADD_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET
 
 const initState = {
   datasets: {},
-  config: {data: null, type: null, x: null, y: null, size: null, color: null, plugins: ['tooltip', 'legend']},
+  config: {data: null, type: 'scatterplot', x: 'cats', y: 'dogs', size: null, color: null, plugins: ['tooltip', 'legend']},
   options: {
     data: [],
     type: ['scatterplot', 'line', 'area', 'bar', 'horizontal-bar', 'stacked-bar', 'horizontal-stacked-bar'],
@@ -13,7 +13,7 @@ const initState = {
     y: [],
     size: [],
     color: [],
-    plugins: ['tooltip', 'legend', 'quick-filter', 'trendline']
+    plugins: [/*'tooltip', 'legend', 'quick-filter', 'trendline'*/]
   },
   menu: null
 };
@@ -78,9 +78,18 @@ function playground(state = initState, action) {
 }
 
 function config(state = initState.config, action) {
+  const [name] = _.keys(action.changes);
+  const [value] = _.values(action.changes);
+
   switch (action.type) {
     case 'UPDATE_CONFIG':
       var changes = update({}, {$merge: action.changes});
+
+      if(_.isArray(state[name])) {
+        const updated = toggleArray(state[name], value).slice(-2);
+        changes = (updated.length < 2) ? {[name]: updated[0]} : {[name]: updated};
+      }
+
       if (state.x === action.changes.y) {
         changes = update(changes, {$merge: {x: state.y}})
       }
@@ -96,8 +105,6 @@ function config(state = initState.config, action) {
       return update(state, {$merge: changes});
 
     case 'CREATE_FACET':
-      const [name] = _.keys(action.changes);
-      const [value] = _.values(action.changes);
       const facet = {[name]: _.flatten(update([value], {$push: [state[name]]})).slice(0, 2)};
 
       return update(state, {$merge: facet});

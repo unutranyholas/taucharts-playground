@@ -41,7 +41,7 @@ a {
   align-content: stretch;
   align-items: flex-start;
 
-  & div:nth-child(1) {
+  & > div:nth-child(1) {
     order: 0;
     flex: 0 1 $code-width;
     min-width: $code-min-width;
@@ -49,7 +49,7 @@ a {
     height: 100%;
   }
 
-  & div:nth-child(2) {
+  & > div:nth-child(2) {
     order: 0;
     flex: 1 1 auto;
     align-self: auto;

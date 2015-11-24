@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu } from '../../actions'
 import { CodeEditor } from '../'
+import { Chart } from '../'
 import style from './App.css'
-
 
 class App extends Component {
   render() {
@@ -14,9 +14,7 @@ class App extends Component {
     return (
       <div className="playground">
         <CodeEditor p={p} />
-        <div className="chart">
-          123
-        </div>
+        {(!_.isEmpty(p.datasets)) ? <Chart p={p} /> : null}
       </div>
     )
   }
