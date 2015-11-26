@@ -4,5 +4,7 @@ $code-active: #489DFF;
 $code-text: #FFFFFF;
 $code-width: 25%;
 $code-min-width: 320px;
+$code-active-bg: #0076FF;
+$code-menu-text: #000000;
 
 $chart-bg-color: #FFFFFF;

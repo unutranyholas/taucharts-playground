@@ -58,3 +58,8 @@ a {
     background-color: $chart-bg-color;
   }
 }
+/*
+textarea, pre {
+  border: 1px solid red !important;
+}
+*/

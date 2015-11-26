@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { OptionsMenu } from '../index'
+import { OptionsMenu } from '../'
 import style from './Property.css'
 import _ from 'lodash'
 
 export default class Property extends Component {
   render() {
 
-    const {name, val, options, action, menu, toggleMenu} = this.props.p;
+    const {name, val, options, action, isMenuShown, toggleMenu} = this.props.p;
     const type = _.isArray(val) && 'array' || _.isObject(val) && 'object' || _.isString(val) && 'string' || _.isNumber(val) && 'number' || _.isNull(val) && 'null';
 
     switch (type) {
@@ -35,7 +35,8 @@ export default class Property extends Component {
 class IndentedText extends Component {
   render() {
     const {text, indent, length}  = this.props;
-    const indented = '\xa0'.repeat(indent) + text + '\xa0'.repeat(length - text.length);
+    //console.log(this.props);
+    const indented = '\xa0'.repeat(indent) + text + '\xa0'.repeat(_.max([0, length - text.length]));
     return (
       <span>{indented}</span>
     )
@@ -44,11 +45,11 @@ class IndentedText extends Component {
 
 class Null extends Component {
   render() {
-    const {name, val, options, action, menu, toggleMenu} = this.props.p;
+    const {name, val, options, action, isMenuShown, toggleMenu} = this.props.p;
     return (
-      <pre>
+      <pre className={(isMenuShown) ? 'show-menu' : null}>
         <IndentedText text={name + ':'} indent="2" length="9" /> <a href="javascript: void 0" onClick={toggleMenu}>null</a>,
-        {(menu) ? <OptionsMenu p={this.props.p}/> : null}
+        {(isMenuShown) ? <OptionsMenu p={this.props.p}/> : null}
       </pre>
     )
   }
@@ -56,21 +57,20 @@ class Null extends Component {
 
 class String extends Component {
   render() {
-    const {name, val, options, action, menu, toggleMenu} = this.props.p;
+    const {name, val, options, action, isMenuShown, toggleMenu} = this.props.p;
 
     switch (name) {
       case 'data':
         return (
           <pre>
-            <IndentedText text={name + ':'} indent="2" length="9" /> <a href="javascript: void 0" onClick={toggleMenu}>{val}</a>,
-            {(menu) ? <OptionsMenu p={this.props.p}/> : null}
+            <IndentedText text={name + ':'} indent="2" length="9" /> <a href="javascript: void 0">data</a>,
           </pre>
         );
       default:
         return (
-          <pre>
+          <pre className={(isMenuShown) ? 'show-menu' : null}>
             <IndentedText text={name + ':'} indent="2" length="9" /><a href="javascript: void 0" onClick={toggleMenu}>'{val}'</a>,
-            {(menu) ? <OptionsMenu p={this.props.p}/> : null}
+            {(isMenuShown) ? <OptionsMenu p={this.props.p}/> : null}
           </pre>
         )
     }
@@ -79,7 +79,7 @@ class String extends Component {
 
 class Array extends Component {
   render() {
-    const {name, val, options, action, menu, toggleMenu} = this.props.p;
+    const {name, val, options, action, isMenuShown, toggleMenu} = this.props.p;
     let comb;
 
     switch (name) {
@@ -101,9 +101,9 @@ class Array extends Component {
       default:
         comb = val.map(v => '\'' + v + '\'').join(', ');
         return (
-          <pre>
+          <pre className={(isMenuShown) ? 'show-menu' : null}>
             <IndentedText text={name + ':'} indent="2" length="8" /><a href="javascript: void 0" onClick={toggleMenu}>[{comb}]</a>,
-            {(menu) ? <OptionsMenu p={this.props.p}/> : null}
+            {(isMenuShown) ? <OptionsMenu p={this.props.p}/> : null}
           </pre>
         )
     }

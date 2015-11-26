@@ -13,4 +13,23 @@
   a {
     color: $code-active;
   }
+
+  textarea.editor {
+    font: normal 15px 'Inconsolata', monospace;
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    color: $code-text;
+    margin: 0 0 10px;
+    padding: 0;
+    vertical-align: bottom;
+    //margin: 0.8ex 1em 0.8ex 2em;
+    resize: none;
+    &:focus {
+      outline: 0
+    }
+    &::placeholder {
+      color: color($code-text a(20%));
+    }
+  }
 }

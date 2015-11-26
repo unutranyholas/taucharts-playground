@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import update from 'react-addons-update'
 import _ from 'lodash'
-import { ADD_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_MENU } from './actions'
+import { ADD_DATASET, DELETE_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_MENU } from './actions'
 
 const initState = {
   datasets: {},
@@ -57,6 +57,10 @@ function playground(state = initState, action) {
         options: options,
         menu: state.menu
       };
+    case 'DELETE_DATASET':
+      console.log(action.name);
+      //TODO: deleting datasets
+      return update(state, {$merge: {}});
     case 'SWITCH_DATASET':
       keys = _.keys(state.datasets[action.name].data[0]);
       options = update(state.options, {$merge: {x: keys, y: keys, size: keys, color: keys}});
@@ -90,12 +94,14 @@ function config(state = initState.config, action) {
         changes = (updated.length < 2) ? {[name]: updated[0]} : {[name]: updated};
       }
 
-      if (state.x === action.changes.y) {
-        changes = update(changes, {$merge: {x: state.y}})
-      }
-      if (state.y === action.changes.x) {
-        changes = update(changes, {$merge: {y: state.x}})
-      }
+      //if (state.x === action.changes.y) {
+      //  changes = update(changes, {$merge: {x: state.y}})
+      //}
+      //if (state.y === action.changes.x) {
+      //  changes = update(changes, {$merge: {y: state.x}})
+      //}
+      //TODO: fix smart switching
+
       if (state.color === action.changes.color) {
         changes.color = null;
       }

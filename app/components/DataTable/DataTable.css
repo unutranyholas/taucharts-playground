@@ -1,0 +1,67 @@
+@import "../variables.css";
+
+.code {
+  .data-table {
+    position: absolute;
+    background: color($code-text a(95%));
+    margin: 0.2em 0;
+    padding: 10px 0;
+    left: 5.3em;
+    max-height: 80%;
+    overflow-y: scroll;
+    min-width: 150px;
+    box-shadow: 0 1px 5px 1px color($code-bg-color a(20%));
+    color: $code-menu-text;
+    max-width: 90%;
+
+    & table {
+      margin: 0;
+      padding: 0;
+      border-spacing: 0;
+    }
+
+    & tr {
+      margin: 0;
+      padding: 0;
+      &:hover {
+        background-color: color($code-active a(20%));
+      }
+    }
+
+    & thead > tr:hover {
+        background-color: transparent;
+      }
+
+    & th {
+      padding: 0.8ex 1.2em;
+      cursor: pointer;
+      text-align: left;
+      &:after {
+        content: '\00a0\00a0';
+      }
+
+      &.reactable-header-sort-desc {
+        color: $code-active;
+        &:after {
+          /* TODO svg icons */
+          content: '\00a0\2191';
+        }
+      }
+
+      &.reactable-header-sort-asc {
+        color: $code-active;
+        &:after {
+          content: '\00a0\2193';
+        }
+      }
+      &:focus {
+        outline: 0
+      }
+    }
+
+    & td {
+      padding: 0.8ex 2.4em 0.8ex 1.2em;
+      margin: 0;
+    }
+  }
+}

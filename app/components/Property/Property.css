@@ -7,3 +7,28 @@
 .selected {
   font-weight: bold
 }
+
+pre {
+  & > a {
+    &:link {
+      outline: 0 solid rgba(0, 0, 0, 0);
+      transition: 0.05s background-color ease-out, 0.05s outline ease-out;
+    }
+    &:hover {
+      background-color: color($code-active-bg a(20%));
+      outline: 2px solid color($code-active-bg a(20%));
+      transition: none;
+    }
+  }
+  &.show-menu > a {
+    &:link {
+      background-color: $code-active-bg;
+      color: $code-text;
+      outline: 5px solid $code-active-bg;
+      transition: 0.05s background-color ease-out, 0.05s outline ease-out;
+    }
+    &:hover {
+      transition: none;
+    }
+  }
+}

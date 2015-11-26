@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import _ from 'lodash'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu } from '../../actions'
-import { CodeEditor } from '../'
-import { Chart } from '../'
+import { CodeEditor, Chart } from '../'
 import style from './App.css'
 
 class App extends Component {

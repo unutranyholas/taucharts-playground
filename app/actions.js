@@ -4,9 +4,14 @@ export const TOGGLE_PLUGIN = 'TOGGLE_PLUGIN';
 export const SWITCH_DATASET = 'SWITCH_DATASET';
 export const CREATE_FACET = 'CREATE_FACET';
 export const TOGGLE_MENU = 'TOGGLE_MENU';
+export const DELETE_DATASET = 'DELETE_DATASET';
 
 export function addDataset(name, data) {
   return {type: ADD_DATASET, name, data}
+}
+
+export function deleteDataset(name) {
+  return {type: DELETE_DATASET, name}
 }
 
 export function updateConfig(changes) {
