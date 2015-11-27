@@ -62,7 +62,7 @@ export default class FileManager extends Component {
           delimiter: '',	// auto-detect
           newline: '',	// auto-detect
           header: true,
-          dynamicTyping: true,
+          dynamicTyping: false,
           preview: 0,
           encoding: '',
           worker: false,

@@ -8,11 +8,12 @@ export default class DataTable extends Component {
   render() {
     const {data, toggleMenu} = this.props;
     let Table = Reactable.Table;
+    const paging = (data.data.length > 50) ? {itemsPerPage: 50, pageButtonLimit: 10} : {};
     return (
       <div>
         <div className="fullscreen" onClick={toggleMenu}></div>
         <div className="data-table">
-          <Table data={data.data} sortable={true} />
+          <Table data={data.data} sortable={true} {...paging} />
         </div>
       </div>
     )

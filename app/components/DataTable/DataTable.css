@@ -64,4 +64,23 @@
       margin: 0;
     }
   }
+
+  .reactable-pagination tr{
+
+    &:hover{
+      background-color: transparent;
+    }
+
+    a {display: inline-block;
+      padding: 0.5em;
+      margin-right: 0.5em;
+      &:hover{
+        background-color: color($code-active a(20%));
+      }
+      &.reactable-current-page {
+        color: $code-menu-text;
+        font-weight: bold;
+      }
+    }
+  }
 }
