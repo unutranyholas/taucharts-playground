@@ -1,11 +1,23 @@
 import { combineReducers } from 'redux'
 import update from 'react-addons-update'
 import _ from 'lodash'
-import { ADD_DATASET, DELETE_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_MENU } from './actions'
+import { ADD_DATASET, DELETE_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_MENU, UPDATE_FUNCTION } from './actions'
 
 const initState = {
   datasets: {},
-  config: {data: null, type: 'scatterplot', x: 'cats', y: 'dogs', size: null, color: null, plugins: ['tooltip', 'legend']},
+  config: {
+    data: null,
+    type: 'scatterplot',
+    x: 'cats',
+    y: 'dogs',
+    size: null,
+    color: null,
+    plugins: ['tooltip', 'legend']
+  },
+  functions: {
+    parseData: '123',
+    transformData: '345'
+  },
   options: {
     data: [],
     type: ['scatterplot', 'line', 'area', 'bar', 'horizontal-bar', 'stacked-bar', 'horizontal-stacked-bar'],
@@ -13,7 +25,7 @@ const initState = {
     y: [],
     size: [],
     color: [],
-    plugins: [/*'tooltip', 'legend', 'quick-filter', 'trendline'*/]
+    plugins: ['tooltip', 'legend', 'quick-filter', 'trendline']
   },
   menu: null
 };
@@ -23,12 +35,12 @@ var toggleArray = (prev, value) => {
   return (index === -1) ? update(prev, {$push: [value]}) : update(prev, {$splice: [[index, 1]]});
 };
 
-var saveCurrentConfig = (datasets, config) => {
+var saveCurrent = (datasets, config, functions) => {
   if (_.keys(datasets).length === 0) {
     return {}
   }
   var data = config.data;
-  return update(datasets, {[data]: {defaultConfig: {$set: config}}});
+  return update(datasets, {[data]: {defaultConfig: {$set: config}, defaultFunctions: {$set: functions}}});
 };
 
 function playground(state = initState, action) {
@@ -44,9 +56,10 @@ function playground(state = initState, action) {
           type: 'scatterplot'
         }
       });
+      const defaultFunctions = update(initState.functions, {$merge: {}});
 
-      const prevDatasets = saveCurrentConfig(state.datasets, state.config);
-      const newDataset = {[action.name]: {data: action.data, defaultConfig: defaultConfig, metaData: null}};
+      const prevDatasets = saveCurrent(state.datasets, state.config, state.functions);
+      const newDataset = {[action.name]: {data: action.data, defaultConfig: defaultConfig, defaultFunctions: defaultFunctions, metaData: null}};
       const merged = update(prevDatasets, {$merge: newDataset});
 
       options = update(state.options, {$merge: {data: _.keys(merged), x: keys, y: keys, size: keys, color: keys}});
@@ -54,6 +67,7 @@ function playground(state = initState, action) {
       return {
         datasets: merged,
         config: defaultConfig,
+        functions: defaultFunctions,
         options: options,
         menu: state.menu
       };
@@ -66,8 +80,9 @@ function playground(state = initState, action) {
       options = update(state.options, {$merge: {x: keys, y: keys, size: keys, color: keys}});
 
       return {
-        datasets: saveCurrentConfig(state.datasets, state.config),
+        datasets: saveCurrent(state.datasets, state.config, state.functions),
         config: update({}, {$merge: state.datasets[action.name].defaultConfig}),
+        functions: update({}, {$merge: state.datasets[action.name].defaultFunctions}),
         options: options,
         menu: state.menu
       };
@@ -75,6 +90,7 @@ function playground(state = initState, action) {
       return {
         datasets: update({}, {$merge: state.datasets}),
         config: config(state.config, action),
+        functions: functions(state.functions, action),
         options: update({}, {$merge: state.options}),
         menu: menu(state.menu, action)
       }
@@ -118,6 +134,15 @@ function config(state = initState.config, action) {
     case 'TOGGLE_PLUGIN':
       return update(state, {$merge: {plugins: toggleArray(state.plugins, action.plugin)}});
 
+    default:
+      return state
+  }
+}
+
+function functions(state = initState.functions, action) {
+  switch (action.type) {
+    case 'UPDATE_FUNCTION':
+      return update(state, {$merge: action.changes});
     default:
       return state
   }

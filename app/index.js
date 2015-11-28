@@ -2,7 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu } from './actions'
+import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu, updateFunction } from './actions'
 //import App from './containers/App'
 import playgroundApp from './reducers'
 import { App } from './components'
@@ -15,6 +15,7 @@ store.subscribe(() => {
         //console.log('datasets', store.getState().datasets);
         //console.log('options', store.getState().options);
         //console.log('menu', store.getState().menu);
+        console.log('functions', store.getState().functions);
         //console.log('-----')
     }
 );

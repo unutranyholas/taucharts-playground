@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import Textarea from 'react-textarea-autosize'
 import { Property, FileManager, DataTable } from '../'
-import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu } from '../../actions'
+import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu, updateFunction } from '../../actions'
 
 import style from './CodeEditor.css'
 
 export default class CodeEditor extends Component {
   render() {
-    const { dispatch, menu, options, datasets, config } = this.props.p;
+    const { dispatch, menu, options, datasets, config, functions } = this.props.p;
     const isDataTableShown = ('dataTable' === menu);
     let props = _.pairs(config).map((pair, i) => {
 
@@ -63,9 +63,9 @@ export default class CodeEditor extends Component {
     return (
       <div className="code">
         <FileManager p={this.props.p} />
-        <Textarea placeholder="// parse rows" className="editor" />
+        <Textarea placeholder="// parse rows" className="editor" onBlur={e => dispatch(updateFunction({parseData: e.target.value}))} defaultValue={functions.parseData} />
         <pre className={(isDataTableShown) ? 'show-menu' : null}>&#125;, function(<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('dataTable'))}>data</a>) &#123; {(isDataTableShown) ? <DataTable data={datasets[config.data]} toggleMenu={(e) => dispatch(toggleMenu('dataTable'))} /> : null}</pre>
-        <Textarea placeholder="// transform data" className="editor" />
+        <Textarea placeholder="// transform data" className="editor" onBlur={e => dispatch(updateFunction({transformData: e.target.value}))} defaultValue={functions.transformData} />
         <pre>var chart = new tauCharts.Chart(&#123;</pre>
         {props}
         <pre>&#125;);</pre>

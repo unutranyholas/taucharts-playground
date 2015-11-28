@@ -5,6 +5,7 @@ export const SWITCH_DATASET = 'SWITCH_DATASET';
 export const CREATE_FACET = 'CREATE_FACET';
 export const TOGGLE_MENU = 'TOGGLE_MENU';
 export const DELETE_DATASET = 'DELETE_DATASET';
+export const UPDATE_FUNCTION = 'UPDATE_FUNCTION';
 
 export function addDataset(name, data) {
   return {type: ADD_DATASET, name, data}
@@ -32,4 +33,8 @@ export function switchDataset(name) {
 
 export function toggleMenu(prop) {
   return {type: TOGGLE_MENU, prop}
+}
+
+export function updateFunction(changes) {
+  return {type: UPDATE_FUNCTION, changes}
 }
