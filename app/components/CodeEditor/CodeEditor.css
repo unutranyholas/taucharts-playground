@@ -15,15 +15,16 @@
   }
 
   textarea.editor {
-    font: normal 15px 'Inconsolata', monospace;
+    font-family: $code-font-family;
+    font-size: $text-size;
+    line-height: calc($text-size + $lines-margin + 1px);
     border: none;
     background-color: transparent;
     width: 100%;
     color: $code-text;
-    margin: 0 0 10px;
+    margin: calc(-$lines-margin / 2) 0 calc($lines-margin / 2);
     padding: 0;
     vertical-align: bottom;
-    //margin: 0.8ex 1em 0.8ex 2em;
     resize: none;
     &:focus {
       outline: 0

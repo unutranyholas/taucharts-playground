@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import Textarea from 'react-textarea-autosize'
 import { Property, FileManager, DataTable } from '../'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu, updateFunction } from '../../actions'
@@ -6,8 +7,16 @@ import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, tog
 import style from './CodeEditor.css'
 
 export default class CodeEditor extends Component {
+  constructor (props) {
+    super(props);
+    this.state = props.functions;
+  }
+
+  componentWillReceiveProps(nextProps){
+    this.state = nextProps.functions;
+  }
   render() {
-    const { dispatch, menu, options, datasets, config, functions } = this.props.p;
+    const { dispatch, menu, options, datasets, config, functions } = this.props;
     const isDataTableShown = ('dataTable' === menu);
     let props = _.pairs(config).map((pair, i) => {
 
@@ -60,12 +69,27 @@ export default class CodeEditor extends Component {
       )
     });
 
+    console.log(functions);
+
     return (
       <div className="code">
-        <FileManager p={this.props.p} />
-        <Textarea placeholder="// parse rows" className="editor" onBlur={e => dispatch(updateFunction({parseData: e.target.value}))} defaultValue={functions.parseData} />
+        <FileManager {...this.props} />
+        <Textarea
+          placeholder="// parse rows"
+          className="editor"
+          onBlur={e => dispatch(updateFunction({parseData: e.target.value}))}
+          onChange={e => this.setState({parseData: e.target.value})}
+          defaultValue={functions.parseData}
+          value={this.state.parseData} />
+        <pre>return row;</pre>
         <pre className={(isDataTableShown) ? 'show-menu' : null}>&#125;, function(<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('dataTable'))}>data</a>) &#123; {(isDataTableShown) ? <DataTable data={datasets[config.data]} toggleMenu={(e) => dispatch(toggleMenu('dataTable'))} /> : null}</pre>
-        <Textarea placeholder="// transform data" className="editor" onBlur={e => dispatch(updateFunction({transformData: e.target.value}))} defaultValue={functions.transformData} />
+        <Textarea
+          placeholder="// transform data"
+          className="editor"
+          onBlur={e => dispatch(updateFunction({transformData: e.target.value}))}
+          onChange={e => this.setState({transformData: e.target.value})}
+          defaultValue={functions.transformData}
+          value={this.state.transformData} />
         <pre>var chart = new tauCharts.Chart(&#123;</pre>
         {props}
         <pre>&#125;);</pre>

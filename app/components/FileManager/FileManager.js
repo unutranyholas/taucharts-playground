@@ -9,7 +9,7 @@ import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, tog
 export default class FileManager extends Component {
 
   render() {
-    const { dispatch, menu, options, datasets, config } = this.props.p;
+    const { dispatch, menu, options, datasets, config } = this.props;
     const prop = 'data';
     const isMenuShown = (prop === menu);
     const p = {
@@ -33,13 +33,13 @@ export default class FileManager extends Component {
   }
 
   addData(e){
-    const { dispatch } = this.props.p;
+    const { dispatch } = this.props;
 
     //TODO: errors display
     //TODO: url and name - make different fields
     //TODO: json/csv
 
-    console.log(e);
+    //console.log(e);
     switch (e.target.type) {
       case 'textarea':
         const url = e.target.value;
@@ -47,7 +47,6 @@ export default class FileManager extends Component {
           if (error) {
             console.log(error);
           } else {
-            console.log(123);
             const name = _.last(url.split('/'));
             dispatch(addDataset(name, data));
             dispatch(switchDataset(name));

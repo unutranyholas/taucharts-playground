@@ -58,8 +58,9 @@ a {
     background-color: $chart-bg-color;
   }
 }
-/*
+
 textarea, pre {
-  border: 1px solid red !important;
+  //border: 1px solid red !important;
+  //text-decoration: overline underline;
 }
-*/
+

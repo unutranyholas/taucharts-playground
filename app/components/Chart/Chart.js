@@ -9,8 +9,7 @@ import style from './Chart.css'
 
 export default class Chart extends Component {
   render() {
-    const {datasets, config} = this.props.p;
-    this.config = this.prepareConfig(config, datasets[config.data]);
+    this.config = this.props.config;
 
     return (
       <div className="chart">
@@ -18,11 +17,6 @@ export default class Chart extends Component {
         <div className="container" id="chart"></div>
       </div>
     )
-  }
-  prepareConfig(config, dataset) {
-    const data = (dataset !== undefined) ? dataset.data : [];
-    const plugins = (config.plugins !== undefined) ? config.plugins.map(pl => 'tauCharts.api.plugins.get(pl)()') : [];
-    return update(config, {$merge: {data: data, plugins: plugins}});
   }
   renderChart() {
 
@@ -40,6 +34,8 @@ export default class Chart extends Component {
     this.renderChart();
   }
   componentDidUpdate () {
+    console.log('updated');
+
     this.chart.destroy();
     document.getElementById('chart').innerHTML = '';
     document.getElementById('error').innerHTML = '';
@@ -48,6 +44,6 @@ export default class Chart extends Component {
     this.renderChart();
   }
   shouldComponentUpdate (nextProps, nextState) {
-    return !_.isEqual(this.props.p.config, nextProps.p.config)
+    return !_.isEqual(this.props.config, nextProps.config);
   }
 }

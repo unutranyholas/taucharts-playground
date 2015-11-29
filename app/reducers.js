@@ -15,8 +15,8 @@ const initState = {
     plugins: ['tooltip', 'legend']
   },
   functions: {
-    parseData: '123',
-    transformData: '345'
+    parseData: '',
+    transformData: ''
   },
   options: {
     data: [],
@@ -40,7 +40,9 @@ var saveCurrent = (datasets, config, functions) => {
     return {}
   }
   var data = config.data;
-  return update(datasets, {[data]: {defaultConfig: {$set: config}, defaultFunctions: {$set: functions}}});
+  datasets[data] = update(datasets[data], {$merge:{defaultConfig: config, defaultFunctions: functions}});
+
+  return datasets
 };
 
 function playground(state = initState, action) {
@@ -71,10 +73,12 @@ function playground(state = initState, action) {
         options: options,
         menu: state.menu
       };
+
     case 'DELETE_DATASET':
       console.log(action.name);
       //TODO: deleting datasets
       return update(state, {$merge: {}});
+
     case 'SWITCH_DATASET':
       keys = _.keys(state.datasets[action.name].data[0]);
       options = update(state.options, {$merge: {x: keys, y: keys, size: keys, color: keys}});
