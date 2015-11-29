@@ -31,7 +31,6 @@ export default class CodeEditor extends Component {
           action = {
             update: (e) => {
               dispatch(updateConfig({[name]: e.target.dataset.opt}));
-              //dispatch(toggleMenu(name));
             },
             facet: (e) => dispatch(createFacet({[name]: e.target.dataset.opt}))
           };
@@ -39,7 +38,6 @@ export default class CodeEditor extends Component {
         case 'data':
           action = (e) => {
             dispatch(switchDataset(e.target.dataset.opt));
-            //dispatch(toggleMenu(name));
           };
           break;
         case 'plugins':
@@ -51,7 +49,6 @@ export default class CodeEditor extends Component {
         default:
           action = (e) => {
             dispatch(updateConfig({[name]: e.target.dataset.opt}));
-            //dispatch(toggleMenu(name));
           }
       }
 
