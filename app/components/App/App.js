@@ -15,14 +15,14 @@ class App extends Component {
 
     const cloneDatasets = _.cloneDeep(datasets);
     const cloneConfig = _.cloneDeep(config);
-    const transformedData = this.prepareData(cloneDatasets[config.data].data, functions);
+    const [initData, parsedData, transformedData] = this.prepareData(cloneDatasets[config.data].data, functions);
 
     const chartConfig = this.prepareConfig(cloneConfig, transformedData);
 
     const updatedKeys = _.keys(transformedData[0]);
     const updatedOptions = update(options, {$merge: {x: updatedKeys, y: updatedKeys, size: updatedKeys, color: updatedKeys}});
 
-    const props = update(this.props, {$merge: {datasets: cloneDatasets, options: updatedOptions}});
+    const props = update(this.props, {$merge: {datasets: cloneDatasets, options: updatedOptions, transformations: [initData, parsedData, transformedData]}});
 
     return (
       <div className="playground">
@@ -39,13 +39,16 @@ class App extends Component {
   }
 
   prepareData(data, functions) {
+    const initData = _.cloneDeep(data);
     //TODO: catch errors
-    data = data.map(row => {
+    data = _.cloneDeep(data).map(row => {
       eval(functions.parseData);
       return row
     });
+    const parsedData = _.cloneDeep(data);
     eval(functions.transformData);
-    return data;
+    const transformedData = _.cloneDeep(data);
+    return [initData, parsedData, transformedData];
   }
 
 }

@@ -60,12 +60,8 @@ class String extends Component {
     const {name, val, options, action, isMenuShown, toggleMenu} = this.props.p;
 
     switch (name) {
-      case 'data':
-        return (
-          <pre>
-            <IndentedText text={name + ':'} indent="2" length="9" /> <a href="javascript: void 0">data</a>,
-          </pre>
-        );
+      //case 'data':
+
       default:
         return (
           <pre className={(isMenuShown) ? 'show-menu' : null}>

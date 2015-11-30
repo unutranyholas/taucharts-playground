@@ -16,9 +16,10 @@ export default class CodeEditor extends Component {
     this.state = nextProps.functions;
   }
   render() {
-    const { dispatch, menu, options, datasets, config, functions } = this.props;
-    const isDataTableShown = ('dataTable' === menu);
-    let props = _.pairs(config).map((pair, i) => {
+    const { dispatch, menu, options, datasets, config, functions, transformations } = this.props;
+    const isDataTable1Shown = ('dataTable1' === menu);
+    const isDataTable2Shown = ('dataTable2' === menu);
+    let props = _.pairs(config).filter(pair => pair[0]!=='data').map((pair, i) => {
 
       const name = pair[0];
       const val = pair[1];
@@ -33,11 +34,6 @@ export default class CodeEditor extends Component {
               dispatch(updateConfig({[name]: e.target.dataset.opt}));
             },
             facet: (e) => dispatch(createFacet({[name]: e.target.dataset.opt}))
-          };
-          break;
-        case 'data':
-          action = (e) => {
-            dispatch(switchDataset(e.target.dataset.opt));
           };
           break;
         case 'plugins':
@@ -79,7 +75,7 @@ export default class CodeEditor extends Component {
           defaultValue={functions.parseData}
           value={this.state.parseData} />
         <pre>return row;</pre>
-        <pre className={(isDataTableShown) ? 'show-menu' : null}>&#125;, function(<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('dataTable'))}>data</a>) &#123; {(isDataTableShown) ? <DataTable data={datasets[config.data]} toggleMenu={(e) => dispatch(toggleMenu('dataTable'))} /> : null}</pre>
+        <pre className={(isDataTable1Shown) ? 'show-menu' : null}>&#125;, function(<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('dataTable1'))}>data</a>) &#123; {(isDataTable1Shown) ? <DataTable data={transformations[1]} toggleMenu={(e) => dispatch(toggleMenu('dataTable1'))} /> : null}</pre>
         <Textarea
           placeholder="// transform data"
           className="editor"
@@ -88,6 +84,7 @@ export default class CodeEditor extends Component {
           defaultValue={functions.transformData}
           value={this.state.transformData} />
         <pre>var chart = new tauCharts.Chart(&#123;</pre>
+        <pre className={(isDataTable2Shown) ? 'show-menu' : null}>&nbsp;&nbsp;data:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('dataTable2'))}>data</a>, {(isDataTable2Shown) ? <DataTable data={transformations[2]} toggleMenu={(e) => dispatch(toggleMenu('dataTable2'))} /> : null}</pre>
         {props}
         <pre>&#125;);</pre>
         <pre>chart.renderTo('#container');</pre>
