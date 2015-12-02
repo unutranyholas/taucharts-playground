@@ -4,15 +4,15 @@
   .data-table {
     position: absolute;
     background: color($code-text a(95%));
-    margin: 0.2em 0;
+    margin: 3ex 0 0 -1.2em;
     padding: 10px 0;
-    left: 5.3em;
     max-height: 80%;
     overflow-y: scroll;
     min-width: 150px;
     box-shadow: 0 1px 5px 1px color($code-bg-color a(20%));
     color: $code-menu-text;
     max-width: 90%;
+    /*TODO: fix width*/
 
     & table {
       margin: 0;

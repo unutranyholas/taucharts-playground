@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import update from 'react-addons-update'
 import _ from 'lodash'
-import { ADD_DATASET, DELETE_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_MENU, UPDATE_FUNCTION } from './actions'
+import { ADD_DATASET, DELETE_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_POPUP, UPDATE_FUNCTION } from './actions'
 
 const initState = {
   datasets: {},
@@ -12,7 +12,8 @@ const initState = {
     y: 'dogs',
     size: null,
     color: null,
-    plugins: ['tooltip', 'legend']
+    plugins: ['tooltip', 'legend'],
+    //guide: {interpolate: 'linear'}
   },
   functions: {
     parseData: '',
@@ -25,9 +26,10 @@ const initState = {
     y: [],
     size: [],
     color: [],
-    plugins: ['tooltip', 'legend', 'quick-filter', 'trendline']
+    plugins: ['tooltip', 'legend', 'quick-filter', 'trendline'],
+    //guide__interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone']
   },
-  menu: null
+  popup: null
 };
 
 var toggleArray = (prev, value) => {
@@ -71,7 +73,7 @@ function playground(state = initState, action) {
         config: defaultConfig,
         functions: defaultFunctions,
         options: options,
-        menu: state.menu
+        popup: state.popup
       };
 
     case 'DELETE_DATASET':
@@ -88,7 +90,7 @@ function playground(state = initState, action) {
         config: update({}, {$merge: state.datasets[action.name].defaultConfig}),
         functions: update({}, {$merge: state.datasets[action.name].defaultFunctions}),
         options: options,
-        menu: state.menu
+        popup: state.popup
       };
     default:
       return {
@@ -96,7 +98,7 @@ function playground(state = initState, action) {
         config: config(state.config, action),
         functions: functions(state.functions, action),
         options: update({}, {$merge: state.options}),
-        menu: menu(state.menu, action)
+        popup: popup(state.popup, action)
       }
   }
 }
@@ -152,9 +154,9 @@ function functions(state = initState.functions, action) {
   }
 }
 
-function menu(state = initState.menu, action) {
+function popup(state = initState.popup, action) {
   switch (action.type) {
-    case 'TOGGLE_MENU':
+    case 'TOGGLE_POPUP':
       return (state !== action.prop) ? action.prop : null;
     default:
       return state

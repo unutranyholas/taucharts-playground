@@ -1,98 +1,108 @@
 import React, { Component } from 'react'
 
 import Textarea from 'react-textarea-autosize'
-import { Property, FileManager, DataTable } from '../'
-import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu, updateFunction } from '../../actions'
+import _ from 'lodash'
+import { ConfigProp, DataManager, DataTable, DataPoint, FuncEditor } from '../'
+import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, togglePopup, updateFunction } from '../../actions'
 
 import style from './CodeEditor.css'
 
 export default class CodeEditor extends Component {
-  constructor (props) {
-    super(props);
-    this.state = props.functions;
-  }
-
-  componentWillReceiveProps(nextProps){
-    this.state = nextProps.functions;
-  }
   render() {
-    const { dispatch, menu, options, datasets, config, functions, transformations } = this.props;
-    const isDataTable1Shown = ('dataTable1' === menu);
-    const isDataTable2Shown = ('dataTable2' === menu);
-    let props = _.pairs(config).filter(pair => pair[0]!=='data').map((pair, i) => {
+    const { dispatch, popup, options, datasets, config, functions, dataStates } = this.props;
+    let configProp = _.mapValues(config, (val, name) => {
 
-      const name = pair[0];
-      const val = pair[1];
-
-      let action;
+      let actions = {
+        update: (e) => dispatch(updateConfig({[name]: e.target.dataset.opt})),
+        togglePopup: (e) => dispatch(togglePopup(name))
+      };
 
       switch (name) {
+        case 'data':
+          actions.update = (e) => dispatch(switchDataset(e.target.dataset.opt));
+          actions.addFile = (e) => dispatch(addData(e));
+          actions.addURL = (e) => dispatch(addData(e));
+          break;
         case 'x':
         case 'y':
-          action = {
-            update: (e) => {
-              dispatch(updateConfig({[name]: e.target.dataset.opt}));
-            },
-            facet: (e) => dispatch(createFacet({[name]: e.target.dataset.opt}))
-          };
+          actions.facet = (e) => dispatch(createFacet({[name]: e.target.dataset.opt}));
           break;
         case 'plugins':
-          action = (e) => {
+          actions.update = (e) => {
             dispatch(togglePlugin(e.target.dataset.opt));
-            dispatch(toggleMenu(name));
+            dispatch(togglePopup(name));
           };
           break;
-        default:
-          action = (e) => {
-            dispatch(updateConfig({[name]: e.target.dataset.opt}));
-          }
       }
 
-      const p = {
+      const props = {
           name: name,
           val: val,
           options: options[name],
-          isMenuShown: (name === menu),
-          action: action,
-          toggleMenu: (e) => dispatch(toggleMenu(name))
+          isPopupShown: (popup === name),
+          actions: actions
       };
 
       return (
-        <Property key={i} p={p} />
+        <ConfigProp key={name} {...props} />
+      )
+
+    });
+
+    let dataPoint = _.mapValues(dataStates, (data, name) => {
+
+      const props = {
+        isPopupShown: (popup === name),
+        label: 'data',
+        data: data,
+        actions: {
+          togglePopup: (e) => dispatch(togglePopup(name))
+        }
+      };
+
+      return (
+        <DataPoint key={name} {...props} />
+      )
+
+    });
+
+
+    let funcEditor = _.mapValues(functions, (func, name) => {
+
+      const props = {
+        name: name,
+        label: name,
+        func: func,
+        actions: {
+          update: e => dispatch(updateFunction({parseData: e.target.value}))
+        }
+      };
+
+      return (
+        <FuncEditor key={name} {...props} />
       )
     });
 
-    console.log(functions);
-
     return (
       <div className="code">
-        <FileManager {...this.props} />
-        <Textarea
-          placeholder="// parse rows"
-          className="editor"
-          onBlur={e => dispatch(updateFunction({parseData: e.target.value}))}
-          onChange={e => this.setState({parseData: e.target.value})}
-          defaultValue={functions.parseData}
-          value={this.state.parseData} />
-        <pre>return row;</pre>
-        <pre className={(isDataTable1Shown) ? 'show-menu' : null}>&#125;, function(<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('dataTable1'))}>data</a>) &#123; {(isDataTable1Shown) ? <DataTable data={transformations[1]} toggleMenu={(e) => dispatch(toggleMenu('dataTable1'))} /> : null}</pre>
-        <Textarea
-          placeholder="// transform data"
-          className="editor"
-          onBlur={e => dispatch(updateFunction({transformData: e.target.value}))}
-          onChange={e => this.setState({transformData: e.target.value})}
-          defaultValue={functions.transformData}
-          value={this.state.transformData} />
-        <pre>var chart = new tauCharts.Chart(&#123;</pre>
-        <pre className={(isDataTable2Shown) ? 'show-menu' : null}>&nbsp;&nbsp;data:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('dataTable2'))}>data</a>, {(isDataTable2Shown) ? <DataTable data={transformations[2]} toggleMenu={(e) => dispatch(toggleMenu('dataTable2'))} /> : null}</pre>
-        {props}
-        <pre>&#125;);</pre>
-        <pre>chart.renderTo('#container');</pre>
-        <pre>&#125;);</pre>
+        <pre>
+          d3.csv({configProp.data}, function({dataPoint.initData})&#123;{'\n'}
+          {funcEditor.parseData}{'\n'}
+          return data;{'\n'}
+          &#125;, function({dataPoint.parsedData})&#123;{'\n'}
+          {funcEditor.transformData}{'\n'}
+          var chart = tauCharts.Chart(&#123;{'\n'}
+          {'  '}data:{'     '}{dataPoint.transformedData},{'\n'}
+          {'  '}x:{'       '}{configProp.x},{'\n'}
+          {'  '}y:{'       '}{configProp.y},{'\n'}
+          {'  '}size:{'    '}{configProp.size},{'\n'}
+          {'  '}color:{'   '}{configProp.color},{'\n'}
+          {'  '}plugins:{' '}{configProp.plugins}{'\n'}
+          &#125;){'\n'}
+          chart.renderTo('#container');{'\n'}
+          &#125;)
+        </pre>
       </div>
     )
-    //TODO: wrap DataTable call into component
-    //<Property p={fileSwitcherProps} />
-    //<pre>d3.csv(<a href="javascript: void 0">'{config.data}.csv'</a>, function(row)&#123;</pre>
   }
 }

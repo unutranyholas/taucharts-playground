@@ -9,7 +9,7 @@
 }
 
 pre {
-  & > a {
+  & > a, & span > a {
     &:link {
       outline: 0 solid rgba(0, 0, 0, 0);
       transition: 0.05s background-color ease-out, 0.05s outline ease-out;
@@ -20,7 +20,8 @@ pre {
       transition: none;
     }
   }
-  &.show-menu > a {
+
+  &.show-menu > a, & .active > a {
     &:link {
       background-color: $code-active-bg;
       color: $code-text;

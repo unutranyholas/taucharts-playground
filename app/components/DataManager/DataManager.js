@@ -1,33 +1,32 @@
 import React, { Component } from 'react'
 import { OptionsMenu } from '../'
 import * as Papa from 'papaparse'
-import style from './FileManager.css'
+import style from './DataManager.css'
 
 import _ from 'lodash'
-import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu } from '../../actions'
+import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, togglePopup } from '../../actions'
 
-export default class FileManager extends Component {
+export default class DataManager extends Component {
 
   render() {
-    const { dispatch, menu, options, datasets, config } = this.props;
+    const { dispatch, popup, options, datasets, config } = this.props;
     const prop = 'data';
-    const isMenuShown = (prop === menu);
-    const p = {
+    const className = (prop === popup) ? 'active' : null;
+    const props = {
       name: prop,
       val: config.data,
-      options: options[prop].concat(['file'/*, 'url'*/]),
-      isMenuShown: isMenuShown,
-      action: {
+      options: options[prop],
+      actions: {
         add: (e) => this.addData(e),
-        switch: (e) => dispatch(switchDataset(e.target.dataset.opt))
-      },
-      toggleMenu: (e) => dispatch(toggleMenu('data'))
+        switch: (e) => dispatch(switchDataset(e.target.dataset.opt)),
+        togglePopup: (e) => dispatch(togglePopup('data'))
+      }
     };
+    const optionsMenu = (prop === popup) ? (<OptionsMenu {...props} />) : null;
 
     return (
-      <pre className={(isMenuShown) ? 'show-menu' : null}>
-        d3.csv(<a href="javascript: void 0" onClick={(e) => dispatch(toggleMenu('data'))}>{config.data}</a>, function(row)&#123;
-        {(isMenuShown) ? <OptionsMenu p={p}/> : null}
+      <pre>
+        <span className={className}>{optionsMenu}<a href="javascript: void 0" onClick={(e) => dispatch(togglePopup('data'))}>{config.data}</a></span>
       </pre>
     )
   }

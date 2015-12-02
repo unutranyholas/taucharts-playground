@@ -3,7 +3,7 @@ export const UPDATE_CONFIG = 'UPDATE_CONFIG';
 export const TOGGLE_PLUGIN = 'TOGGLE_PLUGIN';
 export const SWITCH_DATASET = 'SWITCH_DATASET';
 export const CREATE_FACET = 'CREATE_FACET';
-export const TOGGLE_MENU = 'TOGGLE_MENU';
+export const TOGGLE_POPUP = 'TOGGLE_POPUP';
 export const DELETE_DATASET = 'DELETE_DATASET';
 export const UPDATE_FUNCTION = 'UPDATE_FUNCTION';
 
@@ -31,8 +31,8 @@ export function switchDataset(name) {
   return {type: SWITCH_DATASET, name}
 }
 
-export function toggleMenu(prop) {
-  return {type: TOGGLE_MENU, prop}
+export function togglePopup(prop) {
+  return {type: TOGGLE_POPUP, prop}
 }
 
 export function updateFunction(changes) {

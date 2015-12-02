@@ -6,29 +6,31 @@ import style from './OptionsMenu.css'
 
 export default class OptionsMenu extends Component {
   render() {
-    const {name, val, options, action, toggleMenu} = this.props.p;
+    const {name, val, options, actions} = this.props;
     let values = _.flatten([val]);
+
+    console.log('OPTIONS',options);
 
     let list = options.map((opt, i) => {
       const isSelected = (values.indexOf(opt) > -1);
 
       switch (opt + '-' + name) {
-        case 'file-data':
-          return (<UploadFile key={i} action={action.add} />);
-        case 'url-data':
-          return (<ProvideURL key={i} action={action.add} />);
+        //case 'file-data':
+        //  return (<UploadFile key={i} action={actions.add} />);
+        //case 'url-data':
+        //  return (<ProvideURL key={i} action={actions.add} />);
         default:
-          return (<OptionsItem key={i} opt={opt} isSelected={isSelected} action={action} />)
+          return (<OptionsItem key={i} opt={opt} isSelected={isSelected} actions={actions} />)
       }
     });
 
     return (
-      <div>
-        <div className="fullscreen" onClick={toggleMenu}></div>
+      <span>
+        <div className="fullscreen" onClick={actions.togglePopup}></div>
         <ul className="menu">
           {list}
         </ul>
-      </div>
+      </span>
     )
   }
 }
@@ -59,23 +61,15 @@ class UploadFile extends Component {
 
 class OptionsItem extends Component {
   render() {
-    const {opt, isSelected, action} = this.props;
-    const actions = _.keys(action);
-    const update = action.update || action;
-    const isFacet = (actions.indexOf('facet') > -1 && !isSelected);
-
-    if (actions.indexOf('switch') > -1) {
-      return (
-        <li className={(isSelected) ? 'selected' : ''}>
-          <a href="javascript: void 0" onClick={action.switch} data-opt={opt}>{opt}</a>
-        </li>
-      )
-    }
+    const {opt, isSelected, actions} = this.props;
+    const actionsList = _.keys(actions);
+    const facetButton = (actionsList.indexOf('facet') > -1 && !isSelected) ? (<a href="javascript: void 0" onClick={actions.facet} data-opt={opt} className="add"> </a>) : null;
+    const mainAction = (actionsList.indexOf('switch') > -1) ? actions.switch : actions.update;
+    const className = (isSelected) ? 'selected' : '';
 
     return (
-      <li className={(isSelected) ? 'selected' : ''}>
-        <a href="javascript: void 0" onClick={update} data-opt={opt}>{opt}</a>
-        {(isFacet) ? (<a href="javascript: void 0" onClick={action.facet} data-opt={opt} className="add"> </a>) : null}
+      <li className={className}>
+        <a href="javascript: void 0" onClick={mainAction} data-opt={opt}>{opt}</a>{facetButton}
       </li>
     )
   }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import update from 'react-addons-update'
 import _ from 'lodash'
 import d3 from 'd3'
-import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, toggleMenu } from '../../actions'
+import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset } from '../../actions'
 import { CodeEditor, Chart } from '../'
 import style from './App.css'
 
@@ -15,14 +15,14 @@ class App extends Component {
 
     const cloneDatasets = _.cloneDeep(datasets);
     const cloneConfig = _.cloneDeep(config);
-    const [initData, parsedData, transformedData] = this.prepareData(cloneDatasets[config.data].data, functions);
 
-    const chartConfig = this.prepareConfig(cloneConfig, transformedData);
+    const dataStates = this.prepareData(cloneDatasets[config.data].data, functions);
+    const chartConfig = this.prepareConfig(cloneConfig, dataStates.transformedData);
 
-    const updatedKeys = _.keys(transformedData[0]);
+    const updatedKeys = _.keys(dataStates.transformedData[0]);
     const updatedOptions = update(options, {$merge: {x: updatedKeys, y: updatedKeys, size: updatedKeys, color: updatedKeys}});
 
-    const props = update(this.props, {$merge: {datasets: cloneDatasets, options: updatedOptions, transformations: [initData, parsedData, transformedData]}});
+    const props = update(this.props, {$merge: {datasets: cloneDatasets, options: updatedOptions, dataStates: dataStates}});
 
     return (
       <div className="playground">
@@ -48,7 +48,11 @@ class App extends Component {
     const parsedData = _.cloneDeep(data);
     eval(functions.transformData);
     const transformedData = _.cloneDeep(data);
-    return [initData, parsedData, transformedData];
+    return {
+      initData: initData,
+      parsedData: parsedData,
+      transformedData: transformedData
+    };
   }
 
 }

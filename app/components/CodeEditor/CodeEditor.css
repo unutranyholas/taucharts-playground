@@ -7,7 +7,8 @@
   overflow-x: hidden;
 
   pre {
-    margin: 0 0 10px;
+    line-height: calc($text-size + $lines-margin);
+    white-space: pre-wrap;
   }
 
   a {
@@ -17,12 +18,12 @@
   textarea.editor {
     font-family: $code-font-family;
     font-size: $text-size;
-    line-height: calc($text-size + $lines-margin + 1px);
+    //line-height: calc($text-size + $lines-margin + 1px);
     border: none;
     background-color: transparent;
     width: 100%;
     color: $code-text;
-    margin: calc(-$lines-margin / 2) 0 calc($lines-margin / 2);
+    //margin: calc(-$lines-margin / 2) 0 calc($lines-margin / 2);
     padding: 0;
     vertical-align: bottom;
     resize: none;
