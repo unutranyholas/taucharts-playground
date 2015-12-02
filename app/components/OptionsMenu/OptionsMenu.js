@@ -15,10 +15,10 @@ export default class OptionsMenu extends Component {
       const isSelected = (values.indexOf(opt) > -1);
 
       switch (opt + '-' + name) {
-        //case 'file-data':
-        //  return (<UploadFile key={i} action={actions.add} />);
-        //case 'url-data':
-        //  return (<ProvideURL key={i} action={actions.add} />);
+        case 'file-data':
+          return (<UploadFile key={i} action={actions.add} />);
+        case 'url-data':
+          return (<ProvideURL key={i} action={actions.add} />);
         default:
           return (<OptionsItem key={i} opt={opt} isSelected={isSelected} actions={actions} />)
       }

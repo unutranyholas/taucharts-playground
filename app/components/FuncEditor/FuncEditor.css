@@ -1,0 +1,23 @@
+@import "../variables.css";
+
+textarea.editor {
+  font-family: $code-font-family;
+  font-size: $text-size;
+  line-height: calc($text-size + $lines-margin + 1px);
+  border: none;
+  background-color: transparent;
+  width: 100%;
+  color: $code-text;
+  //margin: calc(-$lines-margin / 2) 0 calc($lines-margin / 2);
+  padding: 0;
+  vertical-align: bottom;
+  resize: none;
+  transition: 0.05s background-color ease-out;
+  &:focus {
+    outline: 0;
+    background-color: color($code-menu-text a(20%));
+  }
+  &::placeholder {
+    color: color($code-text a(20%));
+  }
+}

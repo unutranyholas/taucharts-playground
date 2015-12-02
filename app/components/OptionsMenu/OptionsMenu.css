@@ -3,9 +3,10 @@
 .code {
   .menu {
     position: absolute;
+    line-height: 1.2;
     background: color($code-text a(95%));
     padding: 10px 0;
-    margin: 3ex 0 0 -1.2em;
+    margin: 3.7ex 0 0 -1em;
     max-height: 400px;
     overflow-y: scroll;
     min-width: 150px;
@@ -119,11 +120,11 @@
   }
 
   .fullscreen {
-    position: absolute;
+    position: fixed;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
-    //background-color: color($code-bg-color a(10%))
+    //background-color: color($code-bg-color a(40%))
   }
 }

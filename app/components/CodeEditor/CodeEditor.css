@@ -8,30 +8,11 @@
 
   pre {
     line-height: calc($text-size + $lines-margin);
-    white-space: pre-wrap;
+    white-space: pre;
   }
 
   a {
     color: $code-active;
-  }
-
-  textarea.editor {
-    font-family: $code-font-family;
-    font-size: $text-size;
-    //line-height: calc($text-size + $lines-margin + 1px);
-    border: none;
-    background-color: transparent;
-    width: 100%;
-    color: $code-text;
-    //margin: calc(-$lines-margin / 2) 0 calc($lines-margin / 2);
-    padding: 0;
-    vertical-align: bottom;
-    resize: none;
-    &:focus {
-      outline: 0
-    }
-    &::placeholder {
-      color: color($code-text a(20%));
-    }
+    //display: inline-block;
   }
 }

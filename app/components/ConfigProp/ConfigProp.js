@@ -11,6 +11,7 @@ export default class ConfigProp extends Component {
 
     const optionsMenu = (isPopupShown && name !== 'plugins') ? (<OptionsMenu {...this.props} />) : null;
     const className = (isPopupShown) ? 'active' : null;
+    const addSpace = (name !== 'data') ? ' ' : null
 
     switch (type) {
       case 'null':
@@ -19,7 +20,7 @@ export default class ConfigProp extends Component {
         );
       case 'string':
         return (
-          <span className={className}>{optionsMenu} <a href="javascript: void 0" onClick={actions.togglePopup}>'{val}'</a></span>
+          <span className={className}>{optionsMenu}{addSpace}<a href="javascript: void 0" onClick={actions.togglePopup}>'{val}'</a></span>
         );
       case 'array':
         return (

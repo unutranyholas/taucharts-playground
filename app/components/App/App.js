@@ -27,7 +27,7 @@ class App extends Component {
     return (
       <div className="playground">
         <CodeEditor {...props} />
-        <Chart config={chartConfig} />
+        <Chart config={chartConfig} lightConfig={config} functions={functions} />
       </div>
     )
   }

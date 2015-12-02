@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { OptionsMenu } from '../'
+import { OptionsMenu, ConfigProp } from '../'
 import * as Papa from 'papaparse'
 import style from './DataManager.css'
 
@@ -10,24 +10,23 @@ export default class DataManager extends Component {
 
   render() {
     const { dispatch, popup, options, datasets, config } = this.props;
-    const prop = 'data';
-    const className = (prop === popup) ? 'active' : null;
+
+    const name = 'data';
     const props = {
-      name: prop,
-      val: config.data,
-      options: options[prop],
+      name: name,
+      val: config[name],
+      options: options[name].concat(['file'/*, 'url'*/]),
+      isPopupShown: (popup === name),
       actions: {
         add: (e) => this.addData(e),
         switch: (e) => dispatch(switchDataset(e.target.dataset.opt)),
         togglePopup: (e) => dispatch(togglePopup('data'))
       }
     };
-    const optionsMenu = (prop === popup) ? (<OptionsMenu {...props} />) : null;
+    //const className = (name === popup) ? 'active' : null;
 
     return (
-      <pre>
-        <span className={className}>{optionsMenu}<a href="javascript: void 0" onClick={(e) => dispatch(togglePopup('data'))}>{config.data}</a></span>
-      </pre>
+      <ConfigProp {...props} />
     )
   }
 

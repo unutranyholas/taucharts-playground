@@ -49,11 +49,17 @@ export default class CodeEditor extends Component {
 
     });
 
+
+    const labelsMatch = {
+      initData: 'row',
+      parsedData: 'data',
+      transformedData: 'data'
+    };
     let dataPoint = _.mapValues(dataStates, (data, name) => {
 
       const props = {
         isPopupShown: (popup === name),
-        label: 'data',
+        label: labelsMatch[name],
         data: data,
         actions: {
           togglePopup: (e) => dispatch(togglePopup(name))
@@ -66,15 +72,18 @@ export default class CodeEditor extends Component {
 
     });
 
-
+    const placeholdersMatch = {
+      parseData: '// parse rows',
+      transformData: '// transform data'
+    };
     let funcEditor = _.mapValues(functions, (func, name) => {
 
       const props = {
         name: name,
-        label: name,
+        label: placeholdersMatch[name],
         func: func,
         actions: {
-          update: e => dispatch(updateFunction({parseData: e.target.value}))
+          update: e => dispatch(updateFunction({[name]: e.target.value}))
         }
       };
 
@@ -83,16 +92,19 @@ export default class CodeEditor extends Component {
       )
     });
 
+    const dataManager = (<DataManager {...this.props} />);
+
     return (
       <div className="code">
         <pre>
-          d3.csv({configProp.data}, function({dataPoint.initData})&#123;{'\n'}
+          d3.csv({dataManager}, function({dataPoint.initData})&#123;{'\n'}
           {funcEditor.parseData}{'\n'}
-          return data;{'\n'}
+          return row;{'\n'}
           &#125;, function({dataPoint.parsedData})&#123;{'\n'}
           {funcEditor.transformData}{'\n'}
           var chart = tauCharts.Chart(&#123;{'\n'}
           {'  '}data:{'      '}{dataPoint.transformedData},{'\n'}
+          {'  '}type:{'    '}{configProp.type},{'\n'}
           {'  '}x:{'       '}{configProp.x},{'\n'}
           {'  '}y:{'       '}{configProp.y},{'\n'}
           {'  '}size:{'    '}{configProp.size},{'\n'}

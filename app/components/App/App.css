@@ -64,3 +64,11 @@ textarea, pre {
   //text-decoration: overline underline;
 }
 
+span {
+  //border: 1px solid red !important;
+  //display: inline-block;
+}
+
+span.active > span:first-child {
+  position: absolute;
+}

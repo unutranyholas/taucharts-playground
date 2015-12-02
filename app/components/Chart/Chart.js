@@ -44,6 +44,12 @@ export default class Chart extends Component {
     this.renderChart();
   }
   shouldComponentUpdate (nextProps, nextState) {
-    return !_.isEqual(this.props.config, nextProps.config);
+
+    //console.log('this',this.props);
+    //console.log('next_props',nextProps);
+    //console.log('next_state',nextState);
+    //console.log(!_.isEqual(this.props.config, nextProps.config));
+
+    return !_.isEqual(this.props.lightConfig, nextProps.lightConfig) || !_.isEqual(this.props.functions, nextProps.functions);
   }
 }
