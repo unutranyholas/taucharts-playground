@@ -30,7 +30,7 @@ export default class CodeEditor extends Component {
         case 'plugins':
           actions.update = (e) => {
             dispatch(togglePlugin(e.target.dataset.opt));
-            dispatch(togglePopup(name));
+            //dispatch(togglePopup(name));
           };
           break;
       }
@@ -92,13 +92,13 @@ export default class CodeEditor extends Component {
           &#125;, function({dataPoint.parsedData})&#123;{'\n'}
           {funcEditor.transformData}{'\n'}
           var chart = tauCharts.Chart(&#123;{'\n'}
-          {'  '}data:{'     '}{dataPoint.transformedData},{'\n'}
+          {'  '}data:{'      '}{dataPoint.transformedData},{'\n'}
           {'  '}x:{'       '}{configProp.x},{'\n'}
           {'  '}y:{'       '}{configProp.y},{'\n'}
           {'  '}size:{'    '}{configProp.size},{'\n'}
           {'  '}color:{'   '}{configProp.color},{'\n'}
           {'  '}plugins:{' '}{configProp.plugins}{'\n'}
-          &#125;){'\n'}
+          &#125;);{'\n'}
           chart.renderTo('#container');{'\n'}
           &#125;)
         </pre>
