@@ -11,7 +11,7 @@ export default class ConfigProp extends Component {
 
     const optionsMenu = (isPopupShown && name !== 'plugins') ? (<OptionsMenu {...this.props} />) : null;
     const className = (isPopupShown) ? 'active' : null;
-    const addSpace = (name !== 'data') ? ' ' : null
+    const addSpace = (name !== 'data') ? ' ' : null;
 
     switch (type) {
       case 'null':

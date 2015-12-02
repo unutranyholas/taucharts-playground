@@ -7,14 +7,10 @@
     background: color($code-text a(95%));
     padding: 10px 0;
     margin: 3.7ex 0 0 -1em;
-    //max-height: 80%;
     overflow-y: scroll;
     min-width: 150px;
     box-shadow: 0 1px 5px 1px color($code-bg-color a(20%));
     color: $code-menu-text;
-    //max-width: 90%;
-
-    /*TODO: fix width*/
 
     & table {
       margin: 0;

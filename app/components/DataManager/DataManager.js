@@ -23,7 +23,6 @@ export default class DataManager extends Component {
         togglePopup: (e) => dispatch(togglePopup('data'))
       }
     };
-    //const className = (name === popup) ? 'active' : null;
 
     return (
       <ConfigProp {...props} />
@@ -37,7 +36,6 @@ export default class DataManager extends Component {
     //TODO: url and name - make different fields
     //TODO: json/csv
 
-    //console.log(e);
     switch (e.target.type) {
       case 'textarea':
         const url = e.target.value;
@@ -71,8 +69,7 @@ export default class DataManager extends Component {
             dispatch(switchDataset(name));
           },
           error: (error, file) => {
-            //console.log(data);
-            //console.log(file);
+            console.log(error);
           },
           download: false,
           skipEmptyLines: false,

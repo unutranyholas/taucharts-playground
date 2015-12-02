@@ -30,7 +30,6 @@ export default class CodeEditor extends Component {
         case 'plugins':
           actions.update = (e) => {
             dispatch(togglePlugin(e.target.dataset.opt));
-            //dispatch(togglePopup(name));
           };
           break;
       }
