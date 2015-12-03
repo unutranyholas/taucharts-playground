@@ -51,7 +51,7 @@ export default class DataManager extends Component {
         break;
       case 'file':
         const file = e.target.files[0];
-        const name = file.name.split('.')[0];
+        const name = file.name;
 
         Papa.parse(file, {
           delimiter: '',	// auto-detect
