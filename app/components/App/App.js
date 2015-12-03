@@ -24,6 +24,8 @@ class App extends Component {
 
     const props = update(this.props, {$merge: {datasets: cloneDatasets, options: updatedOptions, dataStates: dataStates}});
 
+    //TODO: move this to reducers
+
     return (
       <div className="playground">
         <CodeEditor {...props} />
@@ -42,11 +44,11 @@ class App extends Component {
     const initData = _.cloneDeep(data);
     //TODO: catch errors
     data = _.cloneDeep(data).map(row => {
-      eval(functions.parseData);
+      eval(functions.parseData.join('\n'));
       return row
     });
     const parsedData = _.cloneDeep(data);
-    eval(functions.transformData);
+    eval(functions.transformData.join('\n'));
     const transformedData = _.cloneDeep(data);
     return {
       initData: initData,

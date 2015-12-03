@@ -9,7 +9,17 @@
 }
 
 pre {
-  & > a, & span > a {
+  & span > a {
+    display: inline-block;
+    max-width: 125px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: bottom;
+    line-height: 1;
+    position: relative;
+    top: -0.7ex;
+    z-index: 1;
+
     &:link {
       outline: 0 solid rgba(0, 0, 0, 0);
       transition: 0.05s background-color ease-out, 0.05s outline ease-out;
@@ -21,7 +31,7 @@ pre {
     }
   }
 
-  &.show-menu > a, & .active > a {
+  & .active > a {
     &:link {
       background-color: $code-active-bg;
       color: $code-text;

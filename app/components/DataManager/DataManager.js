@@ -25,7 +25,7 @@ export default class DataManager extends Component {
     };
 
     return (
-      <ConfigProp {...props} />
+      <span className="data-manager"><ConfigProp {...props} /></span>
     )
   }
 

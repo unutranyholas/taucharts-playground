@@ -16,8 +16,8 @@ const initState = {
     //guide: {interpolate: 'linear'}
   },
   functions: {
-    parseData: '',
-    transformData: ''
+    parseData: [],
+    transformData: []
   },
   options: {
     data: [],

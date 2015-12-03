@@ -9,8 +9,6 @@ export default class OptionsMenu extends Component {
     const {name, val, options, actions} = this.props;
     let values = _.flatten([val]);
 
-    console.log('OPTIONS',options);
-
     let list = options.map((opt, i) => {
       const isSelected = (values.indexOf(opt) > -1);
 

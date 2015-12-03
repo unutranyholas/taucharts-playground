@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Textarea from 'react-textarea-autosize'
 import _ from 'lodash'
-import { ConfigProp, DataManager, DataTable, DataPoint, FuncEditor } from '../'
+import { ConfigProp, DataManager, DataTable, DataPoint, FuncEditor, FuncGenerator } from '../'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, togglePopup, updateFunction } from '../../actions'
 
 import style from './CodeEditor.css'
@@ -10,6 +10,8 @@ import style from './CodeEditor.css'
 export default class CodeEditor extends Component {
   render() {
     const { dispatch, popup, options, datasets, config, functions, dataStates } = this.props;
+
+    //Properties
     let configProp = _.mapValues(config, (val, name) => {
 
       let actions = {
@@ -48,7 +50,7 @@ export default class CodeEditor extends Component {
 
     });
 
-
+    //Data states
     const labelsMatch = {
       initData: 'row',
       parsedData: 'data',
@@ -71,6 +73,8 @@ export default class CodeEditor extends Component {
 
     });
 
+
+    //Editors
     const placeholdersMatch = {
       parseData: '// parse rows',
       transformData: '// transform data'
@@ -82,7 +86,7 @@ export default class CodeEditor extends Component {
         label: placeholdersMatch[name],
         func: func,
         actions: {
-          update: e => dispatch(updateFunction({[name]: e.target.value}))
+          update: e => dispatch(updateFunction({[name]: e.target.value.split('\n')}))
         }
       };
 
@@ -91,12 +95,18 @@ export default class CodeEditor extends Component {
       )
     });
 
+
+    //Data manager
     const dataManager = (<DataManager {...this.props} />);
+
+    //Functions generator
+    const funcGenerator = (<FuncGenerator {...this.props} />);
+
 
     return (
       <div className="code">
         <pre>
-          d3.csv({dataManager}, function({dataPoint.initData})&#123;{'\n'}
+          d3.csv({dataManager}, function({funcGenerator})&#123;{'\n'}
           {funcEditor.parseData}{'\n'}
           return row;{'\n'}
           &#125;, function({dataPoint.parsedData})&#123;{'\n'}
