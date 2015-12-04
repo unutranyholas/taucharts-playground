@@ -11,6 +11,8 @@ export default class Chart extends Component {
   render() {
     this.config = this.props.config;
 
+    console.log(this.config);
+
     return (
       <div className="chart">
         <div className="error" id="error"></div>
@@ -19,7 +21,6 @@ export default class Chart extends Component {
     )
   }
   renderChart() {
-
       try {
         this.chart = new tauCharts.Chart(this.config);
         this.chart.renderTo('#chart');
@@ -44,6 +45,8 @@ export default class Chart extends Component {
     this.renderChart();
   }
   shouldComponentUpdate (nextProps, nextState) {
-    return !_.isEqual(this.props.lightConfig, nextProps.lightConfig) || !_.isEqual(this.props.functions, nextProps.functions);
+
+    //TODO: not to update chart if visible data wasn't changed ?
+    return JSON.stringify(nextProps.lightConfig) !== JSON.stringify(this.props.lightConfig) || JSON.stringify(nextProps.functions) !== JSON.stringify(this.props.functions)
   }
 }

@@ -12,6 +12,7 @@ export default class FuncEditor extends Component {
   componentWillReceiveProps(nextProps){
     this.state = {func: nextProps.func.join('\n')};
   }
+
   render (){
     const {label, actions, func} = this.props;
     return (

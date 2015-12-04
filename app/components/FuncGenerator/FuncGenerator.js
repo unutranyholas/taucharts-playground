@@ -8,17 +8,16 @@ import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, tog
 export default class FuncGenerator extends Component {
   render() {
 
-    const { dispatch, popup, options, datasets, config, functions, dataStates } = this.props;
+    const { dispatch, popup, options, datasets, config, functions, data } = this.props;
 
     const name = 'typeSelector';
     const label = 'row';
     const isPopupShown = (popup === name);
-    const keys = _.keys(dataStates.initData[0]);
+    const keys = _.keys(data.init[0]);
     const actions = {
       togglePopup: (e) => dispatch(togglePopup(name)),
       update: (e) => {
         this.updateFunctions(e);
-        dispatch(togglePopup(name))
       }
     };
 
@@ -48,7 +47,7 @@ export default class FuncGenerator extends Component {
         break;
     }
 
-    const changes = { parseData: functions.parseData.concat([result]) };
+    const changes = { parse: functions.parse.concat([result]) };
     dispatch(updateFunction(changes));
 
   }

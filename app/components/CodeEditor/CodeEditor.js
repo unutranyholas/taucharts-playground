@@ -9,7 +9,7 @@ import style from './CodeEditor.css'
 
 export default class CodeEditor extends Component {
   render() {
-    const { dispatch, popup, options, datasets, config, functions, dataStates } = this.props;
+    const { dispatch, popup, options, datasets, config, functions, data } = this.props;
 
     //Properties
     let configProp = _.mapValues(config, (val, name) => {
@@ -52,11 +52,11 @@ export default class CodeEditor extends Component {
 
     //Data states
     const labelsMatch = {
-      initData: 'row',
-      parsedData: 'data',
-      transformedData: 'data'
+      init: 'row',
+      parsed: 'data',
+      transformed: 'data'
     };
-    let dataPoint = _.mapValues(dataStates, (data, name) => {
+    let dataPoint = _.mapValues(data, (data, name) => {
 
       const props = {
         isPopupShown: (popup === name),
@@ -76,8 +76,8 @@ export default class CodeEditor extends Component {
 
     //Editors
     const placeholdersMatch = {
-      parseData: '// parse rows',
-      transformData: '// transform data'
+      parse: '// parse rows',
+      transform: '// transform data'
     };
     let funcEditor = _.mapValues(functions, (func, name) => {
 
@@ -107,12 +107,12 @@ export default class CodeEditor extends Component {
       <div className="code">
         <pre>
           d3.csv({dataManager}, function({funcGenerator})&#123;{'\n'}
-          {funcEditor.parseData}{'\n'}
+          {funcEditor.parse}{'\n'}
           return row;{'\n'}
-          &#125;, function({dataPoint.parsedData})&#123;{'\n'}
-          {funcEditor.transformData}{'\n'}
+          &#125;, function({dataPoint.parsed})&#123;{'\n'}
+          {funcEditor.transform}{'\n'}
           var chart = tauCharts.Chart(&#123;{'\n'}
-          {'  '}data:{'      '}{dataPoint.transformedData},{'\n'}
+          {'  '}data:{'      '}{dataPoint.transformed},{'\n'}
           {'  '}type:{'    '}{configProp.type},{'\n'}
           {'  '}x:{'       '}{configProp.x},{'\n'}
           {'  '}y:{'       '}{configProp.y},{'\n'}
@@ -126,4 +126,8 @@ export default class CodeEditor extends Component {
       </div>
     )
   }
+
+  //shouldComponentUpdate (nextProps, nextState) {
+  //  return JSON.stringify(nextProps.functions) === JSON.stringify(this.props.functions);
+  //}
 }
