@@ -86,7 +86,10 @@ export default class CodeEditor extends Component {
         label: placeholdersMatch[name],
         func: func,
         actions: {
-          update: e => dispatch(updateFunction({[name]: e.target.value.split('\n')}))
+          update: e => {
+            const result = (e.target.value !== '') ? e.target.value.split('\n') : [];
+            dispatch(updateFunction({[name]: result}));
+          }
         }
       };
 
@@ -127,7 +130,17 @@ export default class CodeEditor extends Component {
     )
   }
 
-  //shouldComponentUpdate (nextProps, nextState) {
-  //  return JSON.stringify(nextProps.functions) === JSON.stringify(this.props.functions);
-  //}
+  componentDidUpdate () {
+    console.log('editor updated');
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+
+    console.log(JSON.stringify(nextProps.functions));
+    console.log(JSON.stringify(this.props.functions));
+
+    return JSON.stringify(nextProps.functions) !== JSON.stringify(this.props.functions) ||
+           JSON.stringify(nextProps.config) !== JSON.stringify(this.props.config) ||
+           nextProps.popup !== this.props.popup;
+  }
 }

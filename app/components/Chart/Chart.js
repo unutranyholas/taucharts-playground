@@ -11,8 +11,6 @@ export default class Chart extends Component {
   render() {
     this.config = this.props.config;
 
-    console.log(this.config);
-
     return (
       <div className="chart">
         <div className="error" id="error"></div>
@@ -29,13 +27,12 @@ export default class Chart extends Component {
         document.getElementById('error').innerHTML = err;
         //TODO: refs, getDOMNode etc
       }
-
   }
   componentDidMount () {
     this.renderChart();
   }
   componentDidUpdate () {
-    console.log('updated');
+    console.log('chart updated');
 
     this.chart.destroy();
     document.getElementById('chart').innerHTML = '';

@@ -39,49 +39,7 @@ export default class ConfigProp extends Component {
     }
   }
 }
-//
-//class Obj extends Component {
-//  render() {
-//    const {name, val, options, action, isMenuShown, togglePopup} = this.props;
-//    return (
-//      <pre className={(isMenuShown) ? 'show-menu' : null}>
-//        {name + ':'} <a href="javascript: void 0" onClick={togglePopup}>{JSON.stringify(val)}</a>,
-//        {(isMenuShown) ? <OptionsMenu {...this.props} /> : null}
-//      </pre>
-//    )
-//  }
-//}
-//
-//class Null extends Component {
-//  render() {
-//    const {name, val, options, action, isMenuShown, togglePopup} = this.props;
-//    return (
-//      <pre className={(isMenuShown) ? 'show-menu' : null}>
-//        {name + ':'} <a href="javascript: void 0" onClick={togglePopup}>null</a>,
-//        {(isMenuShown) ? <OptionsMenu {...this.props} /> : null}
-//      </pre>
-//    )
-//  }
-//}
-//
-//class String extends Component {
-//  render() {
-//    const {name, val, options, action, isMenuShown, togglePopup} = this.props;
-//
-//    switch (name) {
-//      //case 'data':
-//
-//      default:
-//        return (
-//          <pre className={(isMenuShown) ? 'show-menu' : null}>
-//            {name + ':'} <a href="javascript: void 0" onClick={togglePopup}>'{val}'</a>,
-//            {(isMenuShown) ? <OptionsMenu {...this.props} /> : null}
-//          </pre>
-//        )
-//    }
-//  }
-//}
-//
+
 class Array extends Component {
   render() {
     const {name, val, options, actions} = this.props;

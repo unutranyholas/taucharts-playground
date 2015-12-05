@@ -64,7 +64,6 @@ export default class DataManager extends Component {
           comments: false,
           step: undefined,
           complete: (data) => {
-            console.log(456);
             dispatch(addDataset(name, data.data));
             dispatch(switchDataset(name));
           },
