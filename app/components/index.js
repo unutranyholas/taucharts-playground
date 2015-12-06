@@ -9,3 +9,4 @@ export { default as DataTable } from  './DataTable/DataTable';
 export { default as FuncEditor } from  './FuncEditor/FuncEditor';
 export { default as FuncGenerator } from  './FuncGenerator/FuncGenerator';
 export { default as TypeSelector } from  './TypeSelector/TypeSelector';
+export { default as ConfigTree } from  './ConfigTree/ConfigTree';

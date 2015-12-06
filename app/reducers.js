@@ -16,7 +16,40 @@ const initState = {
     y: 'dogs',
     size: null,
     color: null,
-    plugins: ['tooltip', 'legend']
+    plugins: ['tooltip', 'legend'],
+    settings: {
+      specEngine: 'none'
+    },
+    guide: {
+      interpolate: 'linear',
+      padding: {
+        l: 90,
+        t: 30,
+        r: 30,
+        b: 90
+      },
+      x: {
+        label: {
+          text: 'X',
+          padding: 40
+        },
+        textAnchor: 'middle',
+        padding: 20,
+        rotate: 0,
+        tickFormat: 'x-time-auto'
+      },
+      y: {
+        label: {
+          text: 'Y',
+          padding: 40
+        },
+        textAnchor: 'end',
+        padding: 20,
+        rotate: 0,
+        tickFormat: 'x-num-auto'
+      },
+      showGridLines: 'xy'
+    }
   },
   functions: {
     parse: [],
@@ -34,7 +67,39 @@ const initState = {
     size: [],
     color: [],
     plugins: ['tooltip', 'legend', 'quick-filter', 'trendline'],
-    //guide__interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone']
+    settings: {
+      specEngine: ['none']
+    },
+    guide: {
+      interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone'],
+      padding: {
+        l: [0, 10, 20, 30, 40, 50],
+        t: [0, 10, 20, 30, 40, 50],
+        r: [0, 10, 20, 30, 40, 50],
+        b: [0, 10, 20, 30, 40, 50]
+      },
+      x: {
+        label: {
+          text: ['X'],
+          padding: [0, 10, 20, 30, 40, 50]
+        },
+        textAnchor: ['start', 'middle', 'end'],
+        padding: [0, 10, 20, 30, 40, 50],
+        rotate: [0, 30, 45, 60, 90],
+        tickFormat: ['x-time-auto']
+      },
+      y: {
+        label: {
+          text: ['Y'],
+          padding: [0, 10, 20, 30, 40, 50]
+        },
+        textAnchor: ['start', 'middle', 'end'],
+        padding: [0, 10, 20, 30, 40, 50],
+        rotate: [0, 30, 45, 60, 90],
+        tickFormat: ['x-num-auto']
+      },
+      showGridLines: ['xy', 'x', 'y', 'none']
+    }
   }
 };
 

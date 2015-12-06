@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Textarea from 'react-textarea-autosize'
 import _ from 'lodash'
-import { ConfigProp, DataManager, DataTable, DataPoint, FuncEditor, FuncGenerator } from '../'
+import { ConfigProp, DataManager, DataTable, DataPoint, FuncEditor, FuncGenerator, ConfigTree } from '../'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, togglePopup, updateFunction } from '../../actions'
 
 import style from './CodeEditor.css'
@@ -105,6 +105,20 @@ export default class CodeEditor extends Component {
     //Functions generator
     const funcGenerator = (<FuncGenerator {...this.props} />);
 
+    const configProps = {
+      config: config,
+      options: options,
+      popup: popup,
+      actions: {
+        togglePopup: (e) => dispatch(togglePopup(name)),
+        updateConfig: (e) => dispatch(updateConfig({[name]: e.target.dataset.opt})),
+        facet: (e) => dispatch(createFacet({[name]: e.target.dataset.opt})),
+        togglePlugin: (e) => dispatch(togglePlugin(e.target.dataset.opt))
+      }
+    };
+
+    //ConfigTree
+    const configTree = (<ConfigTree {...configProps} />);
 
     return (
       <div className="code">
@@ -114,6 +128,10 @@ export default class CodeEditor extends Component {
           return row;{'\n'}
           &#125;, function({dataPoint.parsed})&#123;{'\n'}
           {funcEditor.transform}{'\n'}
+          {'\n'}
+          {configTree}
+          {'\n'}
+          {'\n'}
           var chart = tauCharts.Chart(&#123;{'\n'}
           {'  '}data:{'      '}{dataPoint.transformed},{'\n'}
           {'  '}type:{'    '}{configProp.type},{'\n'}
@@ -135,10 +153,6 @@ export default class CodeEditor extends Component {
   }
 
   shouldComponentUpdate (nextProps, nextState) {
-
-    console.log(JSON.stringify(nextProps.functions));
-    console.log(JSON.stringify(this.props.functions));
-
     return JSON.stringify(nextProps.functions) !== JSON.stringify(this.props.functions) ||
            JSON.stringify(nextProps.config) !== JSON.stringify(this.props.config) ||
            nextProps.popup !== this.props.popup;
