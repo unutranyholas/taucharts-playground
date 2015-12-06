@@ -61,7 +61,7 @@ const initState = {
     transformed: []
   },
   options: {
-    type: ['scatterplot', 'line', 'area', 'bar', 'horizontal-bar', 'stacked-bar', 'horizontal-stacked-bar, parallel'],
+    type: ['scatterplot', 'line', 'area', 'bar', 'horizontal-bar', 'stacked-bar', 'horizontal-stacked-bar', 'parallel'],
     x: [],
     y: [],
     size: [],
@@ -80,7 +80,7 @@ const initState = {
       },
       x: {
         label: {
-          text: ['X'],
+          text: ['X', 'abrssddbjs'],
           padding: [0, 10, 20, 30, 40, 50]
         },
         textAnchor: ['start', 'middle', 'end'],
@@ -148,7 +148,7 @@ function playground(state = initState.main, action) {
   const datasets = state.datasets;
   const curData = state.currentData;
 
-  let prop, newValue, curConfig, curValue;
+  let prop, newValue, curConfig, curValue, path, changes;
 
   switch (action.type) {
     case 'ADD_DATASET':
@@ -201,24 +201,31 @@ function playground(state = initState.main, action) {
 
     case 'DELETE_DATASET':
     case 'UPDATE_CONFIG':
+
       prop = _.pairs(action.changes)[0][0];
       newValue = _.pairs(action.changes)[0][1];
+      path = ['datasets', curData, 'config'].concat(prop.split('__'));
 
       curConfig = datasets[curData].config;
       curValue = curConfig[prop];
 
-      var changes = update({}, {$merge: action.changes});
-
       if(_.isArray(curValue)) {
         const updated = toggleArray(curValue, newValue).slice(-2);
-        changes = (updated.length < 2) ? {[prop]: updated[0]} : {[prop]: updated};
+        newValue = (updated.length < 2) ? updated[0] : updated;
       }
+
       if (curConfig.color === action.changes.color) {
-        changes.color = null;
+        newValue = null;
       }
       if (curConfig.size === action.changes.size) {
-        changes.size = null;
+        newValue = null;
       }
+
+      changes = _.reduceRight(path, function (memo, arrayValue) {
+        var obj = {};
+        obj[arrayValue] = memo;
+        return obj;
+      }, {$set: newValue});
 
       //if (config.x === action.changes.y) {
       //  changes = update(changes, {$merge: {x: state.y}})
@@ -232,17 +239,27 @@ function playground(state = initState.main, action) {
       ////}
       ////TODO: fix smart switching
 
-      return update(state, {datasets: {[curData]: {config: {$merge: changes}}}});
+      return update(state, changes);
 
 
     case 'CREATE_FACET':
       prop = _.pairs(action.changes)[0][0];
       newValue = _.pairs(action.changes)[0][1];
+
       curConfig = datasets[curData].config;
       curValue = curConfig[prop];
-      const facet = {[prop]: _.flatten(update([newValue], {$push: [curConfig[prop]]})).slice(0, 2)};
+      path = ['datasets', curData, 'config'].concat(prop.split('__'));
 
-      return update(state, {datasets: {[curData]: {config: {$merge: facet}}}});
+      newValue = _.flatten(update([newValue], {$push: [curConfig[prop]]})).slice(0, 2);
+
+      changes = _.reduceRight(path, function (memo, arrayValue) {
+        var obj = {};
+        obj[arrayValue] = memo;
+        return obj;
+      }, {$set: newValue});
+
+
+      return update(state, changes);
 
 
     case 'TOGGLE_PLUGIN':

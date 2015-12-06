@@ -12,43 +12,43 @@ export default class CodeEditor extends Component {
     const { dispatch, popup, options, datasets, config, functions, data } = this.props;
 
     //Properties
-    let configProp = _.mapValues(config, (val, name) => {
-
-      let actions = {
-        update: (e) => dispatch(updateConfig({[name]: e.target.dataset.opt})),
-        togglePopup: (e) => dispatch(togglePopup(name))
-      };
-
-      switch (name) {
-        case 'data':
-          actions.update = (e) => dispatch(switchDataset(e.target.dataset.opt));
-          actions.addFile = (e) => dispatch(addData(e));
-          actions.addURL = (e) => dispatch(addData(e));
-          break;
-        case 'x':
-        case 'y':
-          actions.facet = (e) => dispatch(createFacet({[name]: e.target.dataset.opt}));
-          break;
-        case 'plugins':
-          actions.update = (e) => {
-            dispatch(togglePlugin(e.target.dataset.opt));
-          };
-          break;
-      }
-
-      const props = {
-          name: name,
-          val: val,
-          options: options[name],
-          isPopupShown: (popup === name),
-          actions: actions
-      };
-
-      return (
-        <ConfigProp key={name} {...props} />
-      )
-
-    });
+    //let configProp = _.mapValues(config, (val, name) => {
+    //
+    //  let actions = {
+    //    update: (e) => {dispatch(updateConfig({[name]: e.target.dataset.opt}))},
+    //    togglePopup: (e) => dispatch(togglePopup(name))
+    //  };
+    //
+    //  switch (name) {
+    //    case 'data':
+    //      actions.update = (e) => dispatch(switchDataset(e.target.dataset.opt));
+    //      actions.addFile = (e) => dispatch(addData(e));
+    //      actions.addURL = (e) => dispatch(addData(e));
+    //      break;
+    //    case 'x':
+    //    case 'y':
+    //      actions.facet = (e) => dispatch(createFacet({[name]: e.target.dataset.opt}));
+    //      break;
+    //    case 'plugins':
+    //      actions.update = (e) => {
+    //        dispatch(togglePlugin(e.target.dataset.opt));
+    //      };
+    //      break;
+    //  }
+    //
+    //  const props = {
+    //      name: name,
+    //      val: val,
+    //      options: options[name],
+    //      isPopupShown: (popup === name),
+    //      actions: actions
+    //  };
+    //
+    //  return (
+    //    <ConfigProp key={name} {...props} />
+    //  )
+    //
+    //});
 
     //Data states
     const labelsMatch = {
@@ -110,46 +110,52 @@ export default class CodeEditor extends Component {
       options: options,
       popup: popup,
       actions: {
-        togglePopup: (e) => dispatch(togglePopup(name)),
-        updateConfig: (e) => dispatch(updateConfig({[name]: e.target.dataset.opt})),
-        facet: (e) => dispatch(createFacet({[name]: e.target.dataset.opt})),
-        togglePlugin: (e) => dispatch(togglePlugin(e.target.dataset.opt))
+        togglePopup: (e) => {
+          const popupName = e.target.dataset.popup || e.target.parentNode.dataset.popup;
+          dispatch(togglePopup(popupName))
+        },
+        update: (e) => {
+          const opt = isNaN(e.target.dataset.opt) ? e.target.dataset.opt : +e.target.dataset.opt;
+          dispatch(updateConfig({[e.target.dataset.popup.replace('popup__','')]: opt}))
+        },
+        facet: (e) => dispatch(createFacet({[e.target.dataset.popup.replace('popup__','')]: e.target.dataset.opt})),
+        togglePlugin: (e) => {
+          const plugin = e.target.dataset.opt || e.target.parentNode.dataset.opt;
+          dispatch(togglePlugin(plugin))
+          }
       }
     };
 
     //ConfigTree
-    const configTree = (<ConfigTree {...configProps} />);
+    const configTree = (<ConfigTree {...configProps} dataPoint={dataPoint.transformed} />);
 
     return (
       <div className="code">
         <pre>
-          d3.csv({dataManager}, function({funcGenerator})&#123;{'\n'}
+          d3.csv({dataManager}, function({funcGenerator}){'{\n'}
           {funcEditor.parse}{'\n'}
           return row;{'\n'}
-          &#125;, function({dataPoint.parsed})&#123;{'\n'}
+          {'}'}, function({dataPoint.parsed}){'{\n'}
           {funcEditor.transform}{'\n'}
-          {'\n'}
           {configTree}
-          {'\n'}
-          {'\n'}
-          var chart = tauCharts.Chart(&#123;{'\n'}
-          {'  '}data:{'      '}{dataPoint.transformed},{'\n'}
-          {'  '}type:{'    '}{configProp.type},{'\n'}
-          {'  '}x:{'       '}{configProp.x},{'\n'}
-          {'  '}y:{'       '}{configProp.y},{'\n'}
-          {'  '}size:{'    '}{configProp.size},{'\n'}
-          {'  '}color:{'   '}{configProp.color},{'\n'}
-          {'  '}plugins:{' '}{configProp.plugins}{'\n'}
-          &#125;);{'\n'}
           chart.renderTo('#container');{'\n'}
-          &#125;)
+          {'}'})
         </pre>
       </div>
     )
   }
 
+//var chart = tauCharts.Chart(&#123;{'\n'}
+//{'  '}data:{'      '}{dataPoint.transformed},{'\n'}
+//{'  '}type:{'    '}{configProp.type},{'\n'}
+//{'  '}x:{'       '}{configProp.x},{'\n'}
+//{'  '}y:{'       '}{configProp.y},{'\n'}
+//{'  '}size:{'    '}{configProp.size},{'\n'}
+//{'  '}color:{'   '}{configProp.color},{'\n'}
+//{'  '}plugins:{' '}{configProp.plugins}{'\n'}
+
   componentDidUpdate () {
-    console.log('editor updated');
+    //console.log('editor updated');
   }
 
   shouldComponentUpdate (nextProps, nextState) {

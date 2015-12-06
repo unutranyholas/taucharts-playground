@@ -6,7 +6,7 @@ import style from './OptionsMenu.css'
 
 export default class OptionsMenu extends Component {
   render() {
-    const {name, val, options, actions} = this.props;
+    const {name, val, options, actions, popupName} = this.props;
     let values = _.flatten([val]);
 
     let list = options.map((opt, i) => {
@@ -18,7 +18,7 @@ export default class OptionsMenu extends Component {
         case 'url-data':
           return (<ProvideURL key={i} action={actions.add} />);
         default:
-          return (<OptionsItem key={i} opt={opt} isSelected={isSelected} actions={actions} />)
+          return (<OptionsItem key={i} name={name} opt={opt} isSelected={isSelected} popupName={popupName} actions={actions} />)
       }
     });
 
@@ -59,15 +59,15 @@ class UploadFile extends Component {
 
 class OptionsItem extends Component {
   render() {
-    const {opt, isSelected, actions} = this.props;
+    const {name, opt, isSelected, actions, popupName} = this.props;
     const actionsList = _.keys(actions);
-    const facetButton = (actionsList.indexOf('facet') > -1 && !isSelected) ? (<a href="javascript: void 0" onClick={actions.facet} data-opt={opt} className="add"> </a>) : null;
+    const facetButton = ((name === 'x' || name==='y') && !isSelected) ? (<a href="javascript: void 0" onClick={actions.facet} data-opt={opt} data-popup={popupName} className="add"> </a>) : null;
     const mainAction = (actionsList.indexOf('switch') > -1) ? actions.switch : actions.update;
     const className = (isSelected) ? 'selected' : '';
 
     return (
       <li className={className}>
-        <a href="javascript: void 0" onClick={mainAction} data-opt={opt}>{opt}</a>{facetButton}
+        <a href="javascript: void 0" onClick={mainAction} data-opt={opt} data-popup={popupName}>{opt}</a>{facetButton}
       </li>
     )
   }

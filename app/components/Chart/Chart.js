@@ -32,7 +32,7 @@ export default class Chart extends Component {
     this.renderChart();
   }
   componentDidUpdate () {
-    console.log('chart updated');
+    //console.log('chart updated');
 
     this.chart.destroy();
     document.getElementById('chart').innerHTML = '';

@@ -10,7 +10,8 @@ import { App } from './components'
 let store = createStore(playgroundApp);
 
 store.subscribe(() => {
-        console.log('state', store.getState());
+        //console.log('state', store.getState());
+        //console.log('popup', store.getState().popup);
         //console.log('config', store.getState().config);
         //console.log('datasets', store.getState().datasets);
         //console.log('options', store.getState().options);

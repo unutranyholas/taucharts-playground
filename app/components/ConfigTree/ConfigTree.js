@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
-import { OptionsMenu } from '../'
+import { OptionsMenu, DataPoint } from '../'
 import style from './ConfigTree.css'
 import _ from 'lodash'
 
 export default class ConfigTree extends Component {
   render() {
 
-    const {config, options, popup, actions} = this.props;
+    const {config, options, popup, actions, dataPoint} = this.props;
     const props = {
       name: '',
       val: config,
       options: options,
       popup: popup,
-      popupName: '',
+      popupName: 'popup',
       actions: actions,
-      indent: ''
+      indent: '',
+      dataPoint: dataPoint
     };
 
     return (
@@ -26,7 +27,7 @@ export default class ConfigTree extends Component {
 class Obj extends Component {
   render() {
 
-    const {name, val, options, popup, popupName, actions, indent} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, dataPoint} = this.props;
     const objProps = _.pairs(val).filter(item => item[0] !== 'data').map((item, i) => {
 
       const key = item[0];
@@ -72,13 +73,15 @@ class Obj extends Component {
       }
     });
 
-    const initName = (name === '') ? 'var chart = tauCharts.Chart(' : name + ': ';
+    const brackets = (name === '') ? ['var chart = tauCharts.Chart({', '});'] : [name + ': {', '},'];
+    const transformed = (name === '') ? (<span>{'  '}data: {dataPoint},{'\n'}</span>) : null;
 
     return (
       <span>
-        {indent}{initName}{'{\n'}
+        {indent}{brackets[0]}{'\n'}
+        {transformed}
         {objProps}
-        {indent}{'},\n'}
+        {indent}{brackets[1]}{'\n'}
       </span>
     )
   }
@@ -88,8 +91,17 @@ class Null extends Component {
   render() {
     const {name, val, options, popup, popupName, actions, indent} = this.props;
 
+    const isPopupShown = (popupName === popup);
+    const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
+    const className = (isPopupShown) ? 'active' : null;
+
     return (
-      <span>{indent}{name}:{' '}null,{'\n'}</span>
+      <span>{indent}{name}:{' '}
+        <span className={className}>{optionsMenu}
+        <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>null</a>
+          ,{'\n'}
+        </span>
+      </span>
     )
   }
 }
@@ -98,8 +110,17 @@ class Number extends Component {
   render() {
     const {name, val, options, popup, popupName, actions, indent} = this.props;
 
+    const isPopupShown = (popupName === popup);
+    const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
+    const className = (isPopupShown) ? 'active' : null;
+
     return (
-      <span>{indent}{name}:{'  '}{val},{'\n'}</span>
+      <span>{indent}{name}:{' '}
+        <span className={className}>{optionsMenu}
+          <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>{val}</a>
+          ,{'\n'}
+        </span>
+      </span>
     )
   }
 }
@@ -108,8 +129,17 @@ class String extends Component {
   render() {
     const {name, val, options, popup, popupName, actions, indent} = this.props;
 
+    const isPopupShown = (popupName === popup);
+    const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
+    const className = (isPopupShown) ? 'active' : null;
+
     return (
-      <span>{indent}{name}:{' '}'{val}',{'\n'}</span>
+      <span>{indent}{name}:{' '}
+        <span className={className}>{optionsMenu}
+          <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>'{val}'</a>
+          ,{'\n'}
+        </span>
+      </span>
     )
   }
 }
@@ -117,18 +147,24 @@ class String extends Component {
 class Array extends Component {
   render() {
     const {name, val, options, popup, popupName, actions, indent} = this.props;
+
+    const isPopupShown = (popupName === popup);
+    const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
+    const className = (isPopupShown) ? 'active' : null;
+
     let comb;
 
     switch (name) {
       case 'plugins':
         comb = options.map((opt, i) => {
+          const isSelected = (val.indexOf(opt) > -1);
           return (
-            <PluginString key={i} opt={opt} indent={indent}/>
+            <PluginString key={i} opt={opt} indent={indent} isSelected={isSelected} actions={actions}  />
           )
         });
         return (
           <span>
-            {indent}{name}:[{'\n'}
+            {indent}{name}: [{'\n'}
             {comb}
             {indent}],{'\n'}
           </span>
@@ -137,9 +173,11 @@ class Array extends Component {
         comb = val.map(v => '\'' + v + '\'').join(', ');
         return (
           <span>
-            {indent}{name}: [
-            {comb}
-            ],{'\n'}
+            {indent}{name}:
+            <span className={className}>{optionsMenu}
+              <a href="javascript: void 0">[{comb}]</a>
+              ,{'\n'}
+            </span>
           </span>
         )
     }
@@ -148,9 +186,11 @@ class Array extends Component {
 
 class PluginString extends Component {
   render() {
-    const {opt, indent, actions} = this.props;
+    const {opt, indent, isSelected, actions} = this.props;
+    const before = isSelected ? indent : (indent.substr(0, indent.length - 2) + '//');
+    const className = isSelected ? '' : 'disabled';
     return (
-      <span>{indent}{indent}tauCharts.api.plugins.get('<span>{opt}</span>')(),{'\n'}</span>
+      <span className={className}>{indent}{before}tauCharts.api.plugins.get(<a href="javascript: void 0" onClick={actions.togglePlugin} data-opt={opt}>'<span>{opt}</span>'</a>)(),{'\n'}</span>
     )
   }
 }
