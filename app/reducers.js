@@ -36,7 +36,7 @@ const initState = {
         textAnchor: 'middle',
         padding: 20,
         rotate: 0,
-        tickFormat: 'x-time-auto'
+        //tickFormat: 'x-time-auto'
       },
       y: {
         label: {
@@ -46,7 +46,7 @@ const initState = {
         textAnchor: 'end',
         padding: 20,
         rotate: 0,
-        tickFormat: 'x-num-auto'
+        //tickFormat: 'x-num-auto'
       },
       showGridLines: 'xy'
     }
@@ -73,30 +73,30 @@ const initState = {
     guide: {
       interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone'],
       padding: {
-        l: [0, 10, 20, 30, 40, 50],
-        t: [0, 10, 20, 30, 40, 50],
-        r: [0, 10, 20, 30, 40, 50],
-        b: [0, 10, 20, 30, 40, 50]
+        l: {min: 0, max: 200, step: 10, decimals: 0},
+        t: {min: 0, max: 200, step: 10, decimals: 0},
+        r: {min: 0, max: 200, step: 10, decimals: 0},
+        b: {min: 0, max: 200, step: 10, decimals: 0}
       },
       x: {
         label: {
           text: ['X', 'abrssddbjs'],
-          padding: [0, 10, 20, 30, 40, 50]
+          padding: {min: 0, max: 50, step: 2, decimals: 0}
         },
         textAnchor: ['start', 'middle', 'end'],
-        padding: [0, 10, 20, 30, 40, 50],
-        rotate: [0, 30, 45, 60, 90],
-        tickFormat: ['x-time-auto', 'x-num-auto']
+        padding: {min: 0, max: 50, step: 2, decimals: 0},
+        rotate: {min: 0, max: 360, step: 30, decimals: 0},
+        //tickFormat: ['x-time-auto', 'x-num-auto']
       },
       y: {
         label: {
           text: ['Y'],
-          padding: [0, 10, 20, 30, 40, 50]
+          padding: {min: 0, max: 50, step: 2, decimals: 0}
         },
         textAnchor: ['start', 'middle', 'end'],
-        padding: [0, 10, 20, 30, 40, 50],
-        rotate: [0, 30, 45, 60, 90],
-        tickFormat: ['x-time-auto', 'x-num-auto']
+        padding: {min: 0, max: 50, step: 2, decimals: 0},
+        rotate: {min: 0, max: 360, step: 30, decimals: 0},
+        //tickFormat: ['x-time-auto', 'x-num-auto']
       },
       showGridLines: ['xy', 'x', 'y', 'none']
     }

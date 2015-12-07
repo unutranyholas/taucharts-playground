@@ -110,49 +110,47 @@ class Null extends Component {
 class Number extends Component {
   constructor(props) {
     super();
-    this._onNumberChange = this._onNumberChange.bind(this);
-    this._onKeyDown = this._onKeyDown.bind(this);
+    this.onNumberChange = this.onNumberChange.bind(this);
+    this.onKeyDown = this.onKeyDown.bind(this);
 
     this.state = {
       numberValue: props.val,
-      size: (props.val.toString().length / 2) + 'em'
+      size: (props.val.toString().length / 2 + 0.4) + 'em'
     };
-  }
-
-  _onNumberChange(value) {
-
-    this.setState({
-      numberValue: value,
-      size: (value.toString().length / 2) + 'em'
-    });
-    this.props.actions.updateNumber({[this.props.popupName.replace('popup__','')]: +value});
-
   }
 
   render() {
     const {name, val, options, popup, popupName, actions, indent} = this.props;
 
-    const isPopupShown = (popupName === popup);
-    const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
-    const className = (isPopupShown) ? 'active' : null;
+    const className = (popupName === popup) ? 'active' : null;
 
     return (
-      <span>{indent}{name}:{' '}
-        <span className={className}>{optionsMenu}
-          <NumberEditor value={this.state.numberValue} style={{width: this.state.size}} min={0} max={200} step={10} decimals={0} size={3} onValueChange={this._onNumberChange} />
+      <span className="number">{indent}{name}:{' '}
+        <span class={className}>
+          <NumberEditor {...options} value={this.state.numberValue} style={{width: this.state.size}} onValueChange={this.onNumberChange} />
           ,{'\n'}
         </span>
       </span>
     )
   }
 
-  _onKeyDown(e) {
+  onNumberChange(value) {
+
+    this.setState({
+      numberValue: value,
+      size: (value.toString().length / 2 + 0.4) + 'em'
+    });
+    this.props.actions.updateNumber({[this.props.popupName.replace('popup__','')]: +value});
+    this.props.actions.highlightField(this.props.popupName);
+  }
+
+  onKeyDown(e) {
     var key = e.which;
     var value = this.state.numberValue;
     if(key === KEYS.K) {
-      this._onNumberChange(value * 1000);
+      this.onNumberChange(value * 1000);
     } else if(key === KEYS.M) {
-      this._onNumberChange(value * 1000000);
+      this.onNumberChange(value * 1000000);
     }
   }
 }

@@ -51,7 +51,7 @@ class UploadFile extends Component {
     const {action} = this.props;
     return (
       <li className="sep">
-        <input type="file" onChange={this.props.action} accept="text/csv,text/json" />
+        <input type="file" onChange={this.props.action} accept="text/csv,text/json,text/plain" />
       </li>
     )
   }

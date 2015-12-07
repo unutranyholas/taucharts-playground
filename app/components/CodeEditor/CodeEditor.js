@@ -114,13 +114,15 @@ export default class CodeEditor extends Component {
           const popupName = e.target.dataset.popup || e.target.parentNode.dataset.popup;
           dispatch(togglePopup(popupName))
         },
+        highlightField: (popupName) => {
+          dispatch(togglePopup(popupName))
+        },
         update: (e) => {
           console.log(e);
           const opt = isNaN(e.target.dataset.opt) ? e.target.dataset.opt : +e.target.dataset.opt;
           dispatch(updateConfig({[e.target.dataset.popup.replace('popup__','')]: opt}))
         },
         updateNumber: (changes) => {
-          console.log(changes);
           dispatch(updateConfig(changes))
         },
         facet: (e) => dispatch(createFacet({[e.target.dataset.popup.replace('popup__','')]: e.target.dataset.opt})),

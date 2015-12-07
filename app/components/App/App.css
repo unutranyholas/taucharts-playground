@@ -27,35 +27,42 @@ a {
 }
 
 .playground {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
+  //display: flex;
+  //flex-direction: row;
   box-sizing: border-box;
 }
 
 .playground {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-content: stretch;
-  align-items: flex-start;
+  //display: flex;
+  //flex-direction: row;
+  //flex-wrap: nowrap;
+  //justify-content: flex-start;
+  //align-content: stretch;
+  //align-items: flex-start;
 
   & > div:nth-child(1) {
-    order: 0;
-    flex: 0 1 $code-width;
-    min-width: $code-min-width;
-    align-self: auto;
+    //order: 0;
+    //flex: 0 1 $code-width;
+    //min-width: $code-min-width;
+    //align-self: auto;
     //height: 100%;
   }
 
   & > div:nth-child(2) {
-    order: 0;
-    flex: 1 1 auto;
-    align-self: auto;
-    height: 100%;
-
     background-color: $chart-bg-color;
+
+    //order: 0;
+    //flex: 1 1 auto;
+    //align-self: auto;
+    //height: 100%;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 25%;
+    z-index: 3;
+
   }
 }
 

@@ -4,7 +4,6 @@
   background-color: $code-bg-color;
   color: $code-text;
   padding: 30px 20px;
-  overflow-x: hidden;
 
   pre {
     line-height: calc($text-size + $lines-margin);
@@ -14,15 +13,5 @@
   a {
     color: $code-active;
     //display: inline-block;
-  }
-
-  input {
-    background-color: transparent;
-    color: $code-active;
-    font-size: $text-size;
-    border: none;
-    font-family: $code-font-family;
-    display: inline;
-    padding: 0;
   }
 }
