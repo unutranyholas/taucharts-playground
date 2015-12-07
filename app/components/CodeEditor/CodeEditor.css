@@ -22,7 +22,6 @@
     font-size: $text-size;
     border: none;
     font-family: $code-font-family;
-    width: 25px;
     display: inline;
   }
 }

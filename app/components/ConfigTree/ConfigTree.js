@@ -114,14 +114,16 @@ class Number extends Component {
     this._onKeyDown = this._onKeyDown.bind(this);
 
     this.state = {
-      numberValue: props.val
+      numberValue: props.val,
+      size: ((props.val.toString().length / 2) + 0.1) + 'em'
     };
   }
 
   _onNumberChange(value) {
 
     this.setState({
-      numberValue: value
+      numberValue: value,
+      size: ((value.toString().length / 2) + 0.1) + 'em'
     });
     this.props.actions.updateNumber({[this.props.popupName.replace('popup__','')]: +value});
 
@@ -137,7 +139,7 @@ class Number extends Component {
     return (
       <span>{indent}{name}:{' '}
         <span className={className}>{optionsMenu}
-          <NumberEditor value={this.state.numberValue} min={0} max={200} step={5} decimals={0} onValueChange={this._onNumberChange} />
+          <NumberEditor value={this.state.numberValue} style={{width: this.state.size}} min={0} max={200} step={10} decimals={0} size={3} onValueChange={this._onNumberChange} />
           ,{'\n'}
         </span>
       </span>
