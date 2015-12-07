@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { OptionsMenu, DataPoint } from '../'
+import NumberEditor from 'react-number-editor'
 import style from './ConfigTree.css'
 import _ from 'lodash'
 
@@ -107,6 +108,25 @@ class Null extends Component {
 }
 
 class Number extends Component {
+  constructor(props) {
+    super();
+    this._onNumberChange = this._onNumberChange.bind(this);
+    this._onKeyDown = this._onKeyDown.bind(this);
+
+    this.state = {
+      numberValue: props.val
+    };
+  }
+
+  _onNumberChange(value) {
+
+    this.setState({
+      numberValue: value
+    });
+    this.props.actions.updateNumber({[this.props.popupName.replace('popup__','')]: +value});
+
+  }
+
   render() {
     const {name, val, options, popup, popupName, actions, indent} = this.props;
 
@@ -117,13 +137,26 @@ class Number extends Component {
     return (
       <span>{indent}{name}:{' '}
         <span className={className}>{optionsMenu}
-          <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>{val}</a>
+          <NumberEditor value={this.state.numberValue} min={0} max={200} step={5} decimals={0} onValueChange={this._onNumberChange} />
           ,{'\n'}
         </span>
       </span>
     )
   }
+
+  _onKeyDown(e) {
+    var key = e.which;
+    var value = this.state.numberValue;
+    if(key === KEYS.K) {
+      this._onNumberChange(value * 1000);
+    } else if(key === KEYS.M) {
+      this._onNumberChange(value * 1000000);
+    }
+  }
 }
+
+//          <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>{val}</a>
+
 
 class String extends Component {
   render() {

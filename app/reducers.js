@@ -86,7 +86,7 @@ const initState = {
         textAnchor: ['start', 'middle', 'end'],
         padding: [0, 10, 20, 30, 40, 50],
         rotate: [0, 30, 45, 60, 90],
-        tickFormat: ['x-time-auto']
+        tickFormat: ['x-time-auto', 'x-num-auto']
       },
       y: {
         label: {
@@ -96,7 +96,7 @@ const initState = {
         textAnchor: ['start', 'middle', 'end'],
         padding: [0, 10, 20, 30, 40, 50],
         rotate: [0, 30, 45, 60, 90],
-        tickFormat: ['x-num-auto']
+        tickFormat: ['x-time-auto', 'x-num-auto']
       },
       showGridLines: ['xy', 'x', 'y', 'none']
     }
@@ -141,8 +141,6 @@ var prepareData = (data, functions) => {
     transformed: transformedData
   };
 };
-
-
 
 function playground(state = initState.main, action) {
   const datasets = state.datasets;

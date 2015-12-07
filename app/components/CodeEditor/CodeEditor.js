@@ -115,8 +115,13 @@ export default class CodeEditor extends Component {
           dispatch(togglePopup(popupName))
         },
         update: (e) => {
+          console.log(e);
           const opt = isNaN(e.target.dataset.opt) ? e.target.dataset.opt : +e.target.dataset.opt;
           dispatch(updateConfig({[e.target.dataset.popup.replace('popup__','')]: opt}))
+        },
+        updateNumber: (changes) => {
+          console.log(changes);
+          dispatch(updateConfig(changes))
         },
         facet: (e) => dispatch(createFacet({[e.target.dataset.popup.replace('popup__','')]: e.target.dataset.opt})),
         togglePlugin: (e) => {

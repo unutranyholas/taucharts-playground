@@ -82,8 +82,5 @@ export default class DataManager extends Component {
       default:
         console.log(e);
     }
-
   }
-
-
 }
