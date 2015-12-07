@@ -23,5 +23,6 @@
     border: none;
     font-family: $code-font-family;
     display: inline;
+    padding: 0;
   }
 }

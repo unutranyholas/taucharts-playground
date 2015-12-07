@@ -115,7 +115,7 @@ class Number extends Component {
 
     this.state = {
       numberValue: props.val,
-      size: ((props.val.toString().length / 2) + 0.1) + 'em'
+      size: (props.val.toString().length / 2) + 'em'
     };
   }
 
@@ -123,7 +123,7 @@ class Number extends Component {
 
     this.setState({
       numberValue: value,
-      size: ((value.toString().length / 2) + 0.1) + 'em'
+      size: (value.toString().length / 2) + 'em'
     });
     this.props.actions.updateNumber({[this.props.popupName.replace('popup__','')]: +value});
 
