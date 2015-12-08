@@ -12,9 +12,10 @@ const initState = {
   config: {
     data: null,
     type: 'scatterplot',
-    x: 'cats',
-    y: 'dogs',
+    x: null,
+    y: null,
     size: null,
+    columns: [],
     color: null,
     plugins: ['tooltip', 'legend'],
     settings: {
@@ -146,7 +147,7 @@ function playground(state = initState.main, action) {
   const datasets = state.datasets;
   const curData = state.currentData;
 
-  let prop, newValue, curConfig, curValue, path, changes;
+  let prop, newValue, newDims, curConfig, curValue, path, changes;
 
   switch (action.type) {
     case 'ADD_DATASET':
@@ -155,6 +156,7 @@ function playground(state = initState.main, action) {
         $merge: {
           x: keys[0],
           y: keys[1],
+          columns: [keys[0], keys[1]],
           data: action.name,
           type: 'scatterplot'
         }
@@ -202,28 +204,100 @@ function playground(state = initState.main, action) {
 
       prop = _.pairs(action.changes)[0][0];
       newValue = _.pairs(action.changes)[0][1];
-      path = ['datasets', curData, 'config'].concat(prop.split('__'));
 
       curConfig = datasets[curData].config;
       curValue = curConfig[prop];
 
-      if(_.isArray(curValue)) {
-        const updated = toggleArray(curValue, newValue).slice(-2);
-        newValue = (updated.length < 2) ? updated[0] : updated;
+      const curDims = {
+        x: curConfig.x,
+        y: curConfig.y,
+        size: curConfig.size,
+        columns: curConfig.columns
+      };
+
+      switch (prop) {
+        case 'x':
+        case 'y':
+        case 'size':
+          newDims = update(curDims, {$merge: action.changes});
+          newDims.columns = _.chain(newDims).pairs().filter(i => i[0]!=='columns').map(i => i[1]).flatten().compact().uniq().value();
+
+          changes = {datasets: {[curData]: {config: {$merge: newDims}}}};
+          break;
+        case 'columns':
+          newDims = update(curDims, {columns: {$set: toggleArray(curDims.columns, newValue)}});
+          newDims.x = newDims.columns[0];
+          newDims.y = newDims.columns[1];
+          newDims.size = newDims.columns[2] || null;
+
+          changes = {datasets: {[curData]: {config: {$merge: newDims}}}};
+          break;
+        default:
+          path = ['datasets', curData, 'config'].concat(prop.split('__'));
+          changes = _.reduceRight(path, function (memo, arrayValue) {
+            var obj = {};
+            obj[arrayValue] = memo;
+            return obj;
+          }, {$set: newValue});
+          break;
       }
 
-      if (curConfig.color === action.changes.color) {
-        newValue = null;
-      }
-      if (curConfig.size === action.changes.size) {
-        newValue = null;
-      }
+      //TODO: implement facets, color, size, and smart switching x/y
 
-      changes = _.reduceRight(path, function (memo, arrayValue) {
-        var obj = {};
-        obj[arrayValue] = memo;
-        return obj;
-      }, {$set: newValue});
+      //switch (updatedState.datasets[curData].config.type) {
+      //  case 'parallel':
+      //    delete updatedState.datasets[curData].config.x;
+      //    delete updatedState.datasets[curData].config.y;
+      //    delete updatedState.datasets[curData].config.size;
+      //    break;
+      //  default:
+      //    delete updatedState.datasets[curData].config.columns;
+      //}
+
+
+      //
+      //
+      //path = ['datasets', curData, 'config'].concat(prop.split('__'));
+      //
+      //curConfig = datasets[curData].config;
+      //curValue = curConfig[prop];
+
+      //const curDimensions = {
+      //  x: curConfig.x,
+      //  y: curConfig.y,
+      //  color: curConfig.color,
+      //  size: curConfig.size
+      //};
+      //
+      //const newDimensions = update(curDimensions, {[prop]: {$set: newValue}});
+
+      //if(_.isArray(curValue)) {
+      //  const updated = toggleArray(curValue, newValue).slice(-2);
+      //  newValue = (updated.length < 2) ? updated[0] : updated;
+      //}
+      //
+      //if (curConfig.color === action.changes.color) {
+      //  newValue = null;
+      //}
+      //if (curConfig.size === action.changes.size) {
+      //  newValue = null;
+      //}
+
+      //changes = _.reduceRight(path, function (memo, arrayValue) {
+      //  var obj = {};
+      //  obj[arrayValue] = memo;
+      //  return obj;
+      //}, {$set: newValue});
+
+      //if (prop === 'type' && newValue ==='parallel') {
+      //  console.log(123);
+      //  changes = {datasets: {[curData]: {config: {$merge: {columns: _.compact([curConfig.x, curConfig.y, curConfig.color, curConfig.size]), type: 'parallel'}}}}};
+      //  delete curConfig.x;
+      //  delete curConfig.y;
+      //  delete curConfig.color;
+      //  delete curConfig.size;
+      //  console.log(changes);
+      //}
 
       //if (config.x === action.changes.y) {
       //  changes = update(changes, {$merge: {x: state.y}})
@@ -235,7 +309,6 @@ function playground(state = initState.main, action) {
       ////if (state.y === action.changes.x) {
       ////  changes = update(changes, {$merge: {y: state.x}})
       ////}
-      ////TODO: fix smart switching
 
       return update(state, changes);
 

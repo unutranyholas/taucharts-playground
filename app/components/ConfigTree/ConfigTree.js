@@ -29,7 +29,16 @@ class Obj extends Component {
   render() {
 
     const {name, val, options, popup, popupName, actions, indent, dataPoint} = this.props;
-    const objProps = _.pairs(val).filter(item => item[0] !== 'data').map((item, i) => {
+    const objProps = _.pairs(val)
+      .filter(item => item[0] !== 'data')
+      .filter(item => {
+        if (name !== '') {return true}
+        else {
+          const exclude = (val.type === 'parallel') ? ['x', 'y', 'size'] : ['columns'];
+          return exclude.indexOf(item[0]) === -1
+        }
+      })
+      .map((item, i) => {
 
       const key = item[0];
       const value = item[1];
@@ -154,8 +163,6 @@ class Number extends Component {
     }
   }
 }
-
-//          <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>{val}</a>
 
 
 class String extends Component {
