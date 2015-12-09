@@ -179,7 +179,8 @@ function playground(state = initState.main, action) {
           x: keys,
           y: keys,
           size: keys,
-          color: keys
+          color: keys,
+          columns: keys
         }
       });
 

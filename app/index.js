@@ -29,17 +29,8 @@ render(
   rootElement
 );
 
-store.dispatch(togglePopup('x'));
-store.dispatch(togglePopup('y'));
-store.dispatch(togglePopup('y'));
-store.dispatch(togglePopup('menu'));
-store.dispatch(togglePopup('blablabla'));
-
 store.dispatch(addDataset('catsVsDogs.csv',[{cats: 12, dogs: 42, year: 2013}, {cats: 5, dogs: 15, year: 2014}, {cats: 17, dogs: 11, year: 2015}]));
 store.dispatch(addDataset('comets.csv',[{name: 'zzzz', orbit: 12, weight: 18}, {name: 'kkkk', orbit: 29, weight: 331}, {name: 'ssss', orbit: 927, weight: 8472}]));
-
-store.dispatch(switchDataset('catsVsDogs.csv'));
-store.dispatch(switchDataset('comets.csv'));
 
 
 

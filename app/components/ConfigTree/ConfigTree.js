@@ -192,6 +192,12 @@ class Array extends Component {
     const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
     const className = (isPopupShown) ? 'active' : null;
 
+
+    console.log('options',options);
+    console.log('popupName',popupName);
+    console.log('popup',popup);
+    console.log('optionsmenu',optionsMenu);
+
     let comb;
 
     switch (name) {
@@ -215,7 +221,7 @@ class Array extends Component {
           <span>
             {indent}{name}:
             <span className={className}>{optionsMenu}
-              <a href="javascript: void 0">[{comb}]</a>
+              <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>[{comb}]</a>
               ,{'\n'}
             </span>
           </span>
