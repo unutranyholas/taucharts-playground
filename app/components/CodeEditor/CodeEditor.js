@@ -118,9 +118,18 @@ export default class CodeEditor extends Component {
           dispatch(togglePopup(popupName))
         },
         update: (e) => {
-          const opt = isNaN(e.target.dataset.opt) ? e.target.dataset.opt : +e.target.dataset.opt;
+          let opt = isNaN(e.target.dataset.opt) ? e.target.dataset.opt : +e.target.dataset.opt;
           dispatch(updateConfig({[e.target.dataset.popup.replace('popup__','')]: opt}))
         },
+        toggleBool: (e) => {
+
+          console.log(e.target.dataset.opt);
+          const result = (e.target.dataset.opt !== 'true');
+          dispatch(updateConfig({[e.target.dataset.popup.replace('popup__','')]: result}))
+        },
+    //    opt = (opt === 'true') ? true : opt;
+    //opt = (opt === 'false') ? false : opt;
+
         updateNumber: (changes) => {
           dispatch(updateConfig(changes))
         },

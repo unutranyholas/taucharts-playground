@@ -29,6 +29,7 @@ const initState = {
         r: 30,
         b: 90
       },
+      showGridLines: 'xy',
       x: {
         label: {
           text: 'X',
@@ -37,6 +38,7 @@ const initState = {
         textAnchor: 'middle',
         padding: 20,
         rotate: 0,
+        autoScale: false
         //tickFormat: 'x-time-auto'
       },
       y: {
@@ -47,9 +49,12 @@ const initState = {
         textAnchor: 'end',
         padding: 20,
         rotate: 0,
+        autoScale: false
         //tickFormat: 'x-num-auto'
       },
-      showGridLines: 'xy'
+      color: {
+        brewer: ['color-red', 'color-green', 'color-blue']
+      }
     }
   },
   functions: {
@@ -79,6 +84,7 @@ const initState = {
         r: {min: 0, max: 200, step: 10, decimals: 0},
         b: {min: 0, max: 200, step: 10, decimals: 0}
       },
+      showGridLines: ['xy', 'x', 'y', 'none'],
       x: {
         label: {
           text: ['X', 'abrssddbjs'],
@@ -87,6 +93,7 @@ const initState = {
         textAnchor: ['start', 'middle', 'end'],
         padding: {min: 0, max: 50, step: 2, decimals: 0},
         rotate: {min: 0, max: 360, step: 30, decimals: 0},
+        autoScale: [false, true]
         //tickFormat: ['x-time-auto', 'x-num-auto']
       },
       y: {
@@ -97,9 +104,12 @@ const initState = {
         textAnchor: ['start', 'middle', 'end'],
         padding: {min: 0, max: 50, step: 2, decimals: 0},
         rotate: {min: 0, max: 360, step: 30, decimals: 0},
+        autoScale: [false, true]
         //tickFormat: ['x-time-auto', 'x-num-auto']
       },
-      showGridLines: ['xy', 'x', 'y', 'none']
+      color: {
+        brewer: ['color-red', 'color-green', 'color-blue']
+      }
     }
   }
 };

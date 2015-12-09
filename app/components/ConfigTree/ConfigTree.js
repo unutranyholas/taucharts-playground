@@ -42,7 +42,7 @@ class Obj extends Component {
 
       const key = item[0];
       const value = item[1];
-      const type = _.isArray(value) && 'array' || _.isObject(value) && 'object' || _.isString(value) && 'string' || _.isNumber(value) && 'number' || _.isNull(value) && 'null';
+      const type = _.isArray(value) && 'array' || _.isObject(value) && 'object' || _.isString(value) && 'string' || _.isNumber(value) && 'number' || _.isBoolean(value) && 'bool' || (_.isNull(value)) && 'null';
 
       const props = {
         key: i,
@@ -67,6 +67,10 @@ class Obj extends Component {
         case 'number':
           return (
             <Number {...props} />
+          );
+        case 'bool':
+          return (
+            <Boolean {...props} />
           );
         case 'array':
           return (
@@ -109,6 +113,29 @@ class Null extends Component {
       <span>{indent}{name}:{' '}
         <span className={className}>{optionsMenu}
         <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>null</a>
+          ,{'\n'}
+        </span>
+      </span>
+    )
+  }
+}
+
+class Boolean extends Component {
+  render() {
+    const {name, val, options, popup, popupName, actions, indent} = this.props;
+
+    const strVal = val.toString();
+    const strOptions = options.map(o => o.toString());
+
+    const isPopupShown = (popupName === popup);
+    //const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} val={strVal} options={strOptions} />) : null;
+    const className = (isPopupShown) ? 'active' : null;
+
+
+    return (
+      <span>{indent}{name}:{' '}
+        <span className={className}>
+          <a href="javascript: void 0" data-popup={popupName} data-opt={strVal} onClick={actions.toggleBool}>{strVal}</a>
           ,{'\n'}
         </span>
       </span>
