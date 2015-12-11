@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { OptionsMenu, DataPoint } from '../'
-import NumberEditor from 'react-number-editor'
+import NumberEditor from '../../vendor/NumberEditor'
 import style from './ConfigTree.css'
 import _ from 'lodash'
 
