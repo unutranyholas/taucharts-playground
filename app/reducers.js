@@ -38,8 +38,9 @@ const initState = {
         textAnchor: 'middle',
         padding: 20,
         rotate: 0,
-        autoScale: false
-        //tickFormat: 'x-time-auto'
+        autoScale: false,
+        tickPeriod: null,
+        tickFormat: null
       },
       y: {
         label: {
@@ -49,8 +50,9 @@ const initState = {
         textAnchor: 'end',
         padding: 20,
         rotate: 0,
-        autoScale: false
-        //tickFormat: 'x-num-auto'
+        autoScale: false,
+        tickPeriod: null,
+        tickFormat: null
       },
       color: {
         brewer: ['color-red', 'color-green', 'color-blue']
@@ -87,14 +89,15 @@ const initState = {
       showGridLines: ['xy', 'x', 'y', 'none'],
       x: {
         label: {
-          text: ['X', 'abrssddbjs'],
+          text: ['X'],
           padding: {min: 0, max: 50, step: 2, decimals: 0}
         },
         textAnchor: ['start', 'middle', 'end'],
         padding: {min: 0, max: 50, step: 2, decimals: 0},
         rotate: {min: 0, max: 360, step: 30, decimals: 0},
-        autoScale: [false, true]
-        //tickFormat: ['x-time-auto', 'x-num-auto']
+        autoScale: [false, true],
+        tickPeriod: ['day', 'week', 'month', 'quarter', 'year'],
+        tickFormat: ['g', 'f', 'd', 'r', 's']
       },
       y: {
         label: {
@@ -104,8 +107,9 @@ const initState = {
         textAnchor: ['start', 'middle', 'end'],
         padding: {min: 0, max: 50, step: 2, decimals: 0},
         rotate: {min: 0, max: 360, step: 30, decimals: 0},
-        autoScale: [false, true]
-        //tickFormat: ['x-time-auto', 'x-num-auto']
+        autoScale: [false, true],
+        tickPeriod: ['day', 'week', 'month', 'quarter', 'year'],
+        tickFormat: ['g', 'f', 'd', 'r', 's']
       },
       color: {
         brewer: ['color-red', 'color-green', 'color-blue']
