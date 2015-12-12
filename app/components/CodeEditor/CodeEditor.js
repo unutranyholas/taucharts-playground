@@ -133,6 +133,10 @@ export default class CodeEditor extends Component {
         updateNumber: (changes) => {
           dispatch(updateConfig(changes))
         },
+        updateString: (changes) => {
+          console.log(changes);
+          dispatch(updateConfig(changes))
+        },
         facet: (e) => dispatch(createFacet({[e.target.dataset.popup.replace('popup__','')]: e.target.dataset.opt})),
         togglePlugin: (e) => {
           const plugin = e.target.dataset.opt || e.target.parentNode.dataset.opt;

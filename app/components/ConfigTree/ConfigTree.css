@@ -66,4 +66,19 @@ pre {
       transition: none;
     }
   }
+
+  .string input {
+    background-color: transparent;
+    color: $code-active;
+    font-size: $text-size;
+    border: none;
+    font-family: $code-font-family;
+    padding: 2px 0 2px 0.2em;
+    margin: 0 -0.1em 0 -0.2em;
+
+    &:focus{
+      outline: none;
+      color: $code-text;
+    }
+  }
 }

@@ -89,7 +89,7 @@ const initState = {
       showGridLines: ['xy', 'x', 'y', 'none'],
       x: {
         label: {
-          text: ['X'],
+          text: {},
           padding: {min: 0, max: 50, step: 2, decimals: 0}
         },
         textAnchor: ['start', 'middle', 'end'],
@@ -101,7 +101,7 @@ const initState = {
       },
       y: {
         label: {
-          text: ['Y'],
+          text: {},
           padding: {min: 0, max: 50, step: 2, decimals: 0}
         },
         textAnchor: ['start', 'middle', 'end'],
@@ -161,7 +161,8 @@ function playground(state = initState.main, action) {
   const datasets = state.datasets;
   const curData = state.currentData;
 
-  let prop, newValue, newDims, curConfig, curValue, path, changes;
+  let prop, newValue, newDims, curConfig, curValue, path,
+    changes = [];
 
   switch (action.type) {
     case 'ADD_DATASET':
@@ -237,7 +238,8 @@ function playground(state = initState.main, action) {
           newDims = update(curDims, {$merge: action.changes});
           newDims.columns = _.chain(newDims).pairs().filter(i => i[0]!=='columns').map(i => i[1]).flatten().compact().uniq().value();
 
-          changes = {datasets: {[curData]: {config: {$merge: newDims}}}};
+          changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
+          //changes.push({datasets: {[curData]: {config: {guide: {[prop]: {label: {text: {$set: newDims[prop]}}}}}}}});
           break;
         case 'columns':
           newDims = update(curDims, {columns: {$set: toggleArray(curDims.columns, newValue)}});
@@ -245,15 +247,15 @@ function playground(state = initState.main, action) {
           newDims.y = newDims.columns[1];
           newDims.size = newDims.columns[2] || null;
 
-          changes = {datasets: {[curData]: {config: {$merge: newDims}}}};
+          changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
           break;
         default:
           path = ['datasets', curData, 'config'].concat(prop.split('__'));
-          changes = _.reduceRight(path, function (memo, arrayValue) {
+          changes.push(_.reduceRight(path, function (memo, arrayValue) {
             var obj = {};
             obj[arrayValue] = memo;
             return obj;
-          }, {$set: newValue});
+          }, {$set: newValue}));
           break;
       }
 
@@ -325,7 +327,11 @@ function playground(state = initState.main, action) {
       ////  changes = update(changes, {$merge: {y: state.x}})
       ////}
 
-      return update(state, changes);
+      console.log('changes',changes);
+      const updated = changes.reduce((state, change) => { return update(state, change) }, state);
+      console.log('updated', updated);
+
+      return updated;
 
 
     case 'CREATE_FACET':

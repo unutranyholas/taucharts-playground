@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { OptionsMenu, DataPoint } from '../'
 import NumberEditor from '../../vendor/NumberEditor'
+import AutosizeInput from 'react-input-autosize'
 import style from './ConfigTree.css'
 import _ from 'lodash'
 
@@ -193,22 +194,64 @@ class Number extends Component {
 
 
 class String extends Component {
+
+  constructor(props) {
+    super();
+    this.onChange = this.onChange.bind(this);
+    this.toggleFocus = this.toggleFocus.bind(this);
+    this.moveFocus = this.moveFocus.bind(this);
+
+    this.state = {
+      value: props.val,
+    };
+  }
+
   render() {
     const {name, val, options, popup, popupName, actions, indent} = this.props;
 
     const isPopupShown = (popupName === popup);
-    const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
     const className = (isPopupShown) ? 'active' : null;
 
-    return (
-      <span>{indent}{name}:{' '}
+    if (_.isArray(options)) {
+
+      const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
+
+      return (
+        <span>{indent}{name}:{' '}
         <span className={className}>{optionsMenu}
           <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>'{val}'</a>
           ,{'\n'}
         </span>
       </span>
-    )
+      )
+    } else {
+      return (
+        <span className="string">{indent}{name}:{' '}
+        <span className={className}>
+          <a href="javascript: void 0" onClick={this.moveFocus}>'<AutosizeInput value={this.state.value} onFocus={this.toggleFocus} onBlur={this.toggleFocus} onChange={e => { this.onChange(e.target.value) }} />'</a>
+          ,{'\n'}
+        </span>
+      </span>
+      )
+    }
   }
+
+  onChange(value) {
+
+    this.setState({
+      value: value,
+    });
+    this.props.actions.updateString({[this.props.popupName.replace('popup__','')]: value});
+  }
+
+  toggleFocus() {
+    this.props.actions.highlightField(this.props.popupName);
+  }
+
+  moveFocus(e) {
+    e.target.parentNode.querySelector('input').focus();
+  }
+
 }
 
 class Array extends Component {
