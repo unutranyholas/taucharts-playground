@@ -56,6 +56,8 @@ class Obj extends Component {
         indent: indent + '  '
       };
 
+        //console.log('PROPS', props);
+
       switch (type) {
         case 'null':
           return (
@@ -201,6 +203,8 @@ class String extends Component {
     this.toggleFocus = this.toggleFocus.bind(this);
     this.moveFocus = this.moveFocus.bind(this);
 
+    console.log('STRING PROPS', props);
+
     this.state = {
       value: props.val,
     };
@@ -236,6 +240,12 @@ class String extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps){
+    this.state = {
+      value: nextProps.val,
+    };
+  }
+
   onChange(value) {
 
     this.setState({
@@ -261,12 +271,6 @@ class Array extends Component {
     const isPopupShown = (popupName === popup);
     const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
     const className = (isPopupShown) ? 'active' : null;
-
-
-    console.log('options',options);
-    console.log('popupName',popupName);
-    console.log('popup',popup);
-    console.log('optionsmenu',optionsMenu);
 
     let comb;
 

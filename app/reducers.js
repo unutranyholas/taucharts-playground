@@ -167,13 +167,20 @@ function playground(state = initState.main, action) {
   switch (action.type) {
     case 'ADD_DATASET':
       const keys = _.keys(action.data[0]);
+
+      const guide = update(initState.config.guide, {
+        x: {label: {text: {$set: keys[0]}}},
+        y: {label: {text: {$set: keys[1]}}}
+      });
+
       const config = update(initState.config, {
         $merge: {
           x: keys[0],
           y: keys[1],
           columns: [keys[0], keys[1]],
           data: action.name,
-          type: 'scatterplot'
+          type: 'scatterplot',
+          guide: guide
         }
       });
 

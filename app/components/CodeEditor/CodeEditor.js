@@ -122,19 +122,13 @@ export default class CodeEditor extends Component {
           dispatch(updateConfig({[e.target.dataset.popup.replace('popup__','')]: opt}))
         },
         toggleBool: (e) => {
-
-          console.log(e.target.dataset.opt);
           const result = (e.target.dataset.opt !== 'true');
           dispatch(updateConfig({[e.target.dataset.popup.replace('popup__','')]: result}))
         },
-    //    opt = (opt === 'true') ? true : opt;
-    //opt = (opt === 'false') ? false : opt;
-
         updateNumber: (changes) => {
           dispatch(updateConfig(changes))
         },
         updateString: (changes) => {
-          console.log(changes);
           dispatch(updateConfig(changes))
         },
         facet: (e) => dispatch(createFacet({[e.target.dataset.popup.replace('popup__','')]: e.target.dataset.opt})),
@@ -174,7 +168,7 @@ export default class CodeEditor extends Component {
 //{'  '}plugins:{' '}{configProp.plugins}{'\n'}
 
   componentDidUpdate () {
-    //console.log('editor updated');
+    console.log('editor updated');
   }
 
   shouldComponentUpdate (nextProps, nextState) {
