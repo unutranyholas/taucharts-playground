@@ -19,7 +19,7 @@ const initState = {
     color: null,
     plugins: ['tooltip', 'legend'],
     settings: {
-      specEngine: 'none'
+      //specEngine: false
     },
     guide: {
       interpolate: 'linear',
@@ -38,7 +38,7 @@ const initState = {
         textAnchor: 'middle',
         padding: 20,
         rotate: 0,
-        autoScale: false,
+        autoScale: true,
         tickPeriod: null,
         tickFormat: null
       },
@@ -50,7 +50,7 @@ const initState = {
         textAnchor: 'end',
         padding: 20,
         rotate: 0,
-        autoScale: false,
+        autoScale: true,
         tickPeriod: null,
         tickFormat: null
       },
@@ -238,33 +238,75 @@ function playground(state = initState.main, action) {
         columns: curConfig.columns
       };
 
-      switch (prop) {
-        case 'x':
-        case 'y':
-        case 'size':
+
+      if (prop === 'x' || prop === 'y' || prop === 'size') {
+
+        if (_.isArray(curValue)) {
+          const newProp = (curValue.indexOf(newValue) > -1) ? {[prop]: toggleArray(curValue, newValue)[0]} : {[prop]: newValue};
+          newDims = update(curDims, {$merge: newProp});
+        } else {
           newDims = update(curDims, {$merge: action.changes});
-          newDims.columns = _.chain(newDims).pairs().filter(i => i[0]!=='columns').map(i => i[1]).flatten().compact().uniq().value();
+        }
+        newDims.columns = _.chain(newDims).pairs().filter(i => i[0]!=='columns').map(i => i[1]).flatten().compact().uniq().value();
 
-          changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
-          //changes.push({datasets: {[curData]: {config: {guide: {[prop]: {label: {text: {$set: newDims[prop]}}}}}}}});
-          break;
-        case 'columns':
-          newDims = update(curDims, {columns: {$set: toggleArray(curDims.columns, newValue)}});
-          newDims.x = newDims.columns[0];
-          newDims.y = newDims.columns[1];
-          newDims.size = newDims.columns[2] || null;
-
-          changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
-          break;
-        default:
-          path = ['datasets', curData, 'config'].concat(prop.split('__'));
-          changes.push(_.reduceRight(path, function (memo, arrayValue) {
-            var obj = {};
-            obj[arrayValue] = memo;
-            return obj;
-          }, {$set: newValue}));
-          break;
+        changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
       }
+      else if (prop === 'columns') {
+        newDims = update(curDims, {columns: {$set: toggleArray(curDims.columns, newValue)}});
+        newDims.x = newDims.columns[0];
+        newDims.y = newDims.columns[1];
+        newDims.size = newDims.columns[2] || null;
+
+        changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
+
+      } else {
+        path = ['datasets', curData, 'config'].concat(prop.split('__'));
+        changes.push(_.reduceRight(path, function (memo, arrayValue) {
+          var obj = {};
+          obj[arrayValue] = memo;
+          return obj;
+        }, {$set: newValue}));
+      }
+
+      if (prop === 'x' && newValue === curConfig.y) {
+        const newY = {y: curConfig.x};
+        changes.push({datasets: {[curData]: {config: {$merge: newY}}}});
+      }
+
+      if (prop === 'y' && newValue === curConfig.x) {
+        const newX = {x: curConfig.y};
+        changes.push({datasets: {[curData]: {config: {$merge: newX}}}});
+      }
+
+
+      //
+      //switch (prop) {
+      //  case 'x':
+      //  case 'y':
+      //  case 'size':
+      //    newDims = update(curDims, {$merge: action.changes});
+      //    newDims.columns = _.chain(newDims).pairs().filter(i => i[0]!=='columns').map(i => i[1]).flatten().compact().uniq().value();
+      //
+      //    changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
+      //    //changes.push({datasets: {[curData]: {config: {guide: {[prop]: {label: {text: {$set: newDims[prop]}}}}}}}});
+      //    break;
+      //  case 'columns':
+      //    newDims = update(curDims, {columns: {$set: toggleArray(curDims.columns, newValue)}});
+      //    newDims.x = newDims.columns[0];
+      //    newDims.y = newDims.columns[1];
+      //    newDims.size = newDims.columns[2] || null;
+      //
+      //    changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
+      //    break;
+      //  default:
+      //    path = ['datasets', curData, 'config'].concat(prop.split('__'));
+      //    changes.push(_.reduceRight(path, function (memo, arrayValue) {
+      //      var obj = {};
+      //      obj[arrayValue] = memo;
+      //      return obj;
+      //    }, {$set: newValue}));
+      //    break;
+      //}
 
       //TODO: implement facets, color, size, and smart switching x/y
 
@@ -334,11 +376,7 @@ function playground(state = initState.main, action) {
       ////  changes = update(changes, {$merge: {y: state.x}})
       ////}
 
-      console.log('changes',changes);
-      const updated = changes.reduce((state, change) => { return update(state, change) }, state);
-      console.log('updated', updated);
-
-      return updated;
+      return changes.reduce((state, change) => { return update(state, change) }, state);;
 
 
     case 'CREATE_FACET':
