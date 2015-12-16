@@ -19,10 +19,17 @@ const initState = {
     color: null,
     plugins: ['tooltip', 'legend'],
     settings: {
-      //specEngine: false
+      specEngine: 'none',
+      layoutEngine: 'none',
+      fitModel: 'normal',
+      optimizeGuideBySize: true,
+      excludeNull: true,
+      autoRatio: true,
     },
     guide: {
       interpolate: 'linear',
+      //split: false,
+      //autoLayout: '',
       padding: {
         l: 90,
         t: 30,
@@ -33,26 +40,35 @@ const initState = {
       x: {
         label: {
           text: 'X',
-          padding: 40
+          padding: 40,
+          rotate: 0,
+          textAnchor: 'end',
+          dock: 'right'
         },
         textAnchor: 'middle',
         padding: 20,
         rotate: 0,
         autoScale: true,
         tickPeriod: null,
-        tickFormat: null
+        tickFormat: null,
+        hide: false,
+        scaleOrient: 'bottom',
       },
       y: {
         label: {
           text: 'Y',
-          padding: 40
+          padding: 40,
+          textAnchor: 'end',
+          dock: 'right'
         },
         textAnchor: 'end',
         padding: 20,
         rotate: 0,
         autoScale: true,
         tickPeriod: null,
-        tickFormat: null
+        tickFormat: null,
+        hide: false,
+        scaleOrient: 'left',
       },
       //color: {
       //  brewer: ['color-red', 'color-green', 'color-blue']
@@ -76,10 +92,17 @@ const initState = {
     color: [],
     plugins: ['tooltip', 'legend', 'quick-filter', 'trendline'],
     settings: {
-      specEngine: ['none']
+      specEngine: ['COMPACT', 'DEFAULT', 'NONE'],
+      layoutEngine: ['NONE', 'DEFAULT', 'EXTRACT'],
+      fitModel: ['normal', 'entire-view', 'fit-width', 'fit-height', 'minimal'],
+      optimizeGuideBySize: [true, false],
+      excludeNull: [true, false],
+      autoRatio: [true, false],
     },
     guide: {
       interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone'],
+      //split: [true, false],
+      //autoLayout: ['extract-axes', ''],
       padding: {
         l: {min: 0, max: 200, step: 10, decimals: 0},
         t: {min: 0, max: 200, step: 10, decimals: 0},
@@ -90,26 +113,34 @@ const initState = {
       x: {
         label: {
           text: {},
-          padding: {min: 0, max: 50, step: 2, decimals: 0}
+          padding: {min: 0, max: 50, step: 2, decimals: 0},
+          textAnchor: ['start', 'middle', 'end'],
+          dock: ['left', 'center', 'right']
         },
         textAnchor: ['start', 'middle', 'end'],
         padding: {min: 0, max: 50, step: 2, decimals: 0},
         rotate: {min: 0, max: 360, step: 30, decimals: 0},
         autoScale: [false, true],
         tickPeriod: ['day', 'week', 'month', 'quarter', 'year'],
-        tickFormat: ['g', 'f', 'd', 'r', 's']
+        tickFormat: ['g', 'f', 'd', 'r', 's'],
+        hide: [false, true],
+        scaleOrient: ['bottom', 'top'],
       },
       y: {
         label: {
           text: {},
-          padding: {min: 0, max: 50, step: 2, decimals: 0}
+          padding: {min: 0, max: 50, step: 2, decimals: 0},
+          textAnchor: ['start', 'middle', 'end'],
+          dock: ['left', 'center', 'right']
         },
         textAnchor: ['start', 'middle', 'end'],
         padding: {min: 0, max: 50, step: 2, decimals: 0},
         rotate: {min: 0, max: 360, step: 30, decimals: 0},
         autoScale: [false, true],
         tickPeriod: ['day', 'week', 'month', 'quarter', 'year'],
-        tickFormat: ['g', 'f', 'd', 'r', 's']
+        tickFormat: ['g', 'f', 'd', 'r', 's'],
+        hide: [false, true],
+        scaleOrient: ['left', 'right'],
       },
       //color: {
       //  brewer: ['color-red', 'color-green', 'color-blue']
