@@ -5,15 +5,28 @@ var nested = require('postcss-nested');
 var precss = require('precss');
 var color = require('postcss-color-function');
 
+var toAbsolute = function (relativePath) {
+  return path.resolve(__dirname, relativePath);
+};
+
 module.exports = {
-  context: path.resolve(__dirname, "app"),
+  context: toAbsolute("app"),
   entry: {
     javascript: "./index.js",
     html: "./index.html"
   },
   output: {
     filename: "index.js",
-    path: path.resolve(__dirname, "dist")
+    path: toAbsolute("dist")
+  },
+  resolve: {
+    alias: {
+      'tauCharts': toAbsolute('node_modules/tauCharts/build/development/tauCharts'),
+      'tauCharts-tooltip': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.tooltip'),
+      'tauCharts-legend': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.legend'),
+      'tauCharts-trendline': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.trendline'),
+      'tauCharts-export': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.export')
+    }
   },
   module: {
     loaders: [
@@ -32,8 +45,7 @@ module.exports = {
       }
     ]
   },
-  postcss:
-    function () {
-      return [autoprefixer, precss, color];
-    }
+  postcss: function () {
+    return [autoprefixer, precss, color];
+  }
 };
