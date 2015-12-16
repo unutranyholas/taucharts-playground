@@ -50,6 +50,6 @@
     "react-textarea-autosize": "^3.1.0",
     "reactable": "^0.12.0",
     "redux": "^3.0.4",
-    "taucharts": "^0.6.3"
+    "taucharts": "^0.7.0"
   }
 }

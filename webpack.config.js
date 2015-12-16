@@ -25,7 +25,9 @@ module.exports = {
       'tauCharts-tooltip': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.tooltip'),
       'tauCharts-legend': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.legend'),
       'tauCharts-trendline': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.trendline'),
-      'tauCharts-export': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.export')
+      'tauCharts-export': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.export'),
+      'tauCharts-quick-filter': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.quick-filter'),
+      'tauCharts-annotations': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.annotations')
     }
   },
   module: {

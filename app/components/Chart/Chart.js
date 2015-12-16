@@ -2,9 +2,14 @@ import React, { Component } from 'react'
 import update from 'react-addons-update'
 import _ from 'lodash'
 
-import * as tauCharts from 'tauCharts';
-import tooltip from 'tauCharts-tooltip';
-import legend from 'tauCharts-legend';
+import * as tauCharts from 'tauCharts'
+import tooltip from 'tauCharts-tooltip'
+import legend from 'tauCharts-legend'
+import quickFilter from 'tauCharts-quick-filter'
+import trendline from 'tauCharts-trendline'
+
+////import Export from 'tauCharts-export'
+//import annotations from 'tauCharts-annotations'
 
 import tauStyles from 'taucharts/build/production/tauCharts.min.css'
 
@@ -24,10 +29,10 @@ export default class Chart extends Component {
   renderChart() {
       try {
 
-        // test plugins
-        this.config.plugins = this.config.plugins || [];
-        this.config.plugins.push(tooltip());
-        this.config.plugins.push(legend());
+        //// test plugins
+        //this.config.plugins = this.config.plugins || [];
+        //this.config.plugins.push(tooltip());
+        //this.config.plugins.push(legend());
 
         this.chart = new tauCharts.Chart(this.config);
         this.chart.renderTo('#chart');

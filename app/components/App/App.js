@@ -6,6 +6,8 @@ import d3 from 'd3'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset } from '../../actions'
 import { CodeEditor, Chart } from '../'
 import style from './App.css'
+import * as tauCharts from 'tauCharts'
+
 
 class App extends Component {
   render() {
@@ -35,7 +37,7 @@ class App extends Component {
 
   prepareConfig(config, dataset) {
     const data = (dataset !== undefined) ? dataset : [];
-    const plugins = (config.plugins !== undefined) ? config.plugins.map(pl => 'tauCharts.api.plugins.get(pl)()') : [];
+    const plugins = (config.plugins !== undefined) ? config.plugins.map(pl => tauCharts.api.plugins.get(pl)()) : [];
     return update(config, {$merge: {data: data, plugins: plugins}});
   }
 

@@ -42,8 +42,8 @@ const initState = {
           text: 'X',
           padding: 40,
           rotate: 0,
-          textAnchor: 'end',
-          dock: 'right'
+          textAnchor: 'middle',
+          dock: 'center'
         },
         textAnchor: 'middle',
         padding: 20,
@@ -58,8 +58,8 @@ const initState = {
         label: {
           text: 'Y',
           padding: 40,
-          textAnchor: 'end',
-          dock: 'right'
+          textAnchor: 'middle',
+          dock: 'center'
         },
         textAnchor: 'end',
         padding: 20,
@@ -118,7 +118,7 @@ const initState = {
           dock: ['left', 'center', 'right']
         },
         textAnchor: ['start', 'middle', 'end'],
-        padding: {min: 0, max: 50, step: 2, decimals: 0},
+        padding: {min: -50, max: 50, step: 2, decimals: 0},
         rotate: {min: 0, max: 360, step: 30, decimals: 0},
         autoScale: [false, true],
         tickPeriod: ['day', 'week', 'month', 'quarter', 'year'],
@@ -129,7 +129,7 @@ const initState = {
       y: {
         label: {
           text: {},
-          padding: {min: 0, max: 50, step: 2, decimals: 0},
+          padding: {min: -50, max: 50, step: 2, decimals: 0},
           textAnchor: ['start', 'middle', 'end'],
           dock: ['left', 'center', 'right']
         },
