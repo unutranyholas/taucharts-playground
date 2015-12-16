@@ -1,3 +1,4 @@
+var path = require('path');
 var autoprefixer = require('autoprefixer');
 var csswring = require('csswring');
 var nested = require('postcss-nested');
@@ -5,7 +6,7 @@ var precss = require('precss');
 var color = require('postcss-color-function');
 
 module.exports = {
-  context: __dirname + "/app",
+  context: path.resolve(__dirname, "app"),
   entry: {
     javascript: "./index.js",
     html: "./index.html",
