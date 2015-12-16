@@ -28,6 +28,7 @@ const initState = {
     },
     guide: {
       interpolate: 'linear',
+      showAnchors: true,
       //split: false,
       //autoLayout: '',
       padding: {
@@ -70,6 +71,17 @@ const initState = {
         hide: false,
         scaleOrient: 'left',
       },
+      color: {
+        label: {
+          text: 'Color',
+        }
+        //brewer: ['color-red', 'color-green', 'color-blue']
+      },
+      size: {
+        label: {
+          text: 'Size',
+        }
+      }
       //color: {
       //  brewer: ['color-red', 'color-green', 'color-blue']
       //}
@@ -101,6 +113,7 @@ const initState = {
     },
     guide: {
       interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone'],
+      showAnchors: [true, false],
       //split: [true, false],
       //autoLayout: ['extract-axes', ''],
       padding: {
@@ -142,9 +155,18 @@ const initState = {
         hide: [false, true],
         scaleOrient: ['left', 'right'],
       },
-      //color: {
-      //  brewer: ['color-red', 'color-green', 'color-blue']
-      //}
+      color: {
+        label: {
+          text: {},
+        }
+        //brewer: ['color-red', 'color-green', 'color-blue']
+      },
+      size: {
+        label: {
+          text: {},
+        }
+      }
+
     }
   }
 };
@@ -270,7 +292,7 @@ function playground(state = initState.main, action) {
       };
 
 
-      if (prop === 'x' || prop === 'y' || prop === 'size') {
+      if (prop === 'x' || prop === 'y' || prop === 'size' || prop === 'color') {
 
         if (_.isArray(curValue)) {
           const newProp = (curValue.indexOf(newValue) > -1) ? {[prop]: toggleArray(curValue, newValue)[0]} : {[prop]: newValue};
@@ -281,15 +303,7 @@ function playground(state = initState.main, action) {
         newDims.columns = _.chain(newDims).pairs().filter(i => i[0]!=='columns').map(i => i[1]).flatten().compact().uniq().value();
 
         changes.push({datasets: {[curData]: {config: {$merge: newDims}}}});
-
-        if (prop === 'x') {
-          changes.push({datasets: {[curData]: {config: {guide: {x: {label: {text: {$set: newDims.x}}}}}}}});
-        }
-
-        if (prop === 'y') {
-          changes.push({datasets: {[curData]: {config: {guide: {y: {label: {text: {$set: newDims.y}}}}}}}});
-        }
-
+        changes.push({datasets: {[curData]: {config: {guide: {[prop]: {label: {text: {$set: newDims[prop]}}}}}}}});
       }
       else if (prop === 'columns') {
         newDims = update(curDims, {columns: {$set: toggleArray(curDims.columns, newValue)}});

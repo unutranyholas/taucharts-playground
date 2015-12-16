@@ -46,6 +46,7 @@ a {
     //min-width: $code-min-width;
     //align-self: auto;
     //height: 100%;
+    width: 25%;
   }
 
   & > div:nth-child(2) {

@@ -90,7 +90,7 @@ class Obj extends Component {
       }
     });
 
-    const brackets = (name === '') ? ['var chart = tauCharts.Chart({', '});'] : [name + ': {', '},'];
+    const brackets = (name === '') ? ['var chart = new tauCharts.Chart({', '});'] : [name + ': {', '},'];
     const transformed = (name === '') ? (<span>{'  '}data: {dataPoint},{'\n'}</span>) : null;
 
     return (
