@@ -12,6 +12,8 @@
     box-shadow: 0 1px 5px 1px color($code-bg-color a(20%));
     color: $code-menu-text;
     z-index: 10;
+    max-width: 85vw;
+    max-height: 75vh;
 
     & table {
       margin: 0;
