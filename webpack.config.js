@@ -9,11 +9,11 @@ module.exports = {
   context: path.resolve(__dirname, "app"),
   entry: {
     javascript: "./index.js",
-    html: "./index.html",
+    html: "./index.html"
   },
   output: {
     filename: "index.js",
-    path: __dirname + "/dist"
+    path: path.resolve(__dirname, "dist")
   },
   module: {
     loaders: [
@@ -24,12 +24,12 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: "file?name=[name].[ext]",
+        loader: "file?name=[name].[ext]"
       },
       {
         test: /\.css$/,
         loader: 'style-loader!css-loader!postcss-loader'
-      },
+      }
     ]
   },
   postcss:
