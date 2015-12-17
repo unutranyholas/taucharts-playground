@@ -9,7 +9,8 @@
 }
 
 span.collapsed:after {
-  content: '..'
+  content: '..';
+  opacity: 0.2;
 }
 
 .code a.collapsing {
