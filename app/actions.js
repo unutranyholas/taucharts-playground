@@ -6,6 +6,7 @@ export const CREATE_FACET = 'CREATE_FACET';
 export const TOGGLE_POPUP = 'TOGGLE_POPUP';
 export const DELETE_DATASET = 'DELETE_DATASET';
 export const UPDATE_FUNCTION = 'UPDATE_FUNCTION';
+export const TOGGLE_COLLAPSING = 'TOGGLE_COLLAPSING';
 
 export function addDataset(name, data) {
   return {type: ADD_DATASET, name, data}
@@ -37,4 +38,8 @@ export function togglePopup(prop) {
 
 export function updateFunction(changes) {
   return {type: UPDATE_FUNCTION, changes}
+}
+
+export function toggleCollapsing(prop) {
+  return {type: TOGGLE_COLLAPSING, prop}
 }

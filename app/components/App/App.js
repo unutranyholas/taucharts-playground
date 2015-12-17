@@ -11,12 +11,14 @@ import * as tauCharts from 'tauCharts'
 
 class App extends Component {
   render() {
-    const {datasets, currentData, popup, dispatch} = this.props;
+    const {datasets, currentData, popup, dispatch, collapsing} = this.props;
 
     if(_.isEmpty(datasets)) {return <div className="playground">No data</div>}
 
     const cloneConfig = _.cloneDeep(datasets[currentData].config);
-    const chartConfig = this.prepareConfig(cloneConfig, datasets[currentData].data.transformed);
+    const chartConfig = this.prepareConfig(cloneConfig, datasets[currentData].data.transformed, collapsing);
+
+    //console.log(chartConfig);
 
     const props = {
       dispatch: dispatch,
@@ -24,21 +26,39 @@ class App extends Component {
       options: update(datasets[currentData].options, {$merge: {data: _.keys(datasets)}}),
       config: datasets[currentData].config,
       functions: datasets[currentData].functions,
-      data: datasets[currentData].data
+      data: datasets[currentData].data,
+      collapsing: collapsing
     };
 
     return (
       <div className="playground">
         <CodeEditor {...props} />
-        <Chart config={chartConfig} lightConfig={datasets[currentData].config} functions={datasets[currentData].functions} />
+        <Chart config={chartConfig} lightConfig={datasets[currentData].config} functions={datasets[currentData].functions} collapsing={collapsing} />
       </div>
     )
   }
 
-  prepareConfig(config, dataset) {
+  prepareConfig(config, dataset, collapsing) {
     const data = (dataset !== undefined) ? dataset : [];
     const plugins = (config.plugins !== undefined) ? config.plugins.map(pl => tauCharts.api.plugins.get(pl)()) : [];
-    return update(config, {$merge: {data: data, plugins: plugins}});
+    let changes = [{$merge: {data: data, plugins: plugins}}];
+
+    collapsing.forEach(c => {
+
+      const path = c.split('__');
+      path.shift();
+
+      //console.log(path);
+
+      changes.push(_.reduceRight(path, function (memo, arrayValue) {
+        var obj = {};
+        obj[arrayValue] = memo;
+        return obj;
+      }, {$set: {}}));
+
+    });
+
+    return changes.reduce((config, change) => { return update(config, change) }, config);
   }
 
 }

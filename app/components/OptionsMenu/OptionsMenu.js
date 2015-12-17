@@ -60,6 +60,7 @@ class UploadFile extends Component {
 class OptionsItem extends Component {
   render() {
     const {name, opt, isSelected, actions, popupName} = this.props;
+    const fixedOpt = opt || 'undefined';
     const actionsList = _.keys(actions);
     const facetButton = ((name === 'x' || name==='y') && !isSelected) ? (<a href="javascript: void 0" onClick={actions.facet} data-opt={opt} data-popup={popupName} className="add"> </a>) : null;
     const mainAction = (actionsList.indexOf('switch') > -1) ? actions.switch : actions.update;
@@ -67,7 +68,7 @@ class OptionsItem extends Component {
 
     return (
       <li className={className}>
-        <a href="javascript: void 0" onClick={mainAction} data-opt={opt} data-popup={popupName}>{opt}</a>{facetButton}
+        <a href="javascript: void 0" onClick={mainAction} data-opt={opt} data-popup={popupName}>{fixedOpt}</a>{facetButton}
       </li>
     )
   }

@@ -3,13 +3,14 @@ import React, { Component } from 'react'
 import Textarea from 'react-textarea-autosize'
 import _ from 'lodash'
 import { ConfigProp, DataManager, DataTable, DataPoint, FuncEditor, FuncGenerator, ConfigTree } from '../'
-import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, togglePopup, updateFunction } from '../../actions'
+import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, togglePopup, updateFunction, toggleCollapsing } from '../../actions'
 
 import style from './CodeEditor.css'
 
 export default class CodeEditor extends Component {
   render() {
-    const { dispatch, popup, options, datasets, config, functions, data } = this.props;
+    const { dispatch, popup, options, datasets, config, functions, data, collapsing } = this.props;
+
 
     //Properties
     //let configProp = _.mapValues(config, (val, name) => {
@@ -109,10 +110,15 @@ export default class CodeEditor extends Component {
       config: config,
       options: options,
       popup: popup,
+      collapsing: collapsing,
       actions: {
         togglePopup: (e) => {
           const popupName = e.target.dataset.popup || e.target.parentNode.dataset.popup;
           dispatch(togglePopup(popupName))
+        },
+        toggleCollapsing: (e) => {
+          const collapsing = e.target.dataset.collapsing || e.target.parentNode.dataset.collapsing;
+          dispatch(toggleCollapsing(collapsing))
         },
         highlightField: (popupName) => {
           dispatch(togglePopup(popupName))
@@ -174,6 +180,7 @@ export default class CodeEditor extends Component {
   shouldComponentUpdate (nextProps, nextState) {
     return JSON.stringify(nextProps.functions) !== JSON.stringify(this.props.functions) ||
            JSON.stringify(nextProps.config) !== JSON.stringify(this.props.config) ||
+           JSON.stringify(nextProps.collapsing) !== JSON.stringify(this.props.collapsing) ||
            nextProps.popup !== this.props.popup;
   }
 }

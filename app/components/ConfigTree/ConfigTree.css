@@ -8,6 +8,15 @@
   font-weight: bold
 }
 
+span.collapsed:after {
+  content: '..'
+}
+
+.code a.collapsing {
+  //color: $code-text;
+  //border-bottom: 1px dotted rgba(255, 255, 255, 0.5)
+}
+
 pre {
   & span > a {
     display: inline-block;

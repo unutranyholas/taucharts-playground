@@ -1,8 +1,6 @@
 @import "../variables.css";
 
 .code {
-  background-color: $code-bg-color;
-  color: $code-text;
   padding: 30px 20px;
 
   pre {

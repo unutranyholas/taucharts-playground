@@ -8,7 +8,7 @@ import _ from 'lodash'
 export default class ConfigTree extends Component {
   render() {
 
-    const {config, options, popup, actions, dataPoint} = this.props;
+    const {config, options, popup, dataPoint, actions, collapsing} = this.props;
     const props = {
       name: '',
       val: config,
@@ -17,7 +17,8 @@ export default class ConfigTree extends Component {
       popupName: 'popup',
       actions: actions,
       indent: '',
-      dataPoint: dataPoint
+      dataPoint: dataPoint,
+      collapsing: collapsing
     };
 
     return (
@@ -29,7 +30,16 @@ export default class ConfigTree extends Component {
 class Obj extends Component {
   render() {
 
-    const {name, val, options, popup, popupName, actions, indent, dataPoint} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, dataPoint, collapsing} = this.props;
+
+    if (collapsing.indexOf(popupName) > -1) {
+      return (
+        <span>
+          {indent}<a href="javascript: void 0" onClick={actions.toggleCollapsing} data-collapsing={popupName} className="collapsing">{name}</a>: {'{'}<span className="collapsed"></span>{'}'}{',\n'}
+        </span>
+      )
+    }
+
     const objProps = _.pairs(val)
       .filter(item => item[0] !== 'data')
       .filter(item => {
@@ -43,7 +53,14 @@ class Obj extends Component {
 
       const key = item[0];
       const value = item[1];
-      const type = _.isArray(value) && 'array' || _.isObject(value) && 'object' || _.isString(value) && 'string' || _.isNumber(value) && 'number' || _.isBoolean(value) && 'bool' || (_.isNull(value)) && 'null';
+      const type =
+        _.isArray(value) && 'array' ||
+        _.isObject(value) && 'object' ||
+        _.isString(value) && 'string' ||
+        _.isNumber(value) && 'number' ||
+        _.isBoolean(value) && 'bool' ||
+        _.isUndefined(value) && 'undefined' ||
+        _.isNull(value) && 'null';
 
       const props = {
         key: i,
@@ -53,7 +70,8 @@ class Obj extends Component {
         popup: popup,
         popupName: popupName + '__' + key,
         actions: actions,
-        indent: indent + '  '
+        indent: indent + '  ',
+        collapsing: collapsing
       };
 
         //console.log('PROPS', props);
@@ -62,6 +80,10 @@ class Obj extends Component {
         case 'null':
           return (
             <Null {...props} />
+          );
+        case 'undefined':
+          return (
+            <Undef {...props} />
           );
         case 'string':
           return (
@@ -92,10 +114,11 @@ class Obj extends Component {
 
     const brackets = (name === '') ? ['var chart = new tauCharts.Chart({', '});'] : [name + ': {', '},'];
     const transformed = (name === '') ? (<span>{'  '}data: {dataPoint},{'\n'}</span>) : null;
+    const collapseLink = (name === '') ? brackets[0] : (<span><a href="javascript: void 0" onClick={actions.toggleCollapsing} data-collapsing={popupName} className="collapsing">{name}</a>: {'{'}</span>);
 
     return (
       <span>
-        {indent}{brackets[0]}{'\n'}
+        {indent}{collapseLink}{'\n'}
         {transformed}
         {objProps}
         {indent}{brackets[1]}{'\n'}
@@ -116,6 +139,25 @@ class Null extends Component {
       <span>{indent}{name}:{' '}
         <span className={className}>{optionsMenu}
         <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>null</a>
+          ,{'\n'}
+        </span>
+      </span>
+    )
+  }
+}
+
+class Undef extends Component {
+  render() {
+    const {name, val, options, popup, popupName, actions, indent} = this.props;
+
+    const isPopupShown = (popupName === popup);
+    const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
+    const className = (isPopupShown) ? 'active' : null;
+
+    return (
+      <span>{indent}{name}:{' '}
+        <span className={className}>{optionsMenu}
+          <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>undefined</a>
           ,{'\n'}
         </span>
       </span>
@@ -202,8 +244,6 @@ class String extends Component {
     this.onChange = this.onChange.bind(this);
     this.toggleFocus = this.toggleFocus.bind(this);
     this.moveFocus = this.moveFocus.bind(this);
-
-    console.log('STRING PROPS', props);
 
     this.state = {
       value: props.val,

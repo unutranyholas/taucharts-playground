@@ -1,13 +1,17 @@
 import { combineReducers } from 'redux'
 import update from 'react-addons-update'
 import _ from 'lodash'
-import { ADD_DATASET, DELETE_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_POPUP, UPDATE_FUNCTION } from './actions'
+import { ADD_DATASET, DELETE_DATASET, UPDATE_CONFIG, CREATE_FACET, TOGGLE_PLUGIN, SWITCH_DATASET, TOGGLE_POPUP, UPDATE_FUNCTION, TOGGLE_COLLAPSING } from './actions'
 
 const initState = {
   main: {
     datasets: {},
     currentData: null,
-    popup: null
+    popup: null,
+    collapsing: [
+      'popup__guide',
+      'popup__settings',
+    ]
   },
   config: {
     data: null,
@@ -19,12 +23,12 @@ const initState = {
     color: null,
     plugins: ['tooltip', 'legend'],
     settings: {
-      specEngine: 'none',
-      layoutEngine: 'none',
+      specEngine: undefined,
+      layoutEngine: undefined,
       fitModel: 'normal',
-      optimizeGuideBySize: true,
+      //optimizeGuideBySize: true,
       excludeNull: true,
-      autoRatio: true,
+      //autoRatio: true,
     },
     guide: {
       interpolate: 'linear',
@@ -104,12 +108,12 @@ const initState = {
     color: [],
     plugins: ['tooltip', 'legend', 'quick-filter', 'trendline'],
     settings: {
-      specEngine: ['COMPACT', 'DEFAULT', 'NONE'],
-      layoutEngine: ['NONE', 'DEFAULT', 'EXTRACT'],
+      specEngine: ['COMPACT', 'none', undefined],
+      layoutEngine: ['extract', 'none', undefined],
       fitModel: ['normal', 'entire-view', 'fit-width', 'fit-height', 'minimal'],
-      optimizeGuideBySize: [true, false],
+      //optimizeGuideBySize: [true, false],
       excludeNull: [true, false],
-      autoRatio: [true, false],
+      //autoRatio: [true, false],
     },
     guide: {
       interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone'],
@@ -271,7 +275,8 @@ function playground(state = initState.main, action) {
       return {
         datasets: update(state.datasets, {$merge: {[action.name]: newDataset}}),
         currentData: action.name,
-        popup: state.popup
+        popup: state.popup,
+        collapsing: state.collapsing
       };
 
 
@@ -290,7 +295,6 @@ function playground(state = initState.main, action) {
         size: curConfig.size,
         columns: curConfig.columns
       };
-
 
       if (prop === 'x' || prop === 'y' || prop === 'size' || prop === 'color') {
 
@@ -342,7 +346,7 @@ function playground(state = initState.main, action) {
         changes = [{datasets: {[curData]: {config: {size: {$set: null}}}}}];
       }
 
-      return changes.reduce((state, change) => { return update(state, change) }, state);;
+      return changes.reduce((state, change) => { return update(state, change) }, state);
 
 
     case 'CREATE_FACET':
@@ -385,7 +389,8 @@ function playground(state = initState.main, action) {
       return {
         datasets: state.datasets,
         currentData: currentData(state.currentData, action),
-        popup: popup(state.popup, action)
+        popup: popup(state.popup, action),
+        collapsing: collapsing(state.collapsing, action)
       }
   }
 }
@@ -403,6 +408,15 @@ function popup(state = initState.main.popup, action) {
   switch (action.type) {
     case 'TOGGLE_POPUP':
       return (state !== action.prop) ? action.prop : null;
+    default:
+      return state
+  }
+}
+
+function collapsing(state = initState.main.collapsing, action) {
+  switch (action.type) {
+    case 'TOGGLE_COLLAPSING':
+      return toggleArray(state, action.prop);
     default:
       return state
   }

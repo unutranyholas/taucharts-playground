@@ -58,6 +58,8 @@ export default class Chart extends Component {
   shouldComponentUpdate (nextProps, nextState) {
 
     //TODO: not to update chart if visible data wasn't changed ?
-    return JSON.stringify(nextProps.lightConfig) !== JSON.stringify(this.props.lightConfig) || JSON.stringify(nextProps.functions) !== JSON.stringify(this.props.functions)
+    return JSON.stringify(nextProps.lightConfig) !== JSON.stringify(this.props.lightConfig) ||
+      JSON.stringify(nextProps.functions) !== JSON.stringify(this.props.functions)  ||
+      JSON.stringify(nextProps.collapsing) !== JSON.stringify(this.props.collapsing)
   }
 }
