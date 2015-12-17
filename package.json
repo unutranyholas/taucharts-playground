@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node task.watch.js",
-    "buildRelease": "task.buildRelease.js"
+    "build": "node task.buildRelease.js"
   },
   "author": "",
   "license": "ISC",

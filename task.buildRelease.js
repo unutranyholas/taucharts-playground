@@ -1,1 +1,1 @@
-require('./routine.buildWithWebpack')({minify: false});
+require('./routine.buildWithWebpack')({minify: true});
