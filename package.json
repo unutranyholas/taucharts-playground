@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server"
+    "start": "node task.watch.js",
+    "buildRelease": "task.buildRelease.js"
   },
   "author": "",
   "license": "ISC",
@@ -22,13 +23,17 @@
     "csswring": "^4.0.0",
     "extract-text-webpack-plugin": "^0.9.1",
     "file-loader": "^0.8.4",
+    "fs-extra": "^0.26.2",
+    "html-webpack-plugin": "^1.7.0",
     "postcss": "^5.0.12",
     "postcss-color-function": "^2.0.0",
+    "postcss-font-magician": "^1.4.0",
     "postcss-loader": "^0.8.0",
     "postcss-nested": "^1.0.0",
     "precss": "^1.3.0",
     "react-datatable": "0.0.31",
     "redux-devtools": "^2.1.5",
+    "rimraf": "^2.4.4",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.8",
     "webpack-dev-server": "^1.12.1"

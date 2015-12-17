@@ -4,19 +4,23 @@ var csswring = require('csswring');
 var nested = require('postcss-nested');
 var precss = require('precss');
 var color = require('postcss-color-function');
+var magician = require('postcss-font-magician');
+var _ = require('lodash');
 
+var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+var ProgressPlugin = require('webpack/lib/ProgressPlugin');
+var HtmlPlugin = require('html-webpack-plugin');
 var toAbsolute = function (relativePath) {
   return path.resolve(__dirname, relativePath);
 };
 
-module.exports = {
+module.exports = please => ({
   context: toAbsolute("app"),
   entry: {
-    javascript: "./index.js",
-    html: "./index.html"
+    index: "./index.js"
   },
   output: {
-    filename: "index.js",
+    filename: "[name].js",
     path: toAbsolute("dist")
   },
   resolve: {
@@ -48,6 +52,11 @@ module.exports = {
     ]
   },
   postcss: function () {
-    return [autoprefixer, precss, color];
-  }
-};
+    return [autoprefixer, precss, color, magician];
+  },
+  plugins: _.compact([
+    please.minify && new UglifyJsPlugin(),
+    new ProgressPlugin((percent, message) => console.log(`${(100 * percent).toFixed(1)}% ${message}`)),
+    new HtmlPlugin()
+  ])
+});

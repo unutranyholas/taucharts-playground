@@ -23,7 +23,8 @@ store.subscribe(() => {
     }
 );
 
-let rootElement = document.getElementById('root');
+let rootElement = document.createElement('div');
+document.body.appendChild(rootElement);
 render(
   <Provider store={store}>
     <App />
