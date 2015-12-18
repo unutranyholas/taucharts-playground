@@ -49,7 +49,14 @@ a {
   border-right: 5px solid $code-active-bg;
 }
 
-.Pane.vertical {height: 100%}
+.Pane.vertical {
+  height: 100%;
+  position: static !important;
+}
+
+.SplitPane{
+  user-select: all !important;
+}
 
 textarea, pre {
   //border: 1px solid red !important;
