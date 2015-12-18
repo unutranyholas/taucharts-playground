@@ -16,16 +16,18 @@ export default class DataManager extends Component {
       name: name,
       val: config[name],
       options: options[name].concat(['file'/*, 'url'*/]),
-      isPopupShown: (popup === name),
       actions: {
         add: (e) => this.addData(e),
         switch: (e) => dispatch(switchDataset(e.target.dataset.opt)),
         togglePopup: (e) => dispatch(togglePopup('data'))
       }
     };
+    const isPopupShown = (popup === name);
+    const optionsMenu = (isPopupShown && name !== 'plugins') ? (<OptionsMenu {...props} />) : null;
+    const className = (isPopupShown) ? 'active' : null;
 
     return (
-      <span className="data-manager"><ConfigProp {...props} /></span>
+      <span className="data-manager"><span className={className}>{optionsMenu}<a href="javascript: void 0" onClick={props.actions.togglePopup}>'{props.val}'</a></span></span>
     )
   }
 

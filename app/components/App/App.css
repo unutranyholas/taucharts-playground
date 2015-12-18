@@ -28,46 +28,28 @@ a {
   text-decoration: none;
 }
 
-.playground {
-  //display: flex;
-  //flex-direction: row;
+.Resizer {
+  background: color($code-bg-color a(50%));
+  opacity: 0.2;
+  z-index: 1;
   box-sizing: border-box;
+  background-clip: padding-box;
+  width: 11px;
+  margin: 0 -5px;
+  border-left: 5px solid rgba(255, 255, 255, 0);
+  border-right: 5px solid rgba(255, 255, 255, 0);
+  cursor: col-resize;
+  height: 100%;
+  transition: 0.1s border ease-out;
 }
 
-.playground {
-  //display: flex;
-  //flex-direction: row;
-  //flex-wrap: nowrap;
-  //justify-content: flex-start;
-  //align-content: stretch;
-  //align-items: flex-start;
-
-  & > div:nth-child(1) {
-    //order: 0;
-    //flex: 0 1 $code-width;
-    //min-width: $code-min-width;
-    //align-self: auto;
-    //height: 100%;
-    width: 25%;
-  }
-
-  & > div:nth-child(2) {
-    background-color: $chart-bg-color;
-
-    //order: 0;
-    //flex: 1 1 auto;
-    //align-self: auto;
-    //height: 100%;
-
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 25%;
-    z-index: 3;
-
-  }
+.Resizer:hover {
+  transition: none;
+  border-left: 5px solid $code-active-bg;
+  border-right: 5px solid $code-active-bg;
 }
+
+.Pane.vertical {height: 100%}
 
 textarea, pre {
   //border: 1px solid red !important;

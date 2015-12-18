@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import update from 'react-addons-update'
+import SplitPane from 'react-split-pane'
 import _ from 'lodash'
 import d3 from 'd3'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset } from '../../actions'
@@ -10,6 +11,10 @@ import * as tauCharts from 'tauCharts'
 
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {width: '25%'};
+  }
   render() {
     const {datasets, currentData, popup, dispatch, collapsing} = this.props;
 
@@ -31,10 +36,10 @@ class App extends Component {
     };
 
     return (
-      <div className="playground">
-        <CodeEditor {...props} />
-        <Chart config={chartConfig} lightConfig={datasets[currentData].config} functions={datasets[currentData].functions} collapsing={collapsing} />
-      </div>
+    <SplitPane split="vertical" minSize="150" defaultSize={this.state.width} onChange={e => this.setState({width: e})}>
+      <CodeEditor {...props} width={this.state.width} />
+      <Chart config={chartConfig} lightConfig={datasets[currentData].config} functions={datasets[currentData].functions} collapsing={collapsing} width={this.state.width} />
+    </SplitPane>
     )
   }
 
@@ -47,8 +52,6 @@ class App extends Component {
 
       const path = c.split('__');
       path.shift();
-
-      //console.log(path);
 
       changes.push(_.reduceRight(path, function (memo, arrayValue) {
         var obj = {};

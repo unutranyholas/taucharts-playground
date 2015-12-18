@@ -11,46 +11,6 @@ export default class CodeEditor extends Component {
   render() {
     const { dispatch, popup, options, datasets, config, functions, data, collapsing } = this.props;
 
-
-    //Properties
-    //let configProp = _.mapValues(config, (val, name) => {
-    //
-    //  let actions = {
-    //    update: (e) => {dispatch(updateConfig({[name]: e.target.dataset.opt}))},
-    //    togglePopup: (e) => dispatch(togglePopup(name))
-    //  };
-    //
-    //  switch (name) {
-    //    case 'data':
-    //      actions.update = (e) => dispatch(switchDataset(e.target.dataset.opt));
-    //      actions.addFile = (e) => dispatch(addData(e));
-    //      actions.addURL = (e) => dispatch(addData(e));
-    //      break;
-    //    case 'x':
-    //    case 'y':
-    //      actions.facet = (e) => dispatch(createFacet({[name]: e.target.dataset.opt}));
-    //      break;
-    //    case 'plugins':
-    //      actions.update = (e) => {
-    //        dispatch(togglePlugin(e.target.dataset.opt));
-    //      };
-    //      break;
-    //  }
-    //
-    //  const props = {
-    //      name: name,
-    //      val: val,
-    //      options: options[name],
-    //      isPopupShown: (popup === name),
-    //      actions: actions
-    //  };
-    //
-    //  return (
-    //    <ConfigProp key={name} {...props} />
-    //  )
-    //
-    //});
-
     //Data states
     const labelsMatch = {
       init: 'row',
@@ -181,6 +141,8 @@ export default class CodeEditor extends Component {
     return JSON.stringify(nextProps.functions) !== JSON.stringify(this.props.functions) ||
            JSON.stringify(nextProps.config) !== JSON.stringify(this.props.config) ||
            JSON.stringify(nextProps.collapsing) !== JSON.stringify(this.props.collapsing) ||
-           nextProps.popup !== this.props.popup;
+           nextProps.popup !== this.props.popup
+           //|| nextProps.width !== this.props.width
+      ;
   }
 }

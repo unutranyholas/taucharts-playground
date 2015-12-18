@@ -19,5 +19,6 @@ textarea.editor {
   }
   &::placeholder {
     color: color($code-text a(20%));
+    white-space: nowrap;
   }
 }

@@ -2,6 +2,8 @@
 
 .chart {
   padding: 30px 20px;
+  background-color: $chart-bg-color;
+  height: 100%;
 
   .container {
     height: 100%;
