@@ -13,7 +13,12 @@ import * as tauCharts from 'tauCharts'
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {width: '25%'};
+    this.state = {
+      width: '25%',
+      userSelect: true
+    };
+
+    this.handleChange = this.handleChange.bind(this);
   }
   render() {
     const {datasets, currentData, popup, dispatch, collapsing} = this.props;
@@ -36,11 +41,19 @@ class App extends Component {
     };
 
     return (
-    <SplitPane split="vertical" minSize="150" defaultSize={this.state.width} onChange={e => this.setState({width: e})}>
-      <CodeEditor {...props} width={this.state.width} />
-      <Chart config={chartConfig} lightConfig={datasets[currentData].config} functions={datasets[currentData].functions} collapsing={collapsing} width={this.state.width} />
-    </SplitPane>
+      <div className={(this.state.userSelect) ? 'allow-user-select' : null}>
+        <SplitPane split="vertical" minSize="150" defaultSize={this.state.width} onChange={this.handleChange} >
+          <CodeEditor {...props} width={this.state.width} />
+          <Chart config={chartConfig} lightConfig={datasets[currentData].config} functions={datasets[currentData].functions} collapsing={collapsing} width={this.state.width} />
+        </SplitPane>
+      </div>
     )
+  }
+
+  handleChange(e) {
+    this.setState({width: e, userSelect: false});
+    const self = this;
+    setTimeout(() => {self.setState({userSelect: true})}, 3000)
   }
 
   prepareConfig(config, dataset, collapsing) {
@@ -49,7 +62,6 @@ class App extends Component {
     let changes = [{$merge: {data: data, plugins: plugins}}];
 
     collapsing.forEach(c => {
-
       const path = c.split('__');
       path.shift();
 
@@ -58,7 +70,6 @@ class App extends Component {
         obj[arrayValue] = memo;
         return obj;
       }, {$set: {}}));
-
     });
 
     return changes.reduce((config, change) => { return update(config, change) }, config);
