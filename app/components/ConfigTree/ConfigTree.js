@@ -114,7 +114,7 @@ class Obj extends Component {
 
     const brackets = (name === '') ? ['var chart = new tauCharts.Chart({', '});'] : [name + ': {', '},'];
     const transformed = (name === '') ? (<span>{'  '}data: {dataPoint},{'\n'}</span>) : null;
-    const collapseLink = (name === '') ? brackets[0] : (<span><a href="javascript: void 0" onClick={actions.toggleCollapsing} data-collapsing={popupName} className="collapsing">{name}</a>: {'{'}</span>);
+    const collapseLink = (name === '') ? brackets[0] : (<span><a href="javascript: void 0" onClick={actions.toggleCollapsing} data-collapsing={popupName} className="collapsing">{name}</a>: &#123;</span>);
 
     return (
       <span>
