@@ -28,6 +28,11 @@ a {
   text-decoration: none;
 }
 
+.loading {
+  font: normal 15px $code-font-family;
+  padding: 30px 20px;
+}
+
 .Resizer {
   background: color($code-bg-color a(50%));
   opacity: 0.2;

@@ -23,7 +23,7 @@ class App extends Component {
   render() {
     const {datasets, currentData, popup, dispatch, collapsing} = this.props;
 
-    if(_.isEmpty(datasets)) {return <div className="playground">No data</div>}
+    if(_.isEmpty(datasets)) {return <div className="loading">Loading...</div>}
 
     const cloneConfig = _.cloneDeep(datasets[currentData].config);
     const chartConfig = this.prepareConfig(cloneConfig, datasets[currentData].data.transformed, collapsing);
