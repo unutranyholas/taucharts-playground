@@ -56,7 +56,7 @@ a {
 
 .Pane.vertical {
   height: 100%;
-  //position: static !important;
+  position: static !important;
 }
 
 .allow-user-select .SplitPane{
@@ -75,5 +75,5 @@ span {
 }
 
 span.active > span:first-child {
-  position: absolute;
+  //position: static;
 }

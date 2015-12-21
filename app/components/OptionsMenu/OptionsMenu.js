@@ -5,6 +5,10 @@ import d3 from 'd3'
 import style from './OptionsMenu.css'
 
 export default class OptionsMenu extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {top: '0px', left: '0px'}
+  }
   render() {
     const {name, val, options, actions, popupName} = this.props;
     let values = _.flatten([val]);
@@ -23,15 +27,24 @@ export default class OptionsMenu extends Component {
     });
 
     return (
-      <span>
+      <span ref="popupContainer">
         <div className="fullscreen" onClick={actions.togglePopup}></div>
-        <ul className="menu">
+        <ul className="menu" style={{left: this.state.left, top: this.state.top}}>
           {list}
         </ul>
       </span>
     )
   }
+
+  componentDidMount () {
+    const bound = this.refs.popupContainer.getBoundingClientRect();
+    this.setState({
+      left: bound.left + 'px',
+      top: (bound.top + bound.height) + 'px'
+    });
+  }
 }
+
 
 class ProvideURL extends Component {
   render() {
