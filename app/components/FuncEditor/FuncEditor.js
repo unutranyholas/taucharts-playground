@@ -23,26 +23,29 @@ export default class FuncEditor extends Component {
   render (){
     const {name, label, actions, func} = this.props;
     return (
-      <AceEditor
-        mode="javascript"
-        theme="monokai"
-        onChange={changes => this.setState({func: changes})}
-        onBlur={() => {actions.update(this.state.func)}}
-        name={name}
-        value={this.state.func}
-        defaultValue={func}
-        fontSize={11}
-        showGutter={false}
-        showPrintMargin={false}
-        maxLines={8}
-        width={'100%'}
-        tabSize={2}
-        editorProps={{
-          $blockScrolling: true,
-          $fontFamily: 'Times',
-          //$useSoftTabs: true,
-         }}
-      />
+      <div style={{marginLeft: '-0.2em'}}>
+        <AceEditor
+          mode="javascript"
+          theme="monokai"
+          className="taukai"
+          onChange={changes => this.setState({func: changes})}
+          onBlur={() => {actions.update(this.state.func)}}
+          name={name}
+          value={this.state.func}
+          defaultValue={func}
+          showGutter={false}
+          showPrintMargin={false}
+          maxLines={9999}
+          width={'100%'}
+          tabSize={2}
+          wrapEnabled={true}
+          highlightActiveLine={false}
+          editorProps={{
+            //$setUseSoftTabs: true
+            //$useSoftTabs: true,
+           }}
+        />
+      </div>
     )
   }
 }

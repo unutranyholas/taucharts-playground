@@ -39,7 +39,7 @@ d3.csv(oscarFilePath, data => {
   store.dispatch(addDataset('oscar.csv', data));
   store.dispatch(updateFunction({
     parse: [
-      "['oscarWins', 'budget', 'boxOffice', 'oscarNom','Runtime','Metascore','imdbRating','imdbVotes','tomatoMeter','tomatoRating','tomatoReviews','tomatoFresh','tomatoRotten','tomatoUserMeter','tomatoUserRating','tomatoUserReviews','tomatoUserReviews'].forEach(function(num){",
+      "['oscarWins', 'budget', 'boxOffice', 'oscarNom', 'Runtime', 'Metascore', 'imdbRating', 'imdbVotes', 'tomatoMeter', 'tomatoRating', 'tomatoReviews', 'tomatoFresh', 'tomatoRotten', 'tomatoUserMeter', 'tomatoUserRating', 'tomatoUserReviews'].forEach(function(num){",
       "row[num] = +row[num]",
       "});",
       "row['DVD'] = new Date(row['DVD']);",

@@ -112,10 +112,10 @@ export default class CodeEditor extends Component {
       <div className="code">
         <pre>
           d3.csv({dataManager}, function({funcGenerator}){'{\n'}
-          {funcEditor.parse}{'\n'}
+          {funcEditor.parse}
           return row;{'\n'}
           {'}'}, function({dataPoint.parsed}){'{\n'}
-          {funcEditor.transform}{'\n'}
+          {funcEditor.transform}
           {configTree}
           chart.renderTo('#container');{'\n'}
           {'}'})

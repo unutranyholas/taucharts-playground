@@ -92,8 +92,8 @@ const initState = {
     }
   },
   functions: {
-    parse: [],
-    transform: []
+    parse: ['// parse rows'],
+    transform: ['// transform data']
   },
   data: {
     init: [],

@@ -1,7 +1,12 @@
 $code-bg-color: #2D3033;
 $code-font-family: 'Inconsolata', monospace;
-$code-active: #489DFF;
+$code-active: #489dff;
 $code-text: #FFFFFF;
+
+$code-text-str: #9ce8d4;
+$code-text-var: #8f8e99;
+$code-text-num: #F1845A;
+
 $code-width: 25%;
 $code-min-width: 320px;
 $code-active-bg: #0076FF;
