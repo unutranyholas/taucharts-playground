@@ -14,7 +14,6 @@ export default class FuncEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {func: props.func.join('\n')}
-    this.updateFunction = this.updateFunction.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -40,6 +39,7 @@ export default class FuncEditor extends Component {
         tabSize={2}
         editorProps={{
           $blockScrolling: true,
+          $fontFamily: 'Times',
           //$useSoftTabs: true,
          }}
       />
