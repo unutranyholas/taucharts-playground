@@ -47,8 +47,8 @@ export default class CodeEditor extends Component {
         label: placeholdersMatch[name],
         func: func,
         actions: {
-          update: e => {
-            const result = (e.target.value !== '') ? e.target.value.split('\n') : [];
+          update: func => {
+            const result = (func !== '') ? func.split('\n') : [];
             dispatch(updateFunction({[name]: result}));
           }
         }

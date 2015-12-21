@@ -57,6 +57,3 @@ d3.csv(oscarFilePath, data => {
 //store.dispatch(switchDataset('catsVsDogs'));
 //store.dispatch(togglePlugin('quick-filter'));
 //store.dispatch(updateConfig({x: ['year', 'cats']}));
-
-
-console.log(d3);
