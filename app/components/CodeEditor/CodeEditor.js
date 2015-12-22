@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Textarea from 'react-textarea-autosize'
 import _ from 'lodash'
-import { ConfigProp, DataManager, DataTable, DataPoint, FuncEditor, FuncGenerator, ConfigTree } from '../'
+import { DataManager, DataTable, DataPoint, FuncEditor, FuncGenerator, ConfigTree } from '../'
 import { addDataset, updateConfig, createFacet, togglePlugin, switchDataset, togglePopup, updateFunction, toggleCollapsing } from '../../actions'
 
 import style from './CodeEditor.css'

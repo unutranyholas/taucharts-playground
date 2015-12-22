@@ -30,7 +30,7 @@ export default class ConfigTree extends Component {
 class Obj extends Component {
   render() {
 
-    const {name, val, options, popup, popupName, actions, indent, dataPoint, collapsing} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, dataPoint, collapsing, valIndent} = this.props;
 
     if (collapsing.indexOf(popupName) > -1) {
       return (
@@ -39,6 +39,9 @@ class Obj extends Component {
         </span>
       )
     }
+
+    const maxLength = _.max(_.pairs(val).map(p => p[0].length));
+
 
     const objProps = _.pairs(val)
       .filter(item => item[0] !== 'data')
@@ -71,6 +74,7 @@ class Obj extends Component {
         popupName: popupName + '__' + key,
         actions: actions,
         indent: indent + '  ',
+        valIndent: _.repeat(' ', Math.max(maxLength - key.length + 1, 1)),
         collapsing: collapsing
       };
 
@@ -113,12 +117,12 @@ class Obj extends Component {
     });
 
     const brackets = (name === '') ? ['var chart = new tauCharts.Chart({', '});'] : [name + ': {', '},'];
-    const transformed = (name === '') ? (<span>{'  '}data: {dataPoint},{'\n'}</span>) : null;
+    const transformed = (name === '') ? (<span>{'  '}data:{_.repeat(' ', maxLength - 2)}{dataPoint},{'\n'}</span>) : null;
     const collapseLink = (name === '') ? brackets[0] : (<span><a href="javascript: void 0" onClick={actions.toggleCollapsing} data-collapsing={popupName} className="collapsing">{name}</a>: &#123;</span>);
 
     return (
       <span>
-        {indent}{collapseLink}{'\n'}
+        {indent}{collapseLink}{valIndent}{'\n'}
         {transformed}
         {objProps}
         {indent}{brackets[1]}{'\n'}
@@ -129,14 +133,14 @@ class Obj extends Component {
 
 class Null extends Component {
   render() {
-    const {name, val, options, popup, popupName, actions, indent} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, valIndent} = this.props;
 
     const isPopupShown = (popupName === popup);
     const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
     const className = (isPopupShown) ? 'active' : null;
 
     return (
-      <span>{indent}{name}:{' '}
+      <span>{indent}{name}:{valIndent}{' '}
         <span className={className}>{optionsMenu}
         <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>null</a>
           ,{'\n'}
@@ -148,14 +152,14 @@ class Null extends Component {
 
 class Undef extends Component {
   render() {
-    const {name, val, options, popup, popupName, actions, indent} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, valIndent} = this.props;
 
     const isPopupShown = (popupName === popup);
     const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
     const className = (isPopupShown) ? 'active' : null;
 
     return (
-      <span>{indent}{name}:{' '}
+      <span>{indent}{name}:{valIndent}{' '}
         <span className={className}>{optionsMenu}
           <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>undefined</a>
           ,{'\n'}
@@ -167,7 +171,7 @@ class Undef extends Component {
 
 class Boolean extends Component {
   render() {
-    const {name, val, options, popup, popupName, actions, indent} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, valIndent} = this.props;
 
     const strVal = val.toString();
     const strOptions = options.map(o => o.toString());
@@ -178,7 +182,7 @@ class Boolean extends Component {
 
 
     return (
-      <span>{indent}{name}:{' '}
+      <span>{indent}{name}:{valIndent}{' '}
         <span className={className}>
           <a href="javascript: void 0" data-popup={popupName} data-opt={strVal} onClick={actions.toggleBool}>{strVal}</a>
           ,{'\n'}
@@ -201,12 +205,12 @@ class Number extends Component {
   }
 
   render() {
-    const {name, val, options, popup, popupName, actions, indent} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, valIndent} = this.props;
 
     const className = (popupName === popup) ? 'active' : null;
 
     return (
-      <span className="number">{indent}{name}:{' '}
+      <span className="number">{indent}{name}:{valIndent}{' '}
         <span class={className}>
           <NumberEditor {...options} value={this.state.numberValue} style={{width: this.state.size}} onValueChange={this.onNumberChange} />
           ,{'\n'}
@@ -251,7 +255,7 @@ class String extends Component {
   }
 
   render() {
-    const {name, val, options, popup, popupName, actions, indent} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, valIndent} = this.props;
 
     const isPopupShown = (popupName === popup);
     const className = (isPopupShown) ? 'active' : null;
@@ -261,7 +265,7 @@ class String extends Component {
       const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
 
       return (
-        <span>{indent}{name}:{' '}
+        <span>{indent}{name}:{valIndent}
         <span className={className}>{optionsMenu}
           <a href="javascript: void 0" data-popup={popupName} onClick={actions.togglePopup}>'{val}'</a>
           ,{'\n'}
@@ -270,7 +274,7 @@ class String extends Component {
       )
     } else {
       return (
-        <span className="string">{indent}{name}:{' '}
+        <span className="string">{indent}{name}:{valIndent}
         <span className={className}>
           <a href="javascript: void 0" onClick={this.moveFocus}>'<AutosizeInput value={this.state.value} onFocus={this.toggleFocus} onBlur={this.toggleFocus} onChange={e => { this.onChange(e.target.value) }} />'</a>
           ,{'\n'}
@@ -306,7 +310,7 @@ class String extends Component {
 
 class Array extends Component {
   render() {
-    const {name, val, options, popup, popupName, actions, indent} = this.props;
+    const {name, val, options, popup, popupName, actions, indent, valIndent} = this.props;
 
     const isPopupShown = (popupName === popup);
     const optionsMenu = (isPopupShown) ? (<OptionsMenu {...this.props} />) : null;
@@ -324,7 +328,7 @@ class Array extends Component {
         });
         return (
           <span>
-            {indent}{name}: [{'\n'}
+            {indent}{name}:{valIndent}[{'\n'}
             {comb}
             {indent}],{'\n'}
           </span>

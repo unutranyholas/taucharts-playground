@@ -61,6 +61,7 @@ pre {
     font-family: $code-font-family;
     padding: 2px 0.2em;
     margin-right: -0.2em;
+    margin-left: -0.2em;
     transition: 0.05s background-color ease-out, 0.05s outline ease-out;
 
     &:hover {

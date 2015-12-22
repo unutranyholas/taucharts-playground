@@ -33,6 +33,7 @@ const initState = {
     guide: {
       interpolate: 'linear',
       showAnchors: true,
+      showGridLines: 'xy',
       //split: false,
       //autoLayout: '',
       padding: {
@@ -41,7 +42,6 @@ const initState = {
         r: 30,
         b: 90
       },
-      showGridLines: 'xy',
       x: {
         label: {
           text: 'X',
@@ -118,6 +118,7 @@ const initState = {
     guide: {
       interpolate: ['linear', 'linear-closed', 'step', 'step-before', 'step-after', 'basis', 'basis-open', 'basis-closed', 'bundle', 'cardinal', 'cardinal-open', 'cardinal-closed', 'monotone'],
       showAnchors: [true, false],
+      showGridLines: ['xy', 'x', 'y', 'none'],
       //split: [true, false],
       //autoLayout: ['extract-axes', ''],
       padding: {
@@ -126,7 +127,6 @@ const initState = {
         r: {min: 0, max: 200, step: 10, decimals: 0},
         b: {min: 0, max: 200, step: 10, decimals: 0}
       },
-      showGridLines: ['xy', 'x', 'y', 'none'],
       x: {
         label: {
           text: {},

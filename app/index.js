@@ -49,6 +49,7 @@ d3.csv(oscarFilePath, data => {
   store.dispatch(updateConfig({
     x: 'Released',
     y: 'imdbRating',
+    size: 'boxOffice',
     color: 'isWinner'
   }));
 });
