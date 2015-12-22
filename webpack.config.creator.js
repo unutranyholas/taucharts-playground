@@ -58,6 +58,6 @@ module.exports = please => ({
   plugins: _.compact([
     please.minify && new UglifyJsPlugin(),
     new ProgressPlugin((percent, message) => console.log(`${(100 * percent).toFixed(1)}% ${message}`)),
-    new HtmlPlugin()
+    new HtmlPlugin({title: 'Taucharts Playground'})
   ])
 });
