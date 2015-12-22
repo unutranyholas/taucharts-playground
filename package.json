@@ -56,6 +56,7 @@
     "react-number-editor": "^4.0.0",
     "react-redux": "^4.0.0",
     "react-split-pane": "^0.1.20",
+    "react-textarea-autosize": "^3.2.0",
     "reactable": "^0.12.0",
     "redux": "^3.0.4",
     "taucharts": "^0.7.1"

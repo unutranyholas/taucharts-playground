@@ -17,7 +17,6 @@ export default class DataTable extends Component {
     const paging = (data.length > 50) ? {itemsPerPage: 50, pageButtonLimit: 10} : {};
     return (
       <span ref="popupContainer">
-        <div className="fullscreen" onClick={actions.togglePopup}></div>
         <div className="data-table" style={{top: this.state.top, maxHeight: this.state.height}}>
           <Table data={data} sortable={true} {...paging} />
         </div>
@@ -26,10 +25,19 @@ export default class DataTable extends Component {
   }
 
   componentDidMount () {
-    const bound = this.refs.popupContainer.getBoundingClientRect();
+    const bounds = this.refs.popupContainer.getBoundingClientRect();
     this.setState({
-      top: (bound.top + bound.height),
-      height: (Math.max(document.documentElement.clientHeight, window.innerHeight || 0)) - (bound.top + bound.height + 30)
+      top: (bounds.top + bounds.height),
+      height: (Math.max(document.documentElement.clientHeight, window.innerHeight || 0)) - (bounds.top + bounds.height + 30)
     });
   }
+
+  componentWillMount () {
+    document.addEventListener('click', this.props.actions.togglePopup, false);
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('click', this.props.actions.togglePopup, false);
+  }
+
 }

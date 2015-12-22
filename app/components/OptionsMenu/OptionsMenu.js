@@ -7,7 +7,7 @@ import style from './OptionsMenu.css'
 export default class OptionsMenu extends Component {
   constructor(props) {
     super(props)
-    this.state = {top: '0px', left: '0px'}
+    this.state = {top: 0, left: 0, maxHeight: 200}
   }
   render() {
     const {name, val, options, actions, popupName} = this.props;
@@ -28,19 +28,27 @@ export default class OptionsMenu extends Component {
 
     return (
       <span ref="popupContainer">
-        <div className="fullscreen" onClick={actions.togglePopup}></div>
-        <ul className="menu" style={{left: this.state.left, top: this.state.top}}>
+        <ul className="menu" style={{left: this.state.left, top: this.state.top, maxHeight: this.state.height}}>
           {list}
         </ul>
       </span>
     )
   }
 
+  componentWillMount () {
+    document.addEventListener('click', this.props.actions.togglePopup, false);
+  }
+
+  componentWillUnmount () {
+    document.removeEventListener('click', this.props.actions.togglePopup, false);
+  }
+
   componentDidMount () {
-    const bound = this.refs.popupContainer.getBoundingClientRect();
+    const bounds = this.refs.popupContainer.getBoundingClientRect();
     this.setState({
-      left: bound.left + 'px',
-      top: (bound.top + bound.height) + 'px'
+      left: bounds.left,
+      top: (bounds.top + bounds.height),
+      height: (Math.max(document.documentElement.clientHeight, window.innerHeight || 0)) - (bounds.top + bounds.height + 30)
     });
   }
 }
