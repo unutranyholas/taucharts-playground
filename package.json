@@ -41,7 +41,6 @@
   },
   "dependencies": {
     "babyparse": "^0.4.3",
-    "brace": "^0.7.0",
     "clamp": "^1.0.1",
     "d3": "^3.5.10",
     "es6-promise": "^3.0.2",
