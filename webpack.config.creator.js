@@ -32,7 +32,7 @@ module.exports = please => ({
       'tauCharts-export': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.export'),
       'tauCharts-quick-filter': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.quick-filter'),
       'tauCharts-annotations': toAbsolute('node_modules/tauCharts/build/development/plugins/tauCharts.annotations'),
-      'brace': toAbsolute('/Users/ihartrafimovich/WebstormProjects/taucharts-playground-updated/node_modules/react-ace/node_modules/brace')
+      'brace': toAbsolute('node_modules/react-ace/node_modules/brace')
     }
   },
   module: {
