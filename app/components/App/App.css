@@ -60,7 +60,7 @@ a {
 }
 
 .allow-user-select .SplitPane{
-  user-select: all !important;
+  user-select: text !important;
   //background-color: #f0027f;
 }
 
